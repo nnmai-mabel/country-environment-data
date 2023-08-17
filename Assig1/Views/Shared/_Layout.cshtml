@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Assig2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Assig2.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">EnvData</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <div class="navbar-nav flex-grow-1">
+                        <a asp-controller="Home" asp-action="Index" class="@IsActive("Home")" title="Environmental Data Home">Home</a>
+                        <a asp-controller="Home" asp-action="About" class="@IsActive("About")" title="Environmental Data About">About</a>
+                        <a asp-controller="Regions" asp-action="Index" class="@IsActive("Regions")" title="View Environmental Data Regions">Regions</a>
+                        <a asp-controller="Countries" asp-action="Index" class="@IsActive("Countries")" title="View Environmental Data Countries">Countries</a>
+                        <span class="@IsActive("Cities")">Cities</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; @System.DateTime.Now.Year - Assig1 - <a asp-controller="Home" asp-action="About">About</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+</body>
+</html>
+    @functions {
+        public string IsActive(string controllerName)
+        {
+            return "nav-link border-start border-end" + (ViewBag.Active == controllerName ? " active bg-success bg-gradient" : "");
+        }
+    }
