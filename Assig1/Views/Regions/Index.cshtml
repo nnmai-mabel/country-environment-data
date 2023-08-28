@@ -15,33 +15,47 @@
         @*<input class="form-control" maxlength="100" type="text" placeholder="Search Regions" asp-for="@Model.SearchRegion" title="Search a region" />*@
     </div>
 </form>
+<div class="row justify-content-center">
+    @foreach (var region in Model)
+    {
+        <div class="col-3 m-1">
+            <div class="card" style="width: 18rem;">
+                <h5 class="card-title">@region.RegionName</h5>
+                <p class="card-text">
+
+                </p>
+                <img src="@region.ImageUrl" class="card-img" style="width: 8rem;" alt="@region.RegionName" />
+            </div>
+        </div>
+    }
+</div>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RegionName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RegionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RegionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RegionId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegionName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageUrl)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.RegionId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RegionId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.RegionId">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
