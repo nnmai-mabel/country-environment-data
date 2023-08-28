@@ -16,20 +16,24 @@
     </div>
 </form>
 <div class="row justify-content-center">
-    @foreach (var region in Model)
+    @foreach (var item in Model)
     {
         <div class="col-3 m-1">
-            <div class="card" style="width: 18rem;">
-                <h5 class="card-title">@region.RegionName</h5>
-                <p class="card-text">
-
-                </p>
-                <img src="@region.ImageUrl" class="card-img" style="width: 8rem;" alt="@region.RegionName" />
+            <div class="card" style="width: 20rem;">
+                <img src="@item.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.RegionName" />
+                <div class="card-body">
+                    <h5 class="card-title justify-content-center">@item.RegionName</h5>
+                    <div class="position-relative">
+                        <a asp-action="Edit" asp-route-id="@item.RegionId" class="btn btn-outline-success">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.RegionId" class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </div>
             </div>
         </div>
     }
 </div>
-<table class="table">
+@*<table class="table">
         <thead>
             <tr>
                 <th>
@@ -58,4 +62,4 @@
             </tr>
     }
         </tbody>
-    </table>
+    </table>*@
