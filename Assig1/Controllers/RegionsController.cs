@@ -23,11 +23,20 @@ namespace Assig1.Controllers
         public async Task<IActionResult> Index()
         {
             // This is the only ViewBag you can use to set the active Menu Item.
-            ViewBag.Active = "Regions"; 
+            ViewBag.Active = "Regions";
 
-            return _context.Regions != null ? 
-                          View(await _context.Regions.ToListAsync()) :
-                          Problem("Entity set 'EnvDataContext.Regions'  is null.");
+            #region RegionsQuery
+            var RegionList = _context.Regions
+                .Select(r => r)
+                .Distinct()
+                .OrderBy(r => r.RegionName)
+                .ToList();
+            #endregion
+
+            return View(RegionList);
+            //return _context.Regions != null ? 
+            //              View(await _context.Regions.ToListAsync()) :
+            //              Problem("Entity set 'EnvDataContext.Regions'  is null.");
         }
 
         // GET: Regions/Details/5
