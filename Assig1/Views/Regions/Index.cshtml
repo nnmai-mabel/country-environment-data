@@ -4,62 +4,90 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@*<h1>Index</h1>*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
 
-<form method="post" asp-controller="Regions" asp-action="Index" class="row mb-2">
-    <div class="col-4">
-        @*<input class="form-control" maxlength="100" type="text" placeholder="Search Regions" asp-for="@Model.SearchRegion" title="Search a region" />*@
-    </div>
-</form>
+<div class="container">
+    <h1 class="alert-secondary p-2 text-center mb-3">Index</h1>
+    <p>
+        <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
+    </p>
+
+</div>
+@*<form method="post" asp-controller="Regions" asp-action="Index" class="row mb-2">
+        <div class="col-4">
+            <input class="form-control" maxlength="100" type="text" placeholder="Search Regions" asp-for="@Model.SearchRegion" title="Search a region" />
+        </div>
+
+        <div class="col-3">
+            <select class="form-control" asp-for="@Model.RegionId" asp-items="@Model.RegionList" title=""
+        </div>
+    </form>*@
 <div class="row justify-content-center">
+    <div class="col-3 m-1">
+        <div class="card" style="width: 20rem;">
+            <img src="https://e0.pxfuel.com/wallpapers/1010/550/desktop-wallpaper-light-earth-planet-for-section-%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81-beautiful-planet-earth.jpg" class="card-img-top" style="height: 12rem;" alt="All regions" />
+            <div class="card-body">
+                <h5 class="card-title justify-content-center mb-3">All regions</h5>
+                <div class="d-flex justify-content-around">
+                    @*May need to fix the link below later*@
+                    <a asp-controller="Countries" asp-action="Index" asp-route-id="" class="btn btn-outline-success">Visit countries of all regions</a>
+                </div>
+            </div>
+        </div>
+    </div>
     @foreach (var item in Model)
     {
         <div class="col-3 m-1">
             <div class="card" style="width: 20rem;">
                 <img src="@item.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.RegionName" />
-                <div class="card-body">
+                <div class="card-body justify-content-around">
                     <h5 class="card-title justify-content-center mb-3">@item.RegionName</h5>
-                    <div class="d-flex justify-content-between mt-3">
-                        <a asp-action="Edit" asp-route-id="@item.RegionId" class="btn btn-outline-success">Edit</a>
+                    <div class="d-flex justify-content-around">
+                        @*May need to fix the link below later*@ 
+                        <a asp-controller="Countries" asp-action="Index" asp-route-id="@item.RegionId" class="btn btn-outline-success">Visit countries</a>
                         <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-outline-info">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.RegionId" class="btn btn-outline-danger">Delete</a>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.RegionName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageUrl)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageUrl)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.RegionId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.RegionId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.RegionId">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@
+@*for 3 or more buttons*@ 
+@*<div class="d-flex justify-content-between mt-auto">*@
+    @*<a asp-action="Edit" asp-route-id="@item.RegionId" class="btn btn-outline-success">Edit</a>*@
+    @*<a asp-action="Delete" asp-route-id="@item.RegionId" class="btn btn-outline-danger">Delete</a>*@
+
+    @*<table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RegionName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImageUrl)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.RegionId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.RegionId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.RegionId">Delete</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>*@
