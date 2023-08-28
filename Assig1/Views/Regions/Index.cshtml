@@ -22,8 +22,8 @@
             <div class="card" style="width: 20rem;">
                 <img src="@item.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.RegionName" />
                 <div class="card-body">
-                    <h5 class="card-title justify-content-center">@item.RegionName</h5>
-                    <div class="position-relative">
+                    <h5 class="card-title justify-content-center mb-3">@item.RegionName</h5>
+                    <div class="d-flex justify-content-between mt-3">
                         <a asp-action="Edit" asp-route-id="@item.RegionId" class="btn btn-outline-success">Edit</a>
                         <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-outline-info">Details</a>
                         <a asp-action="Delete" asp-route-id="@item.RegionId" class="btn btn-outline-danger">Delete</a>
