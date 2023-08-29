@@ -1,4 +1,5 @@
-@model IEnumerable<Assig1.Models.Country>
+@*@model IEnumerable<Assig1.Models.Country>*@
+@model Assig1.ViewModels.CountriesViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +10,7 @@
 </div>
 
 <div class="row justify-content-center">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Countries)
     {
         <div class="col-3 m-1">
             <div class="card" style="width: 20rem;">
