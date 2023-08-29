@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assig1.Data;
 using Assig1.Models;
+using Assig1.ViewModels;
 
 namespace Assig1.Controllers
 {
@@ -20,10 +21,15 @@ namespace Assig1.Controllers
         }
 
         // GET: Countries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CountriesViewModel vm)
         {
-            var envDataContext = _context.Countries.Include(c => c.Region);
-            return View(await envDataContext.ToListAsync());
+            var CountriesList = _context.Countries
+                .OrderBy(c => c.CountryName)
+                .Select(c => c)
+                .ToList();
+            return View(CountriesList);
+            //var envDataContext = _context.Countries.Include(c => c.Region);
+            //return View(await envDataContext.ToListAsync());
         }
 
         // GET: Countries/Details/5
