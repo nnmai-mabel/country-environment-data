@@ -23,11 +23,29 @@ namespace Assig1.Controllers
         // GET: Countries
         public async Task<IActionResult> Index(CountriesViewModel vm)
         {
+            #region CountriesListQuery
             var CountriesList = _context.Countries
-                .OrderBy(c => c.CountryName)
                 .Select(c => c);
 
-            vm.Countries = await CountriesList.ToListAsync();
+            //var envDataContext = CountriesList
+            //    .Join(_context.Regions,
+            //    c => c.RegionId,
+            //    r => r.RegionId,
+            //    (c, r) => new { theCountry = c, theRegion = r })
+            //    .OrderBy(c => c.theCountry.CountryName)
+            //    .Select(c => new Country
+            //    {
+
+            //    });
+            var envDataContext = CountriesList
+                .Include(i => i.Region);
+            if (vm.RegionId != null)
+            {
+                CountriesList = CountriesList
+                    .Where(c => c.RegionId == vm.RegionId);
+            }
+            #endregion
+            vm.Countries = await envDataContext.ToListAsync();
             return View(vm);
             //var envDataContext = _context.Countries.Include(c => c.Region);
             //return View(await envDataContext.ToListAsync());
