@@ -25,9 +25,10 @@ namespace Assig1.Controllers
         {
             var CountriesList = _context.Countries
                 .OrderBy(c => c.CountryName)
-                .Select(c => c)
-                .ToList();
-            return View(CountriesList);
+                .Select(c => c);
+
+            vm.Countries = await CountriesList.ToListAsync();
+            return View(vm);
             //var envDataContext = _context.Countries.Include(c => c.Region);
             //return View(await envDataContext.ToListAsync());
         }
