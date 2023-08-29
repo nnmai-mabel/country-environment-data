@@ -13,8 +13,21 @@
     {
         <div class="col-3 m-1">
             <div class="card" style="width: 20rem;">
+                <img src="@item.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.CountryName" />
                 <div class="card-body justify-content-around">
                     <h5 class="card-title justify-content-center mb-3">@item.CountryName</h5>
+                    <p class="card-text">
+                        CountryID: @item.CountryId
+                        RegionID: @item.RegionId
+                        ISO3: @item.Iso3
+                        Temperature: @item.TemperatureData
+                    </p>
+                    <div class="d-flex justify-content-around">
+                        @*May need to fix the link below later*@
+                        @*<a asp-controller="Cities" asp-action="Index" asp-route-id="@item.RegionId" class="btn btn-outline-success">Visit cities</a>
+                        <a asp-action="Details" asp-route-id="@item.CountryId" class="btn btn-outline-info">Details</a>*@
+                    </div>
+
                 </div>
             </div>
         </div>
