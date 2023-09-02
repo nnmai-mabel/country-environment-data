@@ -1,4 +1,5 @@
-@model IEnumerable<Assig1.Models.City>
+@*@model IEnumerable<Assig1.Models.City>*@
+@model Assig1.ViewModels.CitiesViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -13,29 +14,30 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CityName)
+                @*@Html.DisplayNameFor(model => model.CityName)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                @*@Html.DisplayNameFor(model => model.Country)*@
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country.CountryId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CityId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CityId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CityId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.CityList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TheCity.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TheCity.Country.CountryId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
