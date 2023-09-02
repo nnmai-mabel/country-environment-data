@@ -10,18 +10,18 @@
 </div>
 
 <div class="row justify-content-center">
-    @foreach (var item in Model.Countries)
+    @foreach (var item in Model.CountryList)
     {
         <div class="col-3 m-1">
             <div class="card" style="width: 20rem;">
-                <img src="@item.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.CountryName" />
+                <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
                 <div class="card-body justify-content-around">
-                    <h5 class="card-title justify-content-center mb-3">@item.CountryName</h5>
+                    <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
                     <p class="card-text">
-                        CountryID: @item.CountryId
-                        RegionID: @item.RegionId
-                        ISO3: @item.Iso3
-                        Temperature: @item.TemperatureData
+                        CountryID: @item.TheCountry.CountryId
+                        RegionID: @item.TheCountry.RegionId
+                        ISO3: @item.TheCountry.Iso3
+                        Temperature: @item.TheCountry.TemperatureData
                     </p>
                     <div class="d-flex justify-content-around">
                         @*May need to fix the link below later*@
