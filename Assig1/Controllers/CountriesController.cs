@@ -46,7 +46,12 @@ namespace Assig1.Controllers
                     .Where(c => c.theRegion.RegionId == vm.RegionId);
             }
             #endregion
-            vm.Countries = await envDataContext.ToListAsync();
+            vm.CountryList = await envDataContext
+                .Select(c => new Country_CountryDetail
+                {
+                    TheCountry = c.theCountry
+                })
+                .ToListAsync();
             return View(vm);
             //var envDataContext = _context.Countries.Include(c => c.Region);
             //return View(await envDataContext.ToListAsync());
