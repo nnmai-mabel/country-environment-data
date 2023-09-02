@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assig1.Data;
 using Assig1.Models;
+using Assig1.ViewModels;
 
 namespace Assig1.Controllers
 {
@@ -20,9 +21,38 @@ namespace Assig1.Controllers
         }
 
         // GET: Cities
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CitiesViewModel vm)
         {
-            var envDataContext = _context.Cities.Include(c => c.Country);
+            #region CountriesListQuery
+            var CitiesList = _context.Cities
+                .Select(c => c); // Select all countries
+
+            var envDataContext = CitiesList
+                .GroupJoin(_context.Countries,
+                city => city.CountryId,
+                country => country.CountryId,
+                (city, countryGroup) => new
+                {
+                    theCity = city,
+                    theCountries = countryGroup
+                })
+                .SelectMany(
+                city => city.theCountries.DefaultIfEmpty(),
+                (city, country) => new
+                {
+                    theCity = city.theCity,
+                    theCountry = country
+                })
+                .OrderBy(city => city.theCity.CityName)
+                .Select(city => new
+                {
+                    city.theCity,
+                    city.theCountry
+                });
+
+            #endregion
+
+            //var envDataContext = _context.Cities.Include(c => c.Country);
             return View(await envDataContext.ToListAsync());
         }
 
