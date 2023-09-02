@@ -1,4 +1,5 @@
-@model Assig1.Models.Country
+@*@model Assig1.Models.Country*@
+@model Assig1.ViewModels.Country_CountryDetail
 
 @{
     ViewData["Title"] = "Details";
@@ -6,37 +7,57 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Country</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Iso3)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Iso3)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CountryName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CountryName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region.RegionId)
-        </dd>
-    </dl>
+<div class="row justify-content-end">
+    <div class="col-4">
+        <img src="@Model.TheCountry.ImageUrl" class="card-img-top" alt="...">
+    </div>
+    <div class="col-1">
+
+    </div>
+    <div class="col-7">
+        <div class="row justify-content-end">
+            <div class="col-4">
+                <img src="@Model.TheCountry.ImageUrl" class="card-img-top" alt="...">
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-7">
+            </div>
+        </div>
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CountryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @*<h4>Country</h4>
+        <hr />
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Iso3)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Iso3)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.CountryName)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.CountryName)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.ImageUrl)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Region)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Region.RegionId)
+            </dd>
+        </dl>*@
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model?@Model.TheCountry.CountryId">Edit</a> |*@
+    @*<a asp-action="Index">Back to List</a>*@
 </div>
