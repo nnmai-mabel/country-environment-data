@@ -57,8 +57,15 @@ namespace Assig1.Controllers
             }
             #endregion
 
+            vm.CityList = await envDataContext
+                .Select(city => new Country_CountryDetail
+                {
+                    TheCity = city.theCity
+                })
+                .ToListAsync();
+            return View(vm);
             //var envDataContext = _context.Cities.Include(c => c.Country);
-            return View(await envDataContext.ToListAsync());
+            //return View(await envDataContext.ToListAsync());
         }
 
         // GET: Cities/Details/5
