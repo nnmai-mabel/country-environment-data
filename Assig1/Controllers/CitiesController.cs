@@ -50,6 +50,11 @@ namespace Assig1.Controllers
                     city.theCountry
                 });
 
+            if (vm.CountryId != null)
+            {
+                envDataContext = envDataContext
+                    .Where(c => c.theCountry.CountryId == vm.CountryId);
+            }
             #endregion
 
             //var envDataContext = _context.Cities.Include(c => c.Country);
