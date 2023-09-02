@@ -48,7 +48,7 @@
                     <h5 class="card-title justify-content-center mb-3">@item.RegionName</h5>
                     <div class="d-flex justify-content-around">
                         @*May need to fix the link below later*@ 
-                        <a asp-controller="Countries" asp-action="Index" asp-route-id="@item.RegionId" class="btn btn-outline-success">Visit countries</a>
+                        <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@item.RegionId" class="btn btn-outline-success">Visit countries</a>
                         <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-outline-info">Details</a>
                     </div>
                 </div>
