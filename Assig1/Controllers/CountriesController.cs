@@ -25,24 +25,25 @@ namespace Assig1.Controllers
         {
             #region CountriesListQuery
             var CountriesList = _context.Countries
-                .Select(c => c);
+                .Select(c => c); // Select all countries
 
-            //var envDataContext = CountriesList
-            //    .Join(_context.Regions,
-            //    c => c.RegionId,
-            //    r => r.RegionId,
-            //    (c, r) => new { theCountry = c, theRegion = r })
-            //    .OrderBy(c => c.theCountry.CountryName)
-            //    .Select(c => new Country
-            //    {
-
-            //    });
             var envDataContext = CountriesList
-                .Include(i => i.Region);
+                .Join(_context.Regions,
+                c => c.RegionId,
+                r => r.RegionId,
+                (c, r) => new { theCountry = c, theRegion = r })
+                .OrderBy(c => c.theCountry.CountryName)
+                .Select(c => new 
+                {
+                    c.theCountry,
+                    c.theRegion
+                });
+            //var envDataContext = CountriesList;
+                //.Include(i => i.Region);
             if (vm.RegionId != null)
             {
-                CountriesList = CountriesList
-                    .Where(c => c.RegionId == vm.RegionId);
+                envDataContext = envDataContext
+                    .Where(c => c.theRegion.RegionId == vm.RegionId);
             }
             #endregion
             vm.Countries = await envDataContext.ToListAsync();
