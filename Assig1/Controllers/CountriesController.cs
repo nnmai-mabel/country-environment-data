@@ -28,18 +28,55 @@ namespace Assig1.Controllers
                 .Select(c => c); // Select all countries
 
             var envDataContext = CountriesList
-                .Join(_context.Regions,
+                .GroupJoin(_context.Regions,
                 c => c.RegionId,
                 r => r.RegionId,
-                (c, r) => new { theCountry = c, theRegion = r })
+                (c, regionGroup) => new
+                {
+                    theCountry = c,
+                    theRegions = regionGroup
+                })
+                .SelectMany(
+                c => c.theRegions.DefaultIfEmpty(),
+                (c, r) => new
+                {
+                    theCountry = c.theCountry,
+                    theRegion = r
+                })
                 .OrderBy(c => c.theCountry.CountryName)
-                .Select(c => new 
+                .Select(c => new
                 {
                     c.theCountry,
                     c.theRegion
                 });
+
+            //var envDataContext = countriesWithRegions
+
+            //    .OrderBy(c => c.theCountry.CountryName)
+            //    .SelectMany(
+            //    c => c.theRegions.DefaultIfEmpty(),
+            //    (c, r) => new
+            //    {
+            //        theCountry = c.theCountry,
+            //        theRegion = r
+            //    }
+            //    );
+
+            //var envDataContext = CountriesList
+            //    .Join(_context.Regions,
+            //    c => c.RegionId,
+            //    r => r.RegionId,
+            //    (c, r) => new { theCountry = c, theRegion = r })
+            //    .OrderBy(c => c.theCountry.CountryName)
+            //    .Select(c => new 
+            //    {
+            //        c.theCountry,
+            //        c.theRegion
+            //    });
+
+
             //var envDataContext = CountriesList;
-                //.Include(i => i.Region);
+            //.Include(i => i.Region);
             if (vm.RegionId != null)
             {
                 envDataContext = envDataContext
@@ -186,14 +223,14 @@ namespace Assig1.Controllers
             {
                 _context.Countries.Remove(country);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CountryExists(int id)
         {
-          return (_context.Countries?.Any(e => e.CountryId == id)).GetValueOrDefault();
+            return (_context.Countries?.Any(e => e.CountryId == id)).GetValueOrDefault();
         }
     }
 }
