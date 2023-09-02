@@ -23,9 +23,9 @@ namespace Assig1.Controllers
         // GET: Cities
         public async Task<IActionResult> Index(CitiesViewModel vm)
         {
-            #region CountriesListQuery
+            #region CitiesListQuery
             var CitiesList = _context.Cities
-                .Select(c => c); // Select all countries
+                .Select(c => c); // Select all cities
 
             var envDataContext = CitiesList
                 .GroupJoin(_context.Countries,
@@ -58,7 +58,7 @@ namespace Assig1.Controllers
             #endregion
 
             vm.CityList = await envDataContext
-                .Select(city => new Country_CountryDetail
+                .Select(city => new City_CityDetail
                 {
                     TheCity = city.theCity
                 })
