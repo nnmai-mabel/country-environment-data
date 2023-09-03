@@ -102,19 +102,19 @@ namespace Assig1.Controllers
         // GET: Countries/Details/5
         public async Task<IActionResult> Details(Country_CountryDetail vm)
         {
-            //if (vm == null || vm.TheCountry == null)
-            //{
-            //    return NotFound();
-            //}
+            if (vm == null || vm.TheCountry == null)
+            {
+                return NotFound();
+            }
 
             var country = await _context.Countries
                 .Include(c => c.Region)
                 .FirstOrDefaultAsync(m => m.CountryId == vm.CountryId);
 
-            //if (country == null)
-            //{
-            //    return NotFound();
-            //}
+            if (country == null)
+            {
+                return NotFound();
+            }
             vm.TheCountry = country;
             return View(vm);
         }
