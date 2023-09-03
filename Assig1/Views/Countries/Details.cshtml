@@ -11,7 +11,7 @@
 <div class="row justify-content-end">
     <div class="col-4">
         <img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">
-
+        <p>Country: @Model.TheCountryDetail.TheCountry.CountryName</p>
         @if (Model.TheCountryDetail.TheRegion != null)
         {
             <p>Region: @Model.TheCountryDetail.TheRegion.RegionName</p>
