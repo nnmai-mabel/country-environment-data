@@ -1,5 +1,6 @@
 @*@model Assig1.Models.Country*@
 @model Assig1.ViewModels.Country_CountryDetail
+@*@model Assig1.ViewModels.CountriesViewModel*@
 
 @{
     ViewData["Title"] = "Details";
@@ -10,6 +11,9 @@
 <div class="row justify-content-end">
     <div class="col-4">
         <img src="@Model.TheCountry.ImageUrl" class="card-img-top" alt="...">
+        @*<p>Region: @Model.TheCountry.Region.RegionName</p>*@
+        @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
+        @*<img src="@Model.ImageUrl" class="card-img-top" alt="...">*@
     </div>
     <div class="col-1">
 
@@ -17,7 +21,8 @@
     <div class="col-7">
         <div class="row justify-content-end">
             <div class="col-4">
-                <img src="@Model.TheCountry.ImageUrl" class="card-img-top" alt="...">
+                @*<img src="@Model.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
+                @*<img src="@Model.ImageUrl" class="card-img-top" alt="...">*@
             </div>
             <div class="col-1">
 
