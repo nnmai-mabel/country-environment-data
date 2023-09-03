@@ -102,37 +102,6 @@ namespace Assig1.Controllers
         // GET: Countries/Details/5
         public async Task<IActionResult> Details(CountriesViewModel vm)
         {
-            //if (vm == null || vm.TheCountry == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var envDataContext = _context.Countries
-            //    .GroupJoin(_context.Regions,
-            //    c => c.RegionId,
-            //    r => r.RegionId,
-            //    (c, regionGroup) => new
-            //    {
-            //        theCountry = c,
-            //        theRegions = regionGroup
-            //    })
-            //    .SelectMany(
-            //    c => c.theRegions.DefaultIfEmpty(),
-            //    (c, r) => new
-            //    {
-            //        theCountry = c.theCountry,
-            //        theRegion = r
-            //    })
-            //    //.OrderBy(c => c.theCountry.CountryName)
-            //    .Where(m => m.theCountry.CountryId == vm.CountryId)
-            //    .Select(c => new Country_CountryDetail
-            //    {
-            //       TheCountry = c.theCountry,
-            //       //TheRegion = c.theRegion,
-            //       CountryId = c.theCountry.CountryId,
-            //       //RegionId = c.theRegion.RegionId
-            //    });
-
             var envDataContext = _context.Countries
                .GroupJoin(_context.Regions,
                c => c.RegionId,
@@ -154,17 +123,14 @@ namespace Assig1.Controllers
                .Select(c => new Country_CountryDetail
                {
                    TheCountry = c.theCountry,
-                   TheRegion = c.theRegion != null ? c.theRegion : null,
+                   TheRegion = c.theRegion,
                    CountryId = c.theCountry.CountryId,
-                   //RegionId = c.theRegion.RegionId
-                   RegionId = c.theRegion != null ? c.theRegion.RegionId : (int?)null
+                   RegionId = c.theRegion.RegionId
                });
-            //.FirstOrDefaultAsync(m => m.theCountry.CountryId == vm.CountryId); ;
 
-            //var country = await envDataContext
-            //    .FirstOrDefaultAsync(m => m.theCountry.CountryId == vm.CountryId);
             var country = await envDataContext
                 .FirstOrDefaultAsync();
+
             if (country == null)
             {
                 return NotFound();
@@ -173,111 +139,7 @@ namespace Assig1.Controllers
                 
             return View(vm);
         }
-        //public async Task<IActionResult> Details(Country_CountryDetail vm)
-        //{
-        //    if (vm == null || vm.TheCountry == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var country = await _context.Countries
-        //        .Include(c => c.Region)
-        //        .FirstOrDefaultAsync(m => m.CountryId == vm.CountryId);
-
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    vm.TheCountry = country;
-        //    return View(vm);
-        //}
-
-
-        //if (_context.Countries == null)
-        //{
-        //    return NotFound();
-        //}
-
-        //var country = await _context.Countries
-        //    .Include(c => c.Region)
-        //    .FirstOrDefaultAsync(m => m.CountryId == vm.TheCountry.CountryId);
-
-        //vm.TheCountry = country;
-        //if (vm.TheCountry == null)
-        //{
-        //    return NotFound();
-        //}
-
-        //return View(vm);
-
-        //#region CountriesListQuery
-        //var CountriesList = _context.Countries
-        //    .Select(c => c); // Select all countries
-
-        //var envDataContext = CountriesList
-        //    .GroupJoin(_context.Regions,
-        //    c => c.RegionId,
-        //    r => r.RegionId,
-        //    (c, regionGroup) => new
-        //    {
-        //        theCountry = c,
-        //        theRegions = regionGroup
-        //    })
-        //    .SelectMany(
-        //    c => c.theRegions.DefaultIfEmpty(),
-        //    (c, r) => new
-        //    {
-        //        theCountry = c.theCountry,
-        //        theRegion = r
-        //    })
-        //    //.OrderBy(c => c.theCountry.CountryName)
-        //    .Where(c => c.theCountry.CountryId == vm.TheCountryDetail.CountryId)
-        //    .Select(c => new
-        //    {
-        //        c.theCountry,
-        //        c.theRegion
-        //    });
-
-        //if (vm.RegionId != null)
-        //{
-        //    envDataContext = envDataContext
-        //        .Where(c => c.theRegion.RegionId == vm.RegionId);
-        //}
-        //#endregion
-
-        //if (vm.CountryId != null)
-        //{
-        //    envDataContext = envDataContext
-        //        .Where(c => c.theCountry.CountryId == vm.TheCountry.CountryId);
-        //}
-
-        //vm.TheCountry = await envDataContext
-        //     .Select(c => new Country_CountryDetail
-        //     {
-        //         TheCountry = c.theCountry
-        //     })
-        //     .ToListAsync();
-
-        //return View(vm);
-
-        //}
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.Countries == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var country = await _context.Countries
-        //        .Include(c => c.Region)
-        //        .FirstOrDefaultAsync(m => m.CountryId == id);
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(country);
-        //}
+        
         // GET: Countries/Create
         public IActionResult Create()
         {
