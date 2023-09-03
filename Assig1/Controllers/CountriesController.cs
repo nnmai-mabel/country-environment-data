@@ -150,7 +150,7 @@ namespace Assig1.Controllers
                    theRegion = r
                })
                //.OrderBy(c => c.theCountry.CountryName)
-               //.Where(m => m.theCountry.CountryId == vm.CountryId)
+               .Where(m => m.theCountry.CountryId == vm.CountryId)
                .Select(c => new Country_CountryDetail
                {
                    TheCountry = c.theCountry,
@@ -164,12 +164,6 @@ namespace Assig1.Controllers
             //var country = await envDataContext
             //    .FirstOrDefaultAsync(m => m.theCountry.CountryId == vm.CountryId);
             var country = await envDataContext
-                .Where(m => m.TheCountry.CountryId == vm.CountryId)
-                .Select(c => new Country_CountryDetail
-                {
-                    TheCountry = c.TheCountry,
-                    TheRegion = c.TheRegion,
-                })
                 .FirstOrDefaultAsync();
             if (country == null)
             {
