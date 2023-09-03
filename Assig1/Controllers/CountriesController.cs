@@ -100,24 +100,77 @@ namespace Assig1.Controllers
         }
 
         // GET: Countries/Details/5
-        public async Task<IActionResult> Details(Country_CountryDetail vm)
+        public async Task<IActionResult> Details(CountriesViewModel vm)
         {
-            if (vm == null || vm.TheCountry == null)
-            {
-                return NotFound();
-            }
+            //if (vm == null || vm.TheCountry == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var country = await _context.Countries
-                .Include(c => c.Region)
-                .FirstOrDefaultAsync(m => m.CountryId == vm.CountryId);
+            var envDataContext = _context.Countries
+                .GroupJoin(_context.Regions,
+                c => c.RegionId,
+                r => r.RegionId,
+                (c, regionGroup) => new
+                {
+                    theCountry = c,
+                    theRegions = regionGroup
+                })
+                .SelectMany(
+                c => c.theRegions.DefaultIfEmpty(),
+                (c, r) => new
+                {
+                    theCountry = c.theCountry,
+                    theRegion = r
+                })
+                //.OrderBy(c => c.theCountry.CountryName)
+                .Where(m => m.theCountry.CountryId == vm.CountryId)
+                .Select(c => new Country_CountryDetail
+                {
+                   TheCountry = c.theCountry,
+                   //TheRegion = c.theRegion,
+                   CountryId = c.theCountry.CountryId,
+                   //RegionId = c.theRegion.RegionId
+                });
 
+
+            //.FirstOrDefaultAsync(m => m.theCountry.CountryId == vm.CountryId); ;
+
+            //var country = await envDataContext
+            //    .FirstOrDefaultAsync(m => m.theCountry.CountryId == vm.CountryId);
+            var country = await envDataContext
+                .Select(c => new Country_CountryDetail
+                {
+                    TheCountry = c.TheCountry,
+                    TheRegion = c.TheRegion
+                })
+                .FirstOrDefaultAsync();
             if (country == null)
             {
                 return NotFound();
             }
-            vm.TheCountry = country;
+            vm.TheCountryDetail = country;
+                
             return View(vm);
         }
+        //public async Task<IActionResult> Details(Country_CountryDetail vm)
+        //{
+        //    if (vm == null || vm.TheCountry == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var country = await _context.Countries
+        //        .Include(c => c.Region)
+        //        .FirstOrDefaultAsync(m => m.CountryId == vm.CountryId);
+
+        //    if (country == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    vm.TheCountry = country;
+        //    return View(vm);
+        //}
 
 
         //if (_context.Countries == null)

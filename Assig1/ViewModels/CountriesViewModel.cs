@@ -9,6 +9,7 @@ namespace Assig1.ViewModels
         public int? CountryId { get; set; }
         public List<Models.Country> Countries { get; set; }
 		public List<Country_CountryDetail> CountryList { get; set; }
+        public Country_CountryDetail TheCountryDetail { get; set; }
         //public CountriesViewModel()
         //{
         //}
