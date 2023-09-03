@@ -102,7 +102,8 @@ namespace Assig1.Controllers
         // GET: Countries/Details/5
         public async Task<IActionResult> Details(CountriesViewModel vm)
         {
-            var envDataContext = _context.Countries
+            #region CountryRegion
+            var countryRegionQuery = _context.Countries
                .GroupJoin(_context.Regions,
                c => c.RegionId,
                r => r.RegionId,
@@ -118,17 +119,15 @@ namespace Assig1.Controllers
                    theCountry = c.theCountry,
                    theRegion = r
                })
-               //.OrderBy(c => c.theCountry.CountryName)
                .Where(m => m.theCountry.CountryId == vm.CountryId)
                .Select(c => new Country_CountryDetail
                {
                    TheCountry = c.theCountry,
-                   TheRegion = c.theRegion,
-                   //CountryId = c.theCountry.CountryId,
-                   //RegionId = c.theRegion.RegionId
+                   TheRegion = c.theRegion
                });
+            #endregion
 
-            var country = await envDataContext
+            var country = await countryRegionQuery
                 .FirstOrDefaultAsync();
 
             if (country == null)
