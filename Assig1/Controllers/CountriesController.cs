@@ -124,8 +124,8 @@ namespace Assig1.Controllers
                {
                    TheCountry = c.theCountry,
                    TheRegion = c.theRegion,
-                   CountryId = c.theCountry.CountryId,
-                   RegionId = c.theRegion.RegionId
+                   //CountryId = c.theCountry.CountryId,
+                   //RegionId = c.theRegion.RegionId
                });
 
             var country = await envDataContext
