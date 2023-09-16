@@ -179,7 +179,16 @@ namespace Assig1.Controllers
             {
                 var countryEmissionsSummary = _context.CountryEmissions
                     .Where(ce => ce.Year == vm.Year)
-                    .Select(ce => ce);
+                    //.GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.ItemId, ce.Year}) // group by everything -> show too much data
+                    //.GroupBy(ce => new { ce.ElementId, ce.Year }) // group by elementid and year => show based on total number of element
+                    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year }) // group by country id and element id and year
+                    //.Select(ce => ce);
+                    .Select(group => new
+                    {
+                        countryId = group.Key.CountryId,
+                        year = group.Key.Year,
+                        totalValue = group.Sum(ce => ce.Value)
+                    });
                 return Json(countryEmissionsSummary);
             }
             else
