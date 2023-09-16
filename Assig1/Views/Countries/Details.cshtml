@@ -16,7 +16,7 @@
     </div>
 
     <div class="col-2">
-        <select asp-for="@Model.ChartLegend" class="form-control">
+        <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
             <option value="Items">Items</option>
             <option value="Elements">Elements</option>
         </select>
@@ -84,16 +84,24 @@
         let year = event.target.value;
         console.log("Year: " + year);
 
-        if (year.length > 0) {
-            fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}`)
-                .then(response => {
-                    console.log("response status: " + response.status);
-                    console.log("response text: " + response.statusText);
+            document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+                let chartLegend = legendEvent.target.value;
+                console.log("Chart Legend: " + chartLegend);
+
+                var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}`;
+
+                if (year.length > 0) {
+                    fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}`)
+                        .then(response => {
+                            console.log("response status: " + response.status);
+                            console.log("response text: " + response.statusText);
                     return response.json();
-                })
-                .then(data => buildGraph(data))
-                .catch(err => console.log(err.message));
+                    })
+                    .then(data => buildGraph(data))
+                    .catch(err => console.log(err.message));
         }
+            })
+
     })
 
     // Alternate using D3
