@@ -23,6 +23,14 @@
         </select>
     </div>
 
+    <div class="col-2">
+        <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
+            <option value="">Select Aggregation</option>
+            <option value="Total">Total</option>
+            <option value="Average">Average</option>
+        </select>
+    </div>
+
 </div>
 
 <div>
@@ -89,18 +97,24 @@
                 let chartLegend = legendEvent.target.value;
                 console.log("Chart Legend: " + chartLegend);
 
-                var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}`;
+                document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
+                    let chartAggregation = aggregationEvent.target.value;
+                    console.log("Chart Aggregation: " + chartAggregation);
 
-                if (year.length > 0) {
-                    fetch(url)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                    return response.json();
-                    })
-                    .then(data => buildGraph(data))
-                    .catch(err => console.log(err.message));
-        }
+                    var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+
+                    if (year.length > 0) {
+                        fetch(url)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                        .then(data => buildGraph(data))
+                        .catch(err => console.log(err.message));
+                    }
+                })
+
             })
 
     })
