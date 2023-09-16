@@ -82,6 +82,14 @@ namespace Assig1.Controllers
 
             //var envDataContext = CountriesList;
             //.Include(i => i.Region);
+
+            // Implement countries search
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
+            {
+                envDataContext = envDataContext
+                    .Where(i => i.theCountry.CountryName.Contains(vm.SearchText));
+            }
+
             if (vm.RegionId != null)
             {
                 envDataContext = envDataContext
