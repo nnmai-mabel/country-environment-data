@@ -149,6 +149,16 @@ namespace Assig1.Controllers
                });
             #endregion
 
+            #region YearSelectList
+            var yearList = _context.CountryEmissions
+                .Select(ce => ce.Year)
+                .Distinct()
+                .OrderByDescending(ce => ce)
+                .ToList();
+
+            vm.YearList = new SelectList(yearList);
+            #endregion
+
             var country = await countryRegionQuery
                 .FirstOrDefaultAsync();
 

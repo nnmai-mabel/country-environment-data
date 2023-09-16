@@ -13,6 +13,8 @@ namespace Assig1.ViewModels
         public List<Models.Country> Countries { get; set; }
 		public List<Country_CountryDetail> CountryList { get; set; }
         public Country_CountryDetail TheCountryDetail { get; set; }
+        public SelectList YearList { get; set; }
+        public int Year { get; set; }
         //public CountriesViewModel()
         //{
         //}

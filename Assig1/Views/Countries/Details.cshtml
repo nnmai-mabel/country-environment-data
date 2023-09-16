@@ -8,6 +8,13 @@
 
 <h1>Details</h1>
 
+<div class="row mb-3">
+    <div class="col-2">
+        <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control">
+            <option value="">Select year</option>
+        </select>
+    </div>
+</div>
 <div class="row justify-content-end">
     <div class="col-4">
         <img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">
