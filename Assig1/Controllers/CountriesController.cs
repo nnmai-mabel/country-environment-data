@@ -28,6 +28,7 @@ namespace Assig1.Controllers
         // GET: Countries
         public async Task<IActionResult> Index(CountriesViewModel vm)
         {
+            
             #region CountriesListQuery
             var CountriesList = _context.Countries
                 .Select(c => c); // Select all countries
@@ -84,6 +85,19 @@ namespace Assig1.Controllers
             //.Include(i => i.Region);
 
             // Implement countries search
+            var Regions = _context.Regions
+                .OrderBy(r => r.RegionName)
+                .Select(r => new
+                {
+                    RegionId = r.RegionId,
+                    RegionName = r.RegionName
+                })
+                .ToList();
+
+            vm.RegionSelectList = new SelectList(Regions,
+                nameof(Region.RegionId),
+                nameof(Region.RegionName));
+
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 envDataContext = envDataContext

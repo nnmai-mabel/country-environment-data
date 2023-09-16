@@ -15,6 +15,12 @@
         <input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Countries" title="Search a country name" />
     </div>
 
+    <div class="col-3">
+        <select asp-for="@Model.RegionId" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
+            <option value="">All Regions</option>
+        </select>
+    </div>
+
     <div class="col-4">
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
