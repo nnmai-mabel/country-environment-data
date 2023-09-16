@@ -170,7 +170,23 @@ namespace Assig1.Controllers
                 
             return View(vm);
         }
-        
+
+        // Action for fetching country emissions data
+        [Produces("application/json")]
+        public IActionResult CountryEmissionsReportData(CountriesViewModel vm)
+        {
+            if(vm.Year > 0)
+            {
+                var countryEmissionsSummary = _context.CountryEmissions
+                    .Where(ce => ce.Year == vm.Year)
+                    .Select(ce => ce);
+                return Json(countryEmissionsSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         // GET: Countries/Create
         public IActionResult Create()
         {
