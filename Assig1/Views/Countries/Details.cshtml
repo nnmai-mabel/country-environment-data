@@ -23,6 +23,11 @@
     </div>
 
 </div>
+
+<div>
+    <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
+</div>
+
 <div class="row justify-content-end">
     <div class="col-4">
         <img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">
@@ -59,6 +64,12 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+<script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+</script>
+}
 <div>
     @*<h4>Country</h4>
         <hr />
