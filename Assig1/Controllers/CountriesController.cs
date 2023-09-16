@@ -194,6 +194,7 @@ namespace Assig1.Controllers
                 {
                     var countryEmissionsSummary = _context.CountryEmissions
                         .Where(ce => ce.Year == vm.Year)
+                        .Where(ce => ce.CountryId == vm.CountryId)
                         .GroupBy(ce => new {ce.CountryId, ce.ItemId, ce.Year })
                         .Select(group => new
                         {
@@ -207,6 +208,7 @@ namespace Assig1.Controllers
                 {
                     var countryEmissionsSummary = _context.CountryEmissions
                         .Where(ce => ce.Year == vm.Year)
+                        .Where(ce => ce.CountryId == vm.CountryId)
                         .GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.Year })
                         .Select(group => new
                         {
