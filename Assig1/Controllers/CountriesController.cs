@@ -28,7 +28,7 @@ namespace Assig1.Controllers
         // GET: Countries
         public async Task<IActionResult> Index(CountriesViewModel vm)
         {
-            
+
             #region CountriesListQuery
             var CountriesList = _context.Countries
                 .Select(c => c); // Select all countries
@@ -167,7 +167,7 @@ namespace Assig1.Controllers
                 return NotFound();
             }
             vm.TheCountryDetail = country;
-                
+
             return View(vm);
         }
 
@@ -175,21 +175,48 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult CountryEmissionsReportData(CountriesViewModel vm)
         {
-            if(vm.Year > 0)
+            if (vm.Year > 0)
             {
-                var countryEmissionsSummary = _context.CountryEmissions
-                    .Where(ce => ce.Year == vm.Year)
-                    //.GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.ItemId, ce.Year}) // group by everything -> show too much data
-                    //.GroupBy(ce => new { ce.ElementId, ce.Year }) // group by elementid and year => show based on total number of element
-                    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year }) // group by country id and element id and year
-                    //.Select(ce => ce);
-                    .Select(group => new
-                    {
-                        countryId = group.Key.CountryId,
-                        year = group.Key.Year,
-                        totalValue = group.Sum(ce => ce.Value)
-                    });
-                return Json(countryEmissionsSummary);
+                //var countryEmissionsSummary = _context.CountryEmissions
+                //    .Where(ce => ce.Year == vm.Year)
+                //    //.GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.ItemId, ce.Year}) // group by everything -> show too much data
+                //    //.GroupBy(ce => new { ce.ElementId, ce.Year }) // group by elementid and year => show based on total number of element
+                //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year }) // group by country id and element id and year
+                //    //.Select(ce => ce);
+                //    .Select(group => new
+                //    {
+                //        countryId = group.Key.CountryId,
+                //        year = group.Key.Year,
+                //        totalValue = group.Sum(ce => ce.Value)
+                //    });
+                //return Json(countryEmissionsSummary);
+                if (vm.ChartLegend == "Items")
+                {
+                    var countryEmissionsSummary = _context.CountryEmissions
+                        .Where(ce => ce.Year == vm.Year)
+                        .GroupBy(ce => new {ce.CountryId, ce.ItemId, ce.Year })
+                        .Select(group => new
+                        {
+                            countryId = group.Key.CountryId,
+                            year = group.Key.Year,
+                            totalValue = group.Sum(ce => ce.Value)
+                        });
+                    return Json(countryEmissionsSummary);
+                }
+                else 
+                {
+                    var countryEmissionsSummary = _context.CountryEmissions
+                        .Where(ce => ce.Year == vm.Year)
+                        .GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.Year })
+                        .Select(group => new
+                        {
+                            countryId = group.Key.CountryId,
+                            year = group.Key.Year,
+                            totalValue = group.Sum(ce => ce.Value)
+                        });
+                    return Json(countryEmissionsSummary);
+                }
+
             }
             else
             {

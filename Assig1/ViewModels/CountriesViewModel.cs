@@ -15,6 +15,7 @@ namespace Assig1.ViewModels
         public Country_CountryDetail TheCountryDetail { get; set; }
         public SelectList YearList { get; set; }
         public int Year { get; set; }
+        public string ChartLegend { get; set; }
         //public CountriesViewModel()
         //{
         //}
