@@ -17,6 +17,7 @@
 
     <div class="col-2">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
+            <option value="">Select Data</option>
             <option value="Items">Items</option>
             <option value="Elements">Elements</option>
         </select>
@@ -88,10 +89,10 @@
                 let chartLegend = legendEvent.target.value;
                 console.log("Chart Legend: " + chartLegend);
 
-                var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}`;
+                var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}`;
 
                 if (year.length > 0) {
-                    fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}`)
+                    fetch(url)
                         .then(response => {
                             console.log("response status: " + response.status);
                             console.log("response text: " + response.statusText);
