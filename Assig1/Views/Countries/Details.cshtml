@@ -152,7 +152,29 @@
         //})
 
         function buildGraph(dataSet) {
-            console.log(dataSet);
+            console.log(dataSet)
+
+            // 4 Calculate the maximum value to be displayed
+            let totalElementsRange = d3.extent(dataSet, (d, e) => d.totalValue);
+            let maxTotalElements = totalElementsRange[1];
+
+            console.log("Max totalElements: " + maxTotalElements);
+
+            // 4 Calculate the bar dimensions
+            const barMargin = 10;
+            const barWidth = w / dataSet.length;
+
+            // 5 Select all 'g' elements and bind the dataSet
+            let barGroups = svg
+                .selectAll('g')
+                .data(dataSet);
+
+            // 6 Add new bar groups
+            let newBarGroups = barGroups.enter()
+                .append('g')
+                .attr('transform', (d, e) => {
+                    return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
+                })
         }</script>
 }
 <div>
