@@ -35,7 +35,7 @@
 </div>
 
 <div>
-    <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
+    <svg width="50%" height="600px" class="border border-primary rounded p-2"></svg>
 </div>
 
 <div class="row justify-content-end">
@@ -151,6 +151,8 @@
         // fetch using event.target.value
         //})
 
+        // TESTING FOR ELEMENTS TOTAL
+        // dataSet.length is number of items in the dataSet => elements: 8 for countryid=1
         function buildGraph(dataSet) {
             console.log(dataSet)
 
@@ -174,7 +176,19 @@
                 .append('g')
                 .attr('transform', (d, e) => {
                     return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
-                })
+                    // returns transform="translate(x,y)"
+                }); // end transform
+
+            // 7 Append new rectangles
+            newBarGroups
+                .append('rect')
+                .attr('x', 0) // optional line that can be left out since 0 is the default
+                .attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                .attr('width', barWidth - barMargin)
+                .attr('fill', 'black')
+
+
+
         }</script>
 }
 <div>
