@@ -223,16 +223,24 @@
                 }); // end transform
 
             // 7 Append new rectangles
+            // 11 animate
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
                 //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
-                .attr('height', (d, e) => { return h - yScale(d.totalValue); })
+                .attr('height', 0)
+                .attr('y', (d, e) => { return h - yScale(d.totalValue); })
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
-                .attr('fill', 'blue')
+                .style('fill', 'transparent')
+                .transition().duration((d, e) => e * 500) // perform transition over 1 second
+                .delay((d, e) => e + 200)
+                .attr('y', 0)
+                .attr('height', (d, e) => { return h - yScale(d.totalValue); })
+                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
+                //.attr('fill', 'blue')
 
             // 14 Create Bar text
             newBarGroups
