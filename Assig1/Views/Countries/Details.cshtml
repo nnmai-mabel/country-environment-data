@@ -21,6 +21,7 @@
 
             <option value="Elements">Elements</option>
             <option value="Items">Items</option>
+            <option value="Temperature">Temperature</option>
         </select>
     </div>
 
@@ -102,11 +103,19 @@
         h = h - (chartMargins.top + chartMargins.bottom);
 
         // DDL year event listener
+        let chartLegend = "";
+        let chartAggregation = "";
+        // Fetch temperature
+        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+            if (chartLegend == "Temperature") {
+
+            }
+        })
+
         // Fetch data every time an option is chosen
         document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
             let year = yearEvent.target.value;
-            let chartLegend = "";
-            let chartAggregation = "";
+            
             console.log("Year: " + year);
 
             let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
