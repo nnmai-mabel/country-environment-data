@@ -272,6 +272,24 @@ namespace Assig1.Controllers
                 return BadRequest();
             }
         }
+
+        // Action for fetching temperature data
+        [Produces("application/json")]
+        public IActionResult TemperatureReportData(CountriesViewModel vm)
+        {
+            if(vm.ChartLegend == "Temperature")
+            {
+                var temperatureSummary = _context.TemperatureData
+                    .Where(td => td.CountryId == vm.CountryId)
+                    .Select(td => td);
+                return Json(temperatureSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         // GET: Countries/Create
         public IActionResult Create()
         {
