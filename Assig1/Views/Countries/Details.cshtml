@@ -232,7 +232,17 @@
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
+                .attr('fill', 'blue')
+
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, e) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar 
                 .attr('fill', 'black')
+                .style('font-size', '1em')
+                .text((d, e) => d.totalValue.toLocaleString());
 
             // 11 Create the axis and add it to the svg
 
