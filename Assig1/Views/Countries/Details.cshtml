@@ -110,12 +110,16 @@
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', temperatureEvent => {
 
             temperatureLegend = temperatureEvent.target.value;
+            var yearElement = document.getElementById("yearElement");
+            var chartAggregationElement = document.getElementById("chartAggregationElement");
             if (temperatureLegend == "Temperature") {
-                var yearElement = document.getElementById("yearElement");
-                var chartAggregationElement = document.getElementById("chartAggregationElement");
-
                 yearElement.classList.add("hideElement");
                 chartAggregationElement.classList.add("hideElement")
+            }
+
+            else {
+                yearElement.classList.remove("hideElement");
+                chartAggregationElement.classList.remove("hideElement")
             }
         })
 
