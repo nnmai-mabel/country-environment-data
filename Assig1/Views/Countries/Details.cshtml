@@ -172,6 +172,244 @@
             d3.selectAll('svg > g > *').remove();
 
             // 4 Calculate the maximum value to be displayed
+            let totalElementsRange = d3.extent(dataSet, (d, e) => d.totalValueElement);
+            let maxTotalElements = totalElementsRange[1];
+
+            console.log("Max totalElements: " + maxTotalElements);
+
+            // 4 Calculate the bar dimensions
+            const barMargin = 10;
+            const barWidth = w / dataSet.length;
+
+            // 8 Create a YScale
+            let yScale = d3.scaleLinear()
+                .domain([0, maxTotalElements])
+                .range([h, 0]);
+
+            // 10 Create XScale
+            let elementArray = Array.from(dataSet, (d, e) => d.element);
+            console.log("array: " + elementArray)
+
+            let xScale = d3.scaleBand()
+                .domain(elementArray)
+                .range([0, w])
+                .paddingInner(0.1)
+
+            // example of xScale test:
+            console.log("xscale: " + xScale(1))
+
+            // 12.4 Create chartGroup element
+            const chartGroup = svg.append('g')
+                .classed('chartGroup', true)
+                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+
+            // 5 Select all 'g' elements and bind the dataSet
+            //let barGroups = svg
+            //    .selectAll('g')
+            //    .data(dataSet);
+            // 12.4 Append the barGroups to the chartGroup
+            let barGroups = chartGroup
+                .selectAll('g')
+                .data(dataSet);
+
+            // 6 Add new bar groups
+            let newBarGroups = barGroups.enter()
+                .append('g')
+                .attr('transform', (d, e) => {
+                    // 9 Implement yScale
+                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+
+                    // 10 Implement xScale
+                    return `translate(${xScale(d.element)}, ${yScale(d.totalValueElement)})`;
+                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
+                    // returns transform="translate(x,y)"
+                }); // end transform
+
+            // 7 Append new rectangles
+            // 11 animate
+            newBarGroups
+                .append('rect')
+                .attr('x', 0) // optional line that can be left out since 0 is the default
+                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                // 9 Implement yScale
+                .attr('height', 0)
+                .attr('y', (d, e) => { return h - yScale(d.totalValueElement); })
+                //.attr('width', barWidth - barMargin)
+                //10 Implement xScale
+                .attr('width', xScale.bandwidth())
+                .style('fill', 'transparent')
+                .transition().duration((d, e) => e * 500) // perform transition over 1 second
+                .delay((d, e) => e + 200)
+                .attr('y', 0)
+                .attr('height', (d, e) => { return h - yScale(d.totalValueElement); })
+                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
+                //.attr('fill', 'blue')
+
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, e) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+                .attr('fill', 'black')
+                .style('font-size', '1em')
+                .text((d, e) => d.totalValue.toLocaleString());
+
+            // 11 Create the axis and add it to the svg
+
+            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            //svg.append('g')
+            //    .classed('axis y', true)
+            //    .call(yAxis);
+            // 12.5 Append the y-Axis to the chartGroup
+            let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            chartGroup.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
+
+            // 13 Append the x-Axis to the chartGroup
+            let xAxis = d3.axisBottom(xScale); // declare the axis generator
+            chartGroup.append('g')
+            .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
+                .classed('axis x', true)
+                .call(xAxis);
+
+            // Style and Rotate the labels
+            chartGroup.selectAll('.axis.x text')
+                .attr("transform", "rotate(-70)")
+                .attr("dx", "-0.8em")
+                .attr("dy", "0.25em")
+                .style("text-anchor", "end") // pull labels to bottom
+                .style("font-size", "0.9em"); // set font size
+        }
+
+        // Graph for element average
+        function buildGraphElementAverage(dataSet) {
+            console.log(dataSet)
+
+            // Clear graph
+            d3.selectAll('svg > g > *').remove();
+
+            // 4 Calculate the maximum value to be displayed
+            let averageElementsRange = d3.extent(dataSet, (d, e) => d.averageValueElement);
+            let maxAverageElements = averageElementsRange[1];
+
+            console.log("Max totalElements: " + averageTotalElements);
+
+            // 4 Calculate the bar dimensions
+            const barMargin = 10;
+            const barWidth = w / dataSet.length;
+
+            // 8 Create a YScale
+            let yScale = d3.scaleLinear()
+                .domain([0, averageTotalElements])
+                .range([h, 0]);
+
+            // 10 Create XScale
+            let elementArray = Array.from(dataSet, (d, e) => d.element);
+            console.log("array: " + elementArray)
+
+            let xScale = d3.scaleBand()
+                .domain(elementArray)
+                .range([0, w])
+                .paddingInner(0.1)
+
+            // example of xScale test:
+            console.log("xscale: " + xScale(1))
+
+            // 12.4 Create chartGroup element
+            const chartGroup = svg.append('g')
+                .classed('chartGroup', true)
+                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+
+            // 5 Select all 'g' elements and bind the dataSet
+            //let barGroups = svg
+            //    .selectAll('g')
+            //    .data(dataSet);
+            // 12.4 Append the barGroups to the chartGroup
+            let barGroups = chartGroup
+                .selectAll('g')
+                .data(dataSet);
+
+            // 6 Add new bar groups
+            let newBarGroups = barGroups.enter()
+                .append('g')
+                .attr('transform', (d, e) => {
+                    // 9 Implement yScale
+                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+
+                    // 10 Implement xScale
+                    return `translate(${xScale(d.element)}, ${yScale(d.averageValueElement)})`;
+                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
+                    // returns transform="translate(x,y)"
+                }); // end transform
+
+            // 7 Append new rectangles
+            // 11 animate
+            newBarGroups
+                .append('rect')
+                .attr('x', 0) // optional line that can be left out since 0 is the default
+                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                // 9 Implement yScale
+                .attr('height', 0)
+                .attr('y', (d, e) => { return h - yScale(d.averageValueElement); })
+                //.attr('width', barWidth - barMargin)
+                //10 Implement xScale
+                .attr('width', xScale.bandwidth())
+                .style('fill', 'transparent')
+                .transition().duration((d, e) => e * 500) // perform transition over 1 second
+                .delay((d, e) => e + 200)
+                .attr('y', 0)
+                .attr('height', (d, e) => { return h - yScale(d.averageValueElement); })
+                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
+            //.attr('fill', 'blue')
+
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, e) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar 
+                .attr('fill', 'black')
+                .style('font-size', '1em')
+                .text((d, e) => d.averageValue.toLocaleString());
+
+            // 11 Create the axis and add it to the svg
+
+            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            //svg.append('g')
+            //    .classed('axis y', true)
+            //    .call(yAxis);
+            // 12.5 Append the y-Axis to the chartGroup
+            let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            chartGroup.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
+
+            // 13 Append the x-Axis to the chartGroup
+            let xAxis = d3.axisBottom(xScale); // declare the axis generator
+            chartGroup.append('g')
+                .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
+                .classed('axis x', true)
+                .call(xAxis);
+
+            // Style and Rotate the labels
+            chartGroup.selectAll('.axis.x text')
+                .attr("transform", "rotate(-70)")
+                .attr("dx", "-0.8em")
+                .attr("dy", "0.25em")
+                .style("text-anchor", "end") // pull labels to bottom
+                .style("font-size", "0.9em"); // set font size
+        }
+
+        // Graph for item total
+        function buildGraphItemTotal(dataSet) {
+            console.log(dataSet)
+
+            // Clear graph
+            d3.selectAll('svg > g > *').remove();
+
+            // 4 Calculate the maximum value to be displayed
             let totalElementsRange = d3.extent(dataSet, (d, e) => d.totalValue);
             let maxTotalElements = totalElementsRange[1];
 
@@ -243,7 +481,7 @@
                 .attr('y', 0)
                 .attr('height', (d, e) => { return h - yScale(d.totalValue); })
                 .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
-                //.attr('fill', 'blue')
+            //.attr('fill', 'blue')
 
             // 14 Create Bar text
             newBarGroups
@@ -254,125 +492,6 @@
                 .attr('fill', 'black')
                 .style('font-size', '1em')
                 .text((d, e) => d.totalValue.toLocaleString());
-
-            // 11 Create the axis and add it to the svg
-
-            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
-            //svg.append('g')
-            //    .classed('axis y', true)
-            //    .call(yAxis);
-            // 12.5 Append the y-Axis to the chartGroup
-            let yAxis = d3.axisLeft(yScale); // declare the axis generator
-            chartGroup.append('g')
-                .classed('axis y', true)
-                .call(yAxis);
-
-            // 13 Append the x-Axis to the chartGroup
-            let xAxis = d3.axisBottom(xScale); // declare the axis generator
-            chartGroup.append('g')
-            .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
-                .classed('axis x', true)
-                .call(xAxis);
-
-            // Style and Rotate the labels
-            chartGroup.selectAll('.axis.x text')
-                .attr("transform", "rotate(-70)")
-                .attr("dx", "-0.8em")
-                .attr("dy", "0.25em")
-                .style("text-anchor", "end") // pull labels to bottom
-                .style("font-size", "0.9em"); // set font size
-        }
-
-        // Graph for element average
-        function buildGraphElementAverage(dataSet) {
-            console.log(dataSet)
-
-            // Clear graph
-            d3.selectAll('svg > g > *').remove();
-
-            // 4 Calculate the maximum value to be displayed
-            let averageElementsRange = d3.extent(dataSet, (d, e) => d.averageValue);
-            let maxAverageElements = averageElementsRange[1];
-
-            console.log("Max totalElements: " + averageTotalElements);
-
-            // 4 Calculate the bar dimensions
-            const barMargin = 10;
-            const barWidth = w / dataSet.length;
-
-            // 8 Create a YScale
-            let yScale = d3.scaleLinear()
-                .domain([0, averageTotalElements])
-                .range([h, 0]);
-
-            // 10 Create XScale
-            let elementArray = Array.from(dataSet, (d, e) => d.element);
-            console.log("array: " + elementArray)
-
-            let xScale = d3.scaleBand()
-                .domain(elementArray)
-                .range([0, w])
-                .paddingInner(0.1)
-
-            // example of xScale test:
-            console.log("xscale: " + xScale(1))
-
-            // 12.4 Create chartGroup element
-            const chartGroup = svg.append('g')
-                .classed('chartGroup', true)
-                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
-
-            // 5 Select all 'g' elements and bind the dataSet
-            //let barGroups = svg
-            //    .selectAll('g')
-            //    .data(dataSet);
-            // 12.4 Append the barGroups to the chartGroup
-            let barGroups = chartGroup
-                .selectAll('g')
-                .data(dataSet);
-
-            // 6 Add new bar groups
-            let newBarGroups = barGroups.enter()
-                .append('g')
-                .attr('transform', (d, e) => {
-                    // 9 Implement yScale
-                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
-
-                    // 10 Implement xScale
-                    return `translate(${xScale(d.element)}, ${yScale(d.averageValue)})`;
-                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
-                    // returns transform="translate(x,y)"
-                }); // end transform
-
-            // 7 Append new rectangles
-            // 11 animate
-            newBarGroups
-                .append('rect')
-                .attr('x', 0) // optional line that can be left out since 0 is the default
-                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
-                // 9 Implement yScale
-                .attr('height', 0)
-                .attr('y', (d, e) => { return h - yScale(d.averageValue); })
-                //.attr('width', barWidth - barMargin)
-                //10 Implement xScale
-                .attr('width', xScale.bandwidth())
-                .style('fill', 'transparent')
-                .transition().duration((d, e) => e * 500) // perform transition over 1 second
-                .delay((d, e) => e + 200)
-                .attr('y', 0)
-                .attr('height', (d, e) => { return h - yScale(d.averageValue); })
-                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
-            //.attr('fill', 'blue')
-
-            // 14 Create Bar text
-            newBarGroups
-                .append('text')
-                .attr("text-anchor", "middle")
-                .attr('x', (d, e) => { return xScale.bandwidth() / 2; })
-                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar 
-                .attr('fill', 'black')
-                .style('font-size', '1em')
-                .text((d, e) => d.averageValue.toLocaleString());
 
             // 11 Create the axis and add it to the svg
 
