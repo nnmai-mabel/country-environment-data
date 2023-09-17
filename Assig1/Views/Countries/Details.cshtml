@@ -216,10 +216,10 @@
             d3.selectAll('svg > g > *').remove();
 
             // 4 Calculate the maximum value to be displayed
-            let totalElementsRange = d3.extent(dataSet, (d, e) => d.totalValueElement);
-            let maxTotalElements = totalElementsRange[1];
+            let valueElementsRange = d3.extent(dataSet, (d, e) => d.valueElement);
+            let maxValueElements = valueElementsRange[1];
 
-            console.log("Max totalElements: " + maxTotalElements);
+            console.log("Max totalElements: " + maxValueElements);
 
             // 4 Calculate the bar dimensions
             const barMargin = 10;
@@ -227,7 +227,7 @@
 
             // 8 Create a YScale
             let yScale = d3.scaleLinear()
-                .domain([0, maxTotalElements])
+                .domain([0, maxValueElements])
                 .range([h, 0]);
 
             // 10 Create XScale
@@ -264,7 +264,7 @@
                     //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    return `translate(${xScale(d.element)}, ${yScale(d.totalValueElement)})`;
+                    return `translate(${xScale(d.element)}, ${yScale(d.valueElement)})`;
                     //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
@@ -277,7 +277,7 @@
                 //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
                 .attr('height', 0)
-                .attr('y', (d, e) => { return h - yScale(d.totalValueElement); })
+                .attr('y', (d, e) => { return h - yScale(d.valueElement); })
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
@@ -285,7 +285,7 @@
                 .transition().duration((d, e) => e * 500) // perform transition over 1 second
                 .delay((d, e) => e + 200)
                 .attr('y', 0)
-                .attr('height', (d, e) => { return h - yScale(d.totalValueElement); })
+                .attr('height', (d, e) => { return h - yScale(d.valueElement); })
                 .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
                 //.attr('fill', 'blue')
 
@@ -297,7 +297,7 @@
                 .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
                 .attr('fill', 'black')
                 .style('font-size', '1em')
-                .text((d, e) => d.totalValueElement.toLocaleString());
+                .text((d, e) => d.valueElement.toLocaleString());
 
             // 11 Create the axis and add it to the svg
 
@@ -454,10 +454,10 @@
             d3.selectAll('svg > g > *').remove();
 
             // 4 Calculate the maximum value to be displayed
-            let totalItemsRange = d3.extent(dataSet, (d, i) => d.totalValueItem);
-            let maxTotalItems = totalItemsRange[1];
+            let valueItemsRange = d3.extent(dataSet, (d, i) => d.valueItem);
+            let maxValueItems = valueItemsRange[1];
 
-            console.log("Max totalItems: " + maxTotalItems);
+            console.log("Max totalItems: " + maxValueItems);
 
             // 4 Calculate the bar dimensions
             const barMargin = 10;
@@ -465,7 +465,7 @@
 
             // 8 Create a YScale
             let yScale = d3.scaleLinear()
-                .domain([0, maxTotalItems])
+                .domain([0, maxValueItems])
                 .range([h, 0]);
 
             // 10 Create XScale
@@ -502,7 +502,7 @@
                     //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    return `translate(${xScale(d.item)}, ${yScale(d.totalValueItem)})`;
+                    return `translate(${xScale(d.item)}, ${yScale(d.valueItem)})`;
                     //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
@@ -515,7 +515,7 @@
                 //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
                 .attr('height', 0)
-                .attr('y', (d, i) => { return h - yScale(d.totalValueItem); })
+                .attr('y', (d, i) => { return h - yScale(d.valueItem); })
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
@@ -523,7 +523,7 @@
                 .transition().duration((d, i) => i * 500) // perform transition over 1 second
                 .delay((d, i) => i + 200)
                 .attr('y', 0)
-                .attr('height', (d, i) => { return h - yScale(d.totalValueItem); })
+                .attr('height', (d, i) => { return h - yScale(d.valueItem); })
                 .style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
             //.attr('fill', 'blue')
 
@@ -535,7 +535,7 @@
                 .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
                 .attr('fill', 'black')
                 .style('font-size', '1em')
-                .text((d, i) => d.totalValueItem.toLocaleString());
+                .text((d, i) => d.valueItem.toLocaleString());
 
             // 11 Create the axis and add it to the svg
 
