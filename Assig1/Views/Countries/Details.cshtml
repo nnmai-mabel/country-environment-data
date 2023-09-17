@@ -240,12 +240,26 @@
             //svg.append('g')
             //    .classed('axis y', true)
             //    .call(yAxis);
-            // 12.5 Append the yAxis to the chartGroup
+            // 12.5 Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
                 .classed('axis y', true)
                 .call(yAxis);
 
+            // 13 Append the x-Axis to the chartGroup
+            let xAxis = d3.axisBottom(xScale); // declare the axis generator
+            chartGroup.append('g')
+            .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
+                .classed('axis x', true)
+                .call(xAxis);
+
+            // Style and Rotate the labels
+            chartGroup.selectAll('.axis.x text')
+                .attr("transform", "rotate(-70)")
+                .attr("dx", "-0.8em")
+                .attr("dy", "0.25em")
+                .style("text-anchor", "end") // pull labels to bottom
+                .style("font-size", "0.9em"); // set font size
         }</script>
 }
 <div>
