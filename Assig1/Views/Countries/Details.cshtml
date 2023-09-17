@@ -8,7 +8,7 @@
 
 <h1>Details</h1>
 
-<div class="row mb-3">
+<div class="row mb-3" id="dataDisplay">
     <div class="col-2">
         <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
             <option value="">Select year</option>
@@ -17,15 +17,16 @@
 
     <div class="col-2">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-            <option value="">Select Data</option>
-            <option value="Items">Items</option>
+            @*<option value="">Select Data</option>*@
+
             <option value="Elements">Elements</option>
+            <option value="Items">Items</option>
         </select>
     </div>
 
     <div class="col-2">
         <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
-            <option value="">Select Aggregation</option>
+            @*<option value="">Select Aggregation</option>*@
             <option value="Total">Total</option>
             <option value="Average">Average</option>
         </select>
@@ -76,58 +77,83 @@
 
 @section scripts{
     <script type="module">
-    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-    // Select SVG element
-    const svg = d3.select('svg');
+        // Select SVG element
+        const svg = d3.select('svg');
 
-    // Determine the size of the SVG element
-    let w = svg.node().getBoundingClientRect().width;
-    let h = svg.node().getBoundingClientRect().height;
+        // Determine the size of the SVG element
+        let w = svg.node().getBoundingClientRect().width;
+        let h = svg.node().getBoundingClientRect().height;
 
-    console.log("Width: " + w);
-    console.log("Height: " + h);
+        console.log("Width: " + w);
+        console.log("Height: " + h);
 
         // DDL year event listener
-        document.querySelector('.row .col-2 #year').addEventListener('change', (event) => {
-        let year = event.target.value;
-        console.log("Year: " + year);
+        // Fetch data every time an option is chosen
+        document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
+            let year = yearEvent.target.value;
+            console.log("Year: " + year);
+
+            let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+
+            if (year.length > 0) {
+                fetch(url)
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildGraph(data))
+                    .catch(err => console.log(err.message));
+            }
 
             document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
-                let chartLegend = legendEvent.target.value;
-                console.log("Chart Legend: " + chartLegend);
+            let chartLegend = legendEvent.target.value;
+            console.log("Chart Legend: " + chartLegend);
 
-                document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
-                    let chartAggregation = aggregationEvent.target.value;
-                    console.log("Chart Aggregation: " + chartAggregation);
+            let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
 
-                    var url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+            if (year.length > 0) {
+                fetch(url)
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildGraph(data))
+                    .catch(err => console.log(err.message));
+                }
+                    document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
+            let chartAggregation = aggregationEvent.target.value;
+            console.log("Chart Aggregation: " + chartAggregation);
 
-                    if (year.length > 0) {
-                        fetch(url)
-                            .then(response => {
-                                console.log("response status: " + response.status);
-                                console.log("response text: " + response.statusText);
-                                return response.json();
-                            })
-                        .then(data => buildGraph(data))
-                        .catch(err => console.log(err.message));
-                    }
-                })
+            let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
 
-            })
+            if (year.length > 0) {
+                fetch(url)
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildGraph(data))
+                    .catch(err => console.log(err.message));
+            }
+        })
+        })
 
-    })
+        })
 
-    // Alternate using D3
-    //d3.select('.row .col-2 [name="year"]').on('change', (event) => {
+
+        // Alternate using D3
+        //d3.select('.row .col-2 [name="year"]').on('change', (event) => {
         // fetch using event.target.value
-    //})
+        //})
 
-    function buildGraph(dataSet) {
-        console.log(dataSet);
-    }
-    </script>
+        function buildGraph(dataSet) {
+            console.log(dataSet);
+        }</script>
 }
 <div>
     @*<h4>Country</h4>
