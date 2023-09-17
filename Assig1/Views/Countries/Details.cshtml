@@ -171,6 +171,18 @@
                 .domain([0, maxTotalElements])
                 .range([h, 0]);
 
+            // 10 Create XScale
+            let elementArray = Array.from(dataSet, (d, e) => d.element);
+            console.log("array: " + elementArray)
+
+            let xScale = d3.scaleBand()
+                .domain(elementArray)
+                .range([0, w])
+                .paddingInner(0.1)
+
+            // example of xScale test:
+            console.log("xscale: " + xScale(1))
+
             // 5 Select all 'g' elements and bind the dataSet
             let barGroups = svg
                 .selectAll('g')
@@ -181,7 +193,10 @@
                 .append('g')
                 .attr('transform', (d, e) => {
                     // 9 Implement yScale
-                    return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+
+                    // 10 Implement xScale
+                    return `translate(${xScale(d.element)}, ${yScale(d.totalValue)})`;
                     //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
@@ -193,7 +208,9 @@
                 //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
                 .attr('height', (d, e) => { return h - yScale(d.totalValue); })
-                .attr('width', barWidth - barMargin)
+                //.attr('width', barWidth - barMargin)
+                //10 Implement xScale
+                .attr('width', xScale.bandwidth())
                 .attr('fill', 'black')
 
 
