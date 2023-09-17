@@ -205,6 +205,7 @@ namespace Assig1.Controllers
                             {
                                 countryId = group.Key.CountryId,
                                 year = group.Key.Year,
+                                item = group.Key.ItemId,
                                 averageValue = group.Average(ce => ce.Value)
                             });
                         return Json(countryEmissionsSummary);
@@ -221,6 +222,7 @@ namespace Assig1.Controllers
                             {
                                 countryId = group.Key.CountryId,
                                 year = group.Key.Year,
+                                item = group.Key.ItemId,
                                 totalValue = group.Sum(ce => ce.Value)
                             });
                         return Json(countryEmissionsSummary);
@@ -241,6 +243,7 @@ namespace Assig1.Controllers
                             {
                                 countryId = group.Key.CountryId,
                                 year = group.Key.Year,
+                                element = group.Key.ElementId,
                                 averageValue = group.Average(ce => ce.Value)
                             });
                         return Json(countryEmissionsSummary);
@@ -257,6 +260,7 @@ namespace Assig1.Controllers
                             {
                                 countryId = group.Key.CountryId,
                                 year = group.Key.Year,
+                                element = group.Key.ElementId,
                                 totalValue = group.Sum(ce => ce.Value)
                             });
                         return Json(countryEmissionsSummary);
