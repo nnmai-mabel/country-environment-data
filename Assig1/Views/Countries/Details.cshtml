@@ -113,7 +113,7 @@
             var yearElement = document.getElementById("yearElement");
             var chartAggregationElement = document.getElementById("chartAggregationElement");
 
-            let urlTemperature = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&chartLegend=${temperatureLegend}`;
+            let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=${temperatureLegend}`;
 
             // Hide year and aggregation element if user chooses temperature chart legend
             if (temperatureLegend == "Temperature") {
@@ -145,8 +145,19 @@
             let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
 
             if (year.length > 0) {
+                if (chartLegend == "Temperature") {
+                    let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
 
-                if (chartLegend == "Items") {
+                    fetch(urlTemperature)
+                        .then(response => {
+                            console.log("response status: " + response.status);
+                            console.log("response text: " + response.statusText);
+                            return response.json();
+                        })
+                        .then(data => buildGraphTemperature(data))
+                        .catch(err => console.log(err.message));
+                }
+                else if (chartLegend == "Items") {
                     fetch(url)
                         .then(response => {
                             console.log("response status: " + response.status);
@@ -177,7 +188,19 @@
 
                     if (year.length > 0) {
 
-                        if (chartLegend == "Items") {
+                        if (chartLegend == "Temperature") {
+                            let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
+
+                            fetch(urlTemperature)
+                                .then(response => {
+                                    console.log("response status: " + response.status);
+                                    console.log("response text: " + response.statusText);
+                                    return response.json();
+                                })
+                                .then(data => buildGraphTemperature(data))
+                                .catch(err => console.log(err.message));
+                        }
+                        else if (chartLegend == "Items") {
                             fetch(url)
                                 .then(response => {
                                     console.log("response status: " + response.status);
@@ -720,8 +743,13 @@
         //}
 
         function buildGraphTemperature(dataSet) {
-            if (dataSet != null) {
-                console.log("NOT EMPTY DATA SET")
+
+            console.log("DATA SET: " + dataSet)
+            // Clear graph
+            d3.selectAll('svg > g > *').remove();
+
+            if (dataSet == null) {
+                console.log("EMPTY DATA SET")
             }
             else {
                 console.log("NOT EMPTY DATA SET")

@@ -281,7 +281,13 @@ namespace Assig1.Controllers
             {
                 var temperatureSummary = _context.TemperatureData
                     .Where(td => td.CountryId == vm.CountryId)
-                    .Select(td => td);
+                    .GroupBy(td => new { td.CountryId, td.Year, td.Value })
+                    .Select(group => new
+                    {
+                        countryId = group.Key.CountryId,
+                        year = group.Key.Year,
+                        value = group.Key.Value
+                    });
                 return Json(temperatureSummary);
             }
             else
