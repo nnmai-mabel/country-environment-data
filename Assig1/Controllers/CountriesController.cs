@@ -232,7 +232,7 @@ namespace Assig1.Controllers
                 // Calculate based on Elements
                 else
                 {
-                    // Calculate sum
+                    // Calculate average
                     if (vm.ChartAggregation == "Average")
                     {
                         var countryEmissionsSummary = _context.CountryEmissions

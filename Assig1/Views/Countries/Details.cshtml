@@ -116,7 +116,7 @@
                         console.log("response text: " + response.statusText);
                         return response.json();
                     })
-                    .then(data => buildGraph(data))
+                    .then(data => buildGraphElementTotal(data))
                     .catch(err => console.log(err.message));
             }
 
@@ -133,7 +133,7 @@
                         console.log("response text: " + response.statusText);
                         return response.json();
                     })
-                    .then(data => buildGraph(data))
+                    .then(data => buildGraphElementTotal(data))
                     .catch(err => console.log(err.message));
                 }
                     document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
@@ -149,7 +149,7 @@
                         console.log("response text: " + response.statusText);
                         return response.json();
                     })
-                    .then(data => buildGraph(data))
+                    .then(data => buildGraphElementTotal(data))
                     .catch(err => console.log(err.message));
             }
         })
@@ -165,7 +165,7 @@
 
         // TESTING FOR ELEMENTS TOTAL
         // dataSet.length is number of items in the dataSet => elements: 8 for countryid=1
-        function buildGraph(dataSet) {
+        function buildGraphElementTotal(dataSet) {
             console.log(dataSet)
 
             // 4 Calculate the maximum value to be displayed
