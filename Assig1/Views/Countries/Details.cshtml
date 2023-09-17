@@ -9,13 +9,13 @@
 <h1>Details</h1>
 
 <div class="row mb-3" id="dataDisplay">
-    <div class="col-2">
+    <div class="col-2" id="yearElement">
         <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
             <option value="">Select year</option>
         </select>
     </div>
 
-    <div class="col-2">
+    <div class="col-2" id="chartLegendElement">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
             @*<option value="">Select Data</option>*@
 
@@ -25,7 +25,7 @@
         </select>
     </div>
 
-    <div class="col-2">
+    <div class="col-2" id="chartAggregationElement">
         <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
             @*<option value="">Select Aggregation</option>*@
             <option value="Total">Total</option>
@@ -105,10 +105,17 @@
         // DDL year event listener
         let chartLegend = "";
         let chartAggregation = "";
+        let temperatureLegend = "";
         // Fetch temperature
-        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
-            if (chartLegend == "Temperature") {
+        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', temperatureEvent => {
 
+            temperatureLegend = temperatureEvent.target.value;
+            if (temperatureLegend == "Temperature") {
+                var yearElement = document.getElementById("yearElement");
+                var chartAggregationElement = document.getElementById("chartAggregationElement");
+
+                yearElement.classList.add("hideElement");
+                chartAggregationElement.classList.add("hideElement")
             }
         })
 
