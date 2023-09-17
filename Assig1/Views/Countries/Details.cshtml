@@ -120,7 +120,7 @@
                             console.log("response text: " + response.statusText);
                             return response.json();
                         })
-                        .then(data => buildGraphItemTotal(data))
+                        .then(data => buildGraphItem(data))
                         .catch(err => console.log(err.message));
                 }
                 else {
@@ -130,7 +130,7 @@
                             console.log("response text: " + response.statusText);
                             return response.json();
                         })
-                        .then(data => buildGraphElementTotal(data))
+                        .then(data => buildGraphElement(data))
                         .catch(err => console.log(err.message));
                     //}
 
@@ -151,7 +151,7 @@
                                     console.log("response text: " + response.statusText);
                                     return response.json();
                                 })
-                                .then(data => buildGraphItemTotal(data))
+                                .then(data => buildGraphItem(data))
                                 .catch(err => console.log(err.message));
                         }
                         else {
@@ -161,7 +161,7 @@
                                     console.log("response text: " + response.statusText);
                                     return response.json();
                                 })
-                                .then(data => buildGraphElementTotal(data))
+                                .then(data => buildGraphElement(data))
                                 .catch(err => console.log(err.message));
                         }
 
@@ -182,7 +182,7 @@
                                     console.log("response text: " + response.statusText);
                                     return response.json();
                                 })
-                                .then(data => buildGraphItemTotal(data))
+                                .then(data => buildGraphItem(data))
                                 .catch(err => console.log(err.message));
                         }
                         else {
@@ -192,7 +192,7 @@
                                     console.log("response text: " + response.statusText);
                                     return response.json();
                                 })
-                                .then(data => buildGraphElementTotal(data))
+                                .then(data => buildGraphElement(data))
                                 .catch(err => console.log(err.message));
                         }
 
@@ -209,7 +209,7 @@
         // TESTING FOR ELEMENTS TOTAL
         // maybe only need buildgraph element and item, don't need to differentiate element and item because it just builds graph upon data
         // dataSet.length is number of items in the dataSet => elements: 8 for countryid=1
-        function buildGraphElementTotal(dataSet) {
+        function buildGraphElement(dataSet) {
             console.log(dataSet)
 
             // Clear graph
@@ -447,7 +447,7 @@
         //}
 
         // Graph for item total
-        function buildGraphItemTotal(dataSet) {
+        function buildGraphItem(dataSet) {
             console.log(dataSet)
 
             // Clear graph
