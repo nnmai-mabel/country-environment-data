@@ -166,6 +166,11 @@
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
+            // 8 Create a YScale
+            let yScale = d3.scaleLinear()
+                .domain([0, maxTotalElements])
+                .range([h, 0]);
+
             // 5 Select all 'g' elements and bind the dataSet
             let barGroups = svg
                 .selectAll('g')
@@ -175,7 +180,9 @@
             let newBarGroups = barGroups.enter()
                 .append('g')
                 .attr('transform', (d, e) => {
-                    return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
+                    // 9 Implement yScale
+                    return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
 
@@ -183,7 +190,9 @@
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
-                .attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                // 9 Implement yScale
+                .attr('height', (d, e) => { return h - yScale(d.totalValue); })
                 .attr('width', barWidth - barMargin)
                 .attr('fill', 'black')
 
