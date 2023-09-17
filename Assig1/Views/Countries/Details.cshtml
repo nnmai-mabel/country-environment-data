@@ -35,7 +35,7 @@
 </div>
 
 <div>
-    <svg width="50%" height="600px" class="border border-primary rounded p-2"></svg>
+    <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
 </div>
 
 <div class="row justify-content-end">
@@ -79,15 +79,27 @@
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-        // Select SVG element
+        // 1 Select SVG element
         const svg = d3.select('svg');
 
-        // Determine the size of the SVG element
+        // 2 Determine the size of the SVG element
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
         console.log("Width: " + w);
         console.log("Height: " + h);
+
+        // 12 Chart margins
+        const chartMargins = {
+            left: 40,
+            right: 25,
+            top: 25,
+            bottom: 80
+        };
+
+        // 12 Update width and height variable to account for the reduction in size caused by margins
+        w = w - (chartMargins.left + chartMargins.right);
+        h = h - (chartMargins.top + chartMargins.bottom);
 
         // DDL year event listener
         // Fetch data every time an option is chosen
@@ -182,7 +194,7 @@
 
             // example of xScale test:
             console.log("xscale: " + xScale(1))
-
+            
             // 5 Select all 'g' elements and bind the dataSet
             let barGroups = svg
                 .selectAll('g')
