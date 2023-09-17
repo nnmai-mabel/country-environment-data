@@ -175,111 +175,12 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult CountryEmissionsReportData(CountriesViewModel vm)
         {
-            if (vm.Year > 0)
+            // Calculate data on Temperature
+            if (vm.ChartLegend == "Temperature")
             {
-                //var countryEmissionsSummary = _context.CountryEmissions
-                //    .Where(ce => ce.Year == vm.Year)
-                //    //.GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.ItemId, ce.Year}) // group by everything -> show too much data
-                //    //.GroupBy(ce => new { ce.ElementId, ce.Year }) // group by elementid and year => show based on total number of element
-                //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year }) // group by country id and element id and year
-                //    //.Select(ce => ce);
-                //    .Select(group => new
-                //    {
-                //        countryId = group.Key.CountryId,
-                //        year = group.Key.Year,
-                //        totalValue = group.Sum(ce => ce.Value)
-                //    });
-                //return Json(countryEmissionsSummary);
-
-                // Calculate data on Items
-                if (vm.ChartLegend == "Items")
+                if (vm.ChartLegend == "Temperature")
                 {
-                    // Calculate average
-                    if (vm.ChartAggregation == "Average")
-                    {
-                        var countryEmissionsSummary = _context.CountryEmissions
-                            .Where(ce => ce.Year == vm.Year)
-                            .Where(ce => ce.CountryId == vm.CountryId)
-                            .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.CountryId,
-                                year = group.Key.Year,
-                                item = group.Key.ItemId,
-                                valueItem = group.Average(ce => ce.Value)
-                            });
-                        return Json(countryEmissionsSummary);
-                    }
-
-                    // Calculate sum
-                    else
-                    {
-                        var countryEmissionsSummary = _context.CountryEmissions
-                            .Where(ce => ce.Year == vm.Year)
-                            .Where(ce => ce.CountryId == vm.CountryId)
-                            .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.CountryId,
-                                year = group.Key.Year,
-                                item = group.Key.ItemId,
-                                valueItem = group.Sum(ce => ce.Value)
-                            });
-                        return Json(countryEmissionsSummary);
-                    }
-                }
-
-                // Calculate based on Elements
-                else
-                {
-                    // Calculate average
-                    if (vm.ChartAggregation == "Average")
-                    {
-                        var countryEmissionsSummary = _context.CountryEmissions
-                            .Where(ce => ce.Year == vm.Year)
-                            .Where(ce => ce.CountryId == vm.CountryId)
-                            .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.CountryId,
-                                year = group.Key.Year,
-                                element = group.Key.ElementId,
-                                valueElement = group.Average(ce => ce.Value)
-                            });
-                        return Json(countryEmissionsSummary);
-                    }
-
-                    // Calculate sum
-                    else
-                    {
-                        var countryEmissionsSummary = _context.CountryEmissions
-                            .Where(ce => ce.Year == vm.Year)
-                            .Where(ce => ce.CountryId == vm.CountryId)
-                            .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.CountryId,
-                                year = group.Key.Year,
-                                element = group.Key.ElementId,
-                                valueElement = group.Sum(ce => ce.Value)
-                            });
-                        return Json(countryEmissionsSummary);
-                    }
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        // Action for fetching temperature data
-        [Produces("application/json")]
-        public IActionResult TemperatureReportData(CountriesViewModel vm)
-        {
-            if(vm.ChartLegend == "Temperature")
-            {
-                var temperatureSummary = _context.TemperatureData
+                    var temperatureSummary = _context.TemperatureData
                     .Where(td => td.CountryId == vm.CountryId)
                     .GroupBy(td => new { td.CountryId, td.Year, td.Value })
                     .Select(group => new
@@ -288,13 +189,138 @@ namespace Assig1.Controllers
                         year = group.Key.Year,
                         value = group.Key.Value
                     });
-                return Json(temperatureSummary);
+                    return Json(temperatureSummary);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             else
             {
-                return BadRequest();
+                if (vm.Year > 0)
+                {
+                    //var countryEmissionsSummary = _context.CountryEmissions
+                    //    .Where(ce => ce.Year == vm.Year)
+                    //    //.GroupBy(ce => new {ce.CountryId, ce.ElementId, ce.ItemId, ce.Year}) // group by everything -> show too much data
+                    //    //.GroupBy(ce => new { ce.ElementId, ce.Year }) // group by elementid and year => show based on total number of element
+                    //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year }) // group by country id and element id and year
+                    //    //.Select(ce => ce);
+                    //    .Select(group => new
+                    //    {
+                    //        countryId = group.Key.CountryId,
+                    //        year = group.Key.Year,
+                    //        totalValue = group.Sum(ce => ce.Value)
+                    //    });
+                    //return Json(countryEmissionsSummary);
+
+
+                    // Calculate data on Items
+                    if (vm.ChartLegend == "Items")
+                    {
+                        // Calculate average
+                        if (vm.ChartAggregation == "Average")
+                        {
+                            var countryEmissionsSummary = _context.CountryEmissions
+                                .Where(ce => ce.Year == vm.Year)
+                                .Where(ce => ce.CountryId == vm.CountryId)
+                                .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
+                                .Select(group => new
+                                {
+                                    countryId = group.Key.CountryId,
+                                    year = group.Key.Year,
+                                    item = group.Key.ItemId,
+                                    valueItem = group.Average(ce => ce.Value)
+                                });
+                            return Json(countryEmissionsSummary);
+                        }
+
+                        // Calculate sum
+                        else
+                        {
+                            var countryEmissionsSummary = _context.CountryEmissions
+                                .Where(ce => ce.Year == vm.Year)
+                                .Where(ce => ce.CountryId == vm.CountryId)
+                                .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
+                                .Select(group => new
+                                {
+                                    countryId = group.Key.CountryId,
+                                    year = group.Key.Year,
+                                    item = group.Key.ItemId,
+                                    valueItem = group.Sum(ce => ce.Value)
+                                });
+                            return Json(countryEmissionsSummary);
+                        }
+                    }
+
+                    // Calculate based on Elements
+                    else
+                    {
+                        // Calculate average
+                        if (vm.ChartAggregation == "Average")
+                        {
+                            var countryEmissionsSummary = _context.CountryEmissions
+                                .Where(ce => ce.Year == vm.Year)
+                                .Where(ce => ce.CountryId == vm.CountryId)
+                                .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
+                                .Select(group => new
+                                {
+                                    countryId = group.Key.CountryId,
+                                    year = group.Key.Year,
+                                    element = group.Key.ElementId,
+                                    valueElement = group.Average(ce => ce.Value)
+                                });
+                            return Json(countryEmissionsSummary);
+                        }
+
+                        // Calculate sum
+                        else
+                        {
+                            var countryEmissionsSummary = _context.CountryEmissions
+                                .Where(ce => ce.Year == vm.Year)
+                                .Where(ce => ce.CountryId == vm.CountryId)
+                                .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
+                                .Select(group => new
+                                {
+                                    countryId = group.Key.CountryId,
+                                    year = group.Key.Year,
+                                    element = group.Key.ElementId,
+                                    valueElement = group.Sum(ce => ce.Value)
+                                });
+                            return Json(countryEmissionsSummary);
+                        }
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
+            
         }
+
+        // Action for fetching temperature data
+        //[Produces("application/json")]
+        //public IActionResult TemperatureReportData(CountriesViewModel vm)
+        //{
+        //    if(vm.ChartLegend == "Temperature")
+        //    {
+        //        var temperatureSummary = _context.TemperatureData
+        //            .Where(td => td.CountryId == vm.CountryId)
+        //            .GroupBy(td => new { td.CountryId, td.Year, td.Value })
+        //            .Select(group => new
+        //            {
+        //                countryId = group.Key.CountryId,
+        //                year = group.Key.Year,
+        //                value = group.Key.Value
+        //            });
+        //        return Json(temperatureSummary);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         // GET: Countries/Create
         public IActionResult Create()

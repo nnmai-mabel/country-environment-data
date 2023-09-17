@@ -106,17 +106,22 @@
         let chartLegend = "";
         let chartAggregation = "";
         let temperatureLegend = "";
+
+        var yearElement = document.getElementById("yearElement");
+        var chartAggregationElement = document.getElementById("chartAggregationElement");
+
         // Fetch temperature
-        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', temperatureEvent => {
+        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
 
-            temperatureLegend = temperatureEvent.target.value;
-            var yearElement = document.getElementById("yearElement");
-            var chartAggregationElement = document.getElementById("chartAggregationElement");
+            chartLegend = legendEvent.target.value;
+            console.log("LEGEND: " + chartLegend);
 
-            let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=${temperatureLegend}`;
+            let urlTemperature = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&chartLegend=${chartLegend}`;
 
             // Hide year and aggregation element if user chooses temperature chart legend
-            if (temperatureLegend == "Temperature") {
+            if (chartLegend == "Temperature") {
+
+                console.log("IN TEMPERATURE")
                 yearElement.classList.add("hideElement");
                 chartAggregationElement.classList.add("hideElement")
 
@@ -133,74 +138,24 @@
             else {
                 yearElement.classList.remove("hideElement");
                 chartAggregationElement.classList.remove("hideElement");
-            }
-        })
 
-        // Fetch data every time an option is chosen
-        document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
-            let year = yearEvent.target.value;
+                document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
+                    let year = yearEvent.target.value;
+                    console.log("Year: " + year);
 
-            console.log("Year: " + year);
+                })
 
-            let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+                document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
+                    chartAggregation = aggregationEvent.target.value;
+                    console.log("Chart Aggregation: " + chartAggregation);
+                })
 
-            if (year.length > 0) {
-                if (chartLegend == "Temperature") {
-                    let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
+                let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
 
-                    fetch(urlTemperature)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                            return response.json();
-                        })
-                        .then(data => buildGraphTemperature(data))
-                        .catch(err => console.log(err.message));
-                }
-                else if (chartLegend == "Items") {
-                    fetch(url)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                            return response.json();
-                        })
-                        .then(data => buildGraphItem(data))
-                        .catch(err => console.log(err.message));
-                }
-                else {
-                    fetch(url)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                            return response.json();
-                        })
-                        .then(data => buildGraphElement(data))
-                        .catch(err => console.log(err.message));
-                    //}
+                if (year.length > 0) {
 
-                }
-
-                document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
-                    chartLegend = legendEvent.target.value;
-                    console.log("Chart Legend: " + chartLegend);
-
-                    let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
-
-                    if (year.length > 0) {
-
-                        if (chartLegend == "Temperature") {
-                            let urlTemperature = `/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
-
-                            fetch(urlTemperature)
-                                .then(response => {
-                                    console.log("response status: " + response.status);
-                                    console.log("response text: " + response.statusText);
-                                    return response.json();
-                                })
-                                .then(data => buildGraphTemperature(data))
-                                .catch(err => console.log(err.message));
-                        }
-                        else if (chartLegend == "Items") {
+                    if (chartLegend == "Items") {
+                        if (chartAggregation == "Average") {
                             fetch(url)
                                 .then(response => {
                                     console.log("response status: " + response.status);
@@ -217,10 +172,161 @@
                                     console.log("response text: " + response.statusText);
                                     return response.json();
                                 })
+                                .then(data => buildGraphItem(data))
+                                .catch(err => console.log(err.message));
+                        }
+                        //fetch(url)
+                        //    .then(response => {
+                        //        console.log("response status: " + response.status);
+                        //        console.log("response text: " + response.statusText);
+                        //        return response.json();
+                        //    })
+                        //    .then(data => buildGraphItem(data))
+                        //    .catch(err => console.log(err.message));
+                    }
+                    else {
+
+                        if (chartAggregation == "Average") {
+                            fetch(url)
+                                .then(response => {
+                                    console.log("response status: " + response.status);
+                                    console.log("response text: " + response.statusText);
+                                    return response.json();
+                                })
                                 .then(data => buildGraphElement(data))
                                 .catch(err => console.log(err.message));
                         }
+                        else {
+                            fetch(url)
+                                .then(response => {
+                                    console.log("response status: " + response.status);
+                                    console.log("response text: " + response.statusText);
+                                    return response.json();
+                                })
+                                .then(data => buildGraphElement(data))
+                                .catch(err => console.log(err.message));
+                        }
+                        //fetch(url)
+                        //    .then(response => {
+                        //        console.log("response status: " + response.status);
+                        //        console.log("response text: " + response.statusText);
+                        //        return response.json();
+                        //    })
+                        //    .then(data => buildGraphElement(data))
+                        //    .catch(err => console.log(err.message));
+                        //}
 
+                    
+
+                }
+                }
+
+
+            }
+        })
+        //})
+
+        // Fetch data every time an option is chosen
+        @*document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
+            let year = yearEvent.target.value;
+
+            console.log("Year: " + year);
+
+            let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+
+            if (chartLegend == "Temperature") {
+                let urlTemperature = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
+
+                yearElement.classList.add("hideElement");
+                chartAggregationElement.classList.add("hideElement")
+
+                fetch(urlTemperature)
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildGraphTemperature(data))
+                    .catch(err => console.log(err.message));
+            }
+            else {
+                yearElement.classList.remove("hideElement");
+                chartAggregationElement.classList.remove("hideElement");
+
+                if (year.length > 0) {
+
+                    if (chartLegend == "Items") {
+                        fetch(url)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphItem(data))
+                            .catch(err => console.log(err.message));
+                    }
+                    else {
+                        fetch(url)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphElement(data))
+                            .catch(err => console.log(err.message));
+                        //}
+
+                    }
+            }
+                document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+                    chartLegend = legendEvent.target.value;
+                    console.log("Chart Legend: " + chartLegend);
+
+                    let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
+
+
+
+                    if (chartLegend == "Temperature") {
+                        let urlTemperature = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
+
+                        yearElement.classList.add("hideElement");
+                        chartAggregationElement.classList.add("hideElement")
+
+                        fetch(urlTemperature)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphTemperature(data))
+                            .catch(err => console.log(err.message));
+                    }
+                    else {
+                        yearElement.classList.remove("hideElement");
+                        chartAggregationElement.classList.remove("hideElement");
+
+                        if (year.length > 0) {
+                            if (chartLegend == "Items") {
+                                fetch(url)
+                                    .then(response => {
+                                        console.log("response status: " + response.status);
+                                        console.log("response text: " + response.statusText);
+                                        return response.json();
+                                    })
+                                    .then(data => buildGraphItem(data))
+                                    .catch(err => console.log(err.message));
+                            }
+                            else {
+                                fetch(url)
+                                    .then(response => {
+                                        console.log("response status: " + response.status);
+                                        console.log("response text: " + response.statusText);
+                                        return response.json();
+                                    })
+                                    .then(data => buildGraphElement(data))
+                                    .catch(err => console.log(err.message));
+                            }
+                        }
                     }
                 })
                 document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
@@ -229,7 +335,25 @@
 
                     let url = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`;
 
-                    if (chartLegend != "Temperature") {
+                    if (chartLegend == "Temperature") {
+                        let urlTemperature = `/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&chartLegend=Temperature`;
+
+                        yearElement.classList.add("hideElement");
+                        chartAggregationElement.classList.add("hideElement")
+
+                        fetch(urlTemperature)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphTemperature(data))
+                            .catch(err => console.log(err.message));
+                    }
+                    else {
+                        yearElement.classList.remove("hideElement");
+                        chartAggregationElement.classList.remove("hideElement");
+
                         if (year.length > 0) {
 
                             if (chartLegend == "Items") {
@@ -252,12 +376,11 @@
                                     .then(data => buildGraphElement(data))
                                     .catch(err => console.log(err.message));
                             }
-
                         }
                     }
                 })
             }
-        })
+        })*@
 
         // Alternate using D3
         //d3.select('.row .col-2 [name="year"]').on('change', (event) => {
