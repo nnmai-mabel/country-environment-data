@@ -213,7 +213,11 @@
                 .attr('width', xScale.bandwidth())
                 .attr('fill', 'black')
 
-
+            // 11 Create the axis and add it to the svg
+            let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            svg.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
 
         }</script>
 }
