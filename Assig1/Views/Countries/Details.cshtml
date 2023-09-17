@@ -194,9 +194,18 @@
 
             // example of xScale test:
             console.log("xscale: " + xScale(1))
-            
+
+            // 12.4 Create chartGroup element
+            const chartGroup = svg.append('g')
+                .classed('chartGroup', true)
+                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+
             // 5 Select all 'g' elements and bind the dataSet
-            let barGroups = svg
+            //let barGroups = svg
+            //    .selectAll('g')
+            //    .data(dataSet);
+            // 12.4 Append the barGroups to the chartGroup
+            let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
 
