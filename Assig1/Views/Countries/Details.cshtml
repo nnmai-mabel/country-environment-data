@@ -132,6 +132,12 @@
             console.log("Legend: " + chartLegend);
 
         })
+
+        document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
+            chartAggregation = aggregationEvent.target.value;
+            console.log("Chart Aggregation: " + chartAggregation);
+        })
+
         // Fetch temperature
         @*document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
 
