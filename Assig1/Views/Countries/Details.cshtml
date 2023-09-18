@@ -103,8 +103,9 @@
         h = h - (chartMargins.top + chartMargins.bottom);
 
         // DDL year event listener
-        let chartLegend = "";
-        let chartAggregation = "";
+        // Build default legend and aggregation
+        let chartLegend = "Elements";
+        let chartAggregation = "Total";
         let temperatureLegend = "";
 
         var yearElement = document.getElementById("yearElement");
@@ -124,6 +125,12 @@
                     .then(data => buildGraphElement(data))
                     .catch(err => console.log(err.message));
             }
+        })
+
+        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+            chartLegend = legendEvent.target.value;
+            console.log("Legend: " + chartLegend);
+
         })
         // Fetch temperature
         @*document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
