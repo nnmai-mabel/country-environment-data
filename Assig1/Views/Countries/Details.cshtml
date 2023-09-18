@@ -674,7 +674,7 @@
             console.log("Max totalItems in build graph item: " + maxValueItems);
 
             // 4 Calculate the bar dimensions
-            const barMargin = 10;
+            const barMargin = 5;
             const barWidth = w / dataSet.length;
 
             console.log("Bar margin: " + barMargin);
@@ -720,7 +720,11 @@
 
                     // 10 Implement xScale
                     //return `translate(${xScale(d.item)}, ${yScale(d.valueItem)})`;
-                    return `translate(${i * barWidth}, ${h - (d.valueItem / maxValueItems) * h})`;
+
+                    //return `translate(${i * barWidth}, ${h - (d.valueItem / maxValueItems) * h})`;
+                    let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h // if value is negative, set y coordinate to h, placing the bar below the chart
+                    return `translate(${i * barWidth}, ${y})`;
+
                     // returns transform="translate(x,y)"
                 }); // end transform
 
@@ -729,7 +733,10 @@
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
-                .attr('height', (d, e) => { return d.valueItem / maxValueItems * h; })
+
+                //.attr('height', (d, e) => { return d.valueItem / maxValueItems * h; })
+                .attr('height', (d, e) => Math.abs((d.valueItem / maxValueItems) * h)) // ensure that height is always positive
+
                 //// 9 Implement yScale
                 //.attr('height', 0)
                 //.attr('y', (d, i) => { return h - yScale(d.valueItem); })
