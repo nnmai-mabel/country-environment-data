@@ -119,12 +119,6 @@
             console.log("Legend: " + chartLegend);
             updateChartSelection(year, chartLegend, chartAggregation);
 
-            if (chartLegend == "Temperature") {
-                console.log("In temperature")
-            }
-            else {
-                console.log("in other legends")
-            }
         })
 
         document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
@@ -158,6 +152,13 @@
             console.log("UPDATED YEAR: " + year);
             console.log("UPDATED CHART LEGEND: " + chartLegend);
             console.log("UPDATED CHART AGGREGATION: " + chartAggregation);
+
+            if (chartLegend == "Temperature") {
+                console.log("In temperature")
+            }
+            else {
+                console.log("in other legends")
+            }
 
               if (year.length > 0) {
                 fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
