@@ -155,9 +155,17 @@
 
             if (chartLegend == "Temperature") {
                 console.log("In temperature")
+
+                // Hide year element and chart aggregation if user chooses temperature legend
+                yearElement.classList.add("hideElement");
+                chartAggregationElement.classList.add("hideElement");
             }
             else {
                 console.log("in other legends")
+
+                // Show element and chart aggregation if user does not choose temperature legend
+                yearElement.classList.remove("hideElement");
+                chartAggregationElement.classList.remove("hideElement");
             }
 
               if (year.length > 0) {
