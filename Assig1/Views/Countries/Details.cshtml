@@ -697,19 +697,19 @@
             // example of xScale test:
             console.log("xscale: " + xScale(1))
 
-        //    // 12.4 Create chartGroup element
-        //    const chartGroup = svg.append('g')
-        //        .classed('chartGroup', true)
-        //        .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+            // 12.4 Create chartGroup element
+            const chartGroup = svg.append('g')
+                .classed('chartGroup', true)
+                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
 
             //5 Select all 'g' elements and bind the dataSet
-            let barGroups = svg
+            //let barGroups = svg
+            //    .selectAll('g')
+            //    .data(dataSet);
+        //    // 12.4 Append the barGroups to the chartGroup
+            let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
-        //    // 12.4 Append the barGroups to the chartGroup
-        //    let barGroups = chartGroup
-        //        .selectAll('g')
-        //        .data(dataSet);
 
             // 6 Add new bar groups
             let newBarGroups = barGroups.enter()
@@ -764,15 +764,15 @@
 
             // 11 Create the axis and add it to the svg
             //let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h;
+            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            //svg.append('g')
+            //    .classed('axis y', true)
+            //    .call(yAxis);
+            // 12.5 Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
-            svg.append('g')
+            chartGroup.append('g')
                 .classed('axis y', true)
                 .call(yAxis);
-        //    // 12.5 Append the y-Axis to the chartGroup
-        //    let yAxis = d3.axisLeft(yScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .classed('axis y', true)
-        //        .call(yAxis);
 
         //    // 13 Append the x-Axis to the chartGroup
         //    let xAxis = d3.axisBottom(xScale); // declare the axis generator
