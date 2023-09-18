@@ -166,17 +166,29 @@
                 // Show element and chart aggregation if user does not choose temperature legend
                 yearElement.classList.remove("hideElement");
                 chartAggregationElement.classList.remove("hideElement");
-            }
+                if (year.length > 0) {
+                    if (chartLegend == "Items") {
+                        fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphItem(data))
+                            .catch(err => console.log(err.message));
+                    }
 
-              if (year.length > 0) {
-                fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
-                    .then(response => {
-                        console.log("response status: " + response.status);
-                        console.log("response text: " + response.statusText);
-                        return response.json();
-                    })
-                    .then(data => buildGraphItem(data))
-                    .catch(err => console.log(err.message));
+                    else {
+                        fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
+                            .then(response => {
+                                console.log("response status: " + response.status);
+                                console.log("response text: " + response.statusText);
+                                return response.json();
+                            })
+                            .then(data => buildGraphElement(data))
+                            .catch(err => console.log(err.message));
+                    }
+                }
             }
         }
         // Fetch temperature
