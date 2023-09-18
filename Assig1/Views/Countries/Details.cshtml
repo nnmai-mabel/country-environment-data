@@ -752,15 +752,15 @@
                 //.style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
             //.attr('fill', 'blue')
 
-        //    // 14 Create Bar text
-        //    newBarGroups
-        //        .append('text')
-        //        .attr("text-anchor", "middle")
-        //        .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
-        //        .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-        //        .attr('fill', 'black')
-        //        .style('font-size', '1em')
-        //        .text((d, i) => d.valueItem.toLocaleString());
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+                .attr('fill', 'black')
+                .style('font-size', '0.3em')
+                .text((d, i) => d.valueItem.toLocaleString());
 
             // 11 Create the axis and add it to the svg
             //let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h;
