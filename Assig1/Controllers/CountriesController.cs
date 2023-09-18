@@ -213,7 +213,7 @@ namespace Assig1.Controllers
                     }
 
                     // Calculate sum
-                    else 
+                    else
                     {
                         var countryEmissionsSummary = _context.CountryEmissions
                             .Where(ce => ce.Year == vm.Year)
@@ -404,8 +404,9 @@ namespace Assig1.Controllers
 
         }
 
+
         //Action for fetching temperature data
-       [Produces("application/json")]
+        [Produces("application/json")]
         public IActionResult TemperatureReportData(CountriesViewModel vm)
         {
             if (vm.ChartLegend == "Temperature")
