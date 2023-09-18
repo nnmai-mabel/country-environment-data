@@ -744,12 +744,12 @@
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
-                //.style('fill', 'transparent')
-                //.transition().duration((d, i) => i * 500) // perform transition over 1 second
-                //.delay((d, i) => i + 200)
-                //.attr('y', 0)
+                .style('fill', 'transparent')
+                .transition().duration((d, i) => i * 200) // perform transition over 0.4 second
+                .delay((d, i) => i + 200)
+                .attr('y', 0)
                 //.attr('height', (d, i) => { return h - yScale(d.valueItem); })
-                //.style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
+                .style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
             //.attr('fill', 'blue')
 
             // 14 Create Bar text
