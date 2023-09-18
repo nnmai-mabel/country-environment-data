@@ -404,28 +404,28 @@ namespace Assig1.Controllers
 
         }
 
-        // Action for fetching temperature data
-        //[Produces("application/json")]
-        //public IActionResult TemperatureReportData(CountriesViewModel vm)
-        //{
-        //    if(vm.ChartLegend == "Temperature")
-        //    {
-        //        var temperatureSummary = _context.TemperatureData
-        //            .Where(td => td.CountryId == vm.CountryId)
-        //            .GroupBy(td => new { td.CountryId, td.Year, td.Value })
-        //            .Select(group => new
-        //            {
-        //                countryId = group.Key.CountryId,
-        //                year = group.Key.Year,
-        //                value = group.Key.Value
-        //            });
-        //        return Json(temperatureSummary);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        //Action for fetching temperature data
+       [Produces("application/json")]
+        public IActionResult TemperatureReportData(CountriesViewModel vm)
+        {
+            if (vm.ChartLegend == "Temperature")
+            {
+                var temperatureSummary = _context.TemperatureData
+                    .Where(td => td.CountryId == vm.CountryId)
+                    .GroupBy(td => new { td.CountryId, td.Year, td.Value })
+                    .Select(group => new
+                    {
+                        countryId = group.Key.CountryId,
+                        year = group.Key.Year,
+                        value = group.Key.Value
+                    });
+                return Json(temperatureSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         // GET: Countries/Create
         public IActionResult Create()
