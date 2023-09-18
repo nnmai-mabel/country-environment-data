@@ -681,9 +681,9 @@
             console.log("Bar width: " + barWidth);
 
         //    // 8 Create a YScale
-        //    let yScale = d3.scaleLinear()
-        //        .domain([0, maxValueItems])
-        //        .range([h, 0]);
+            let yScale = d3.scaleLinear()
+                .domain([0, maxValueItems])
+                .range([h, 0]);
 
         //    // 10 Create XScale
         //    let itemArray = Array.from(dataSet, (d, i) => d.item);
@@ -735,7 +735,7 @@
                 .attr('x', 0) // optional line that can be left out since 0 is the default
 
                 //.attr('height', (d, e) => { return d.valueItem / maxValueItems * h; })
-                .attr('height', (d, e) => Math.abs((d.valueItem / maxValueItems) * h)) // ensure that height is always positive
+                .attr('height', (d, i) => Math.abs((d.valueItem / maxValueItems) * h)) // ensure that height is always positive
 
                 //// 9 Implement yScale
                 //.attr('height', 0)
@@ -761,12 +761,12 @@
         //        .style('font-size', '1em')
         //        .text((d, i) => d.valueItem.toLocaleString());
 
-        //    // 11 Create the axis and add it to the svg
-
-        //    //let yAxis = d3.axisLeft(yScale); // declare the axis generator
-        //    //svg.append('g')
-        //    //    .classed('axis y', true)
-        //    //    .call(yAxis);
+            // 11 Create the axis and add it to the svg
+            //let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h;
+            let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            svg.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
         //    // 12.5 Append the y-Axis to the chartGroup
         //    let yAxis = d3.axisLeft(yScale); // declare the axis generator
         //    chartGroup.append('g')
