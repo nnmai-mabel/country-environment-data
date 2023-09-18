@@ -774,20 +774,20 @@
                 .classed('axis y', true)
                 .call(yAxis);
 
-        //    // 13 Append the x-Axis to the chartGroup
-        //    let xAxis = d3.axisBottom(xScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
-        //        .classed('axis x', true)
-        //        .call(xAxis);
+            // 13 Append the x-Axis to the chartGroup
+            let xAxis = d3.axisBottom(xScale); // declare the axis generator
+            chartGroup.append('g')
+                .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
+                .classed('axis x', true)
+                .call(xAxis);
 
-        //    // Style and Rotate the labels
-        //    chartGroup.selectAll('.axis.x text')
-        //        .attr("transform", "rotate(-70)")
-        //        .attr("dx", "-0.8em")
-        //        .attr("dy", "0.25em")
-        //        .style("text-anchor", "end") // pull labels to bottom
-        //        .style("font-size", "0.9em"); // set font size
+            // Style and Rotate the labels
+            chartGroup.selectAll('.axis.x text')
+                //.attr("transform", "rotate(-70)")
+                .attr("dx", "0.6em") // add margin left and right -> go negative to align left
+                .attr("dy", "3em") // add margin top and bottom -> increase to go far more bottom
+                .style("text-anchor", "end") // pull labels to bottom
+                .style("font-size", "0.9em"); // set font size
         }
 
         // Graph for item average
