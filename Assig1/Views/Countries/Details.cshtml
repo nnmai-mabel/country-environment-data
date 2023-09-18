@@ -90,7 +90,7 @@
             left: 40,
             right: 25,
             top: 25,
-            bottom: 80
+            bottom: 150
         };
 
         // 12 Update width and height variable to account for the reduction in size caused by margins
@@ -429,11 +429,11 @@
 
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
-                //.attr("transform", "rotate(-70)")
-                .attr("dx", "0.6em") // add margin left and right -> go negative to align left
-                .attr("dy", "3em") // add margin top and bottom -> increase to go far more bottom
+                .attr("transform", "rotate(-50)")
+                .attr("dx", "-12em") // add margin left and right -> go negative to align left
+                .attr("dy", "10em") // add margin top and bottom -> increase to go far more bottom
                 .style("text-anchor", "end") // pull labels to bottom
-                .style("font-size", "0.9em"); // set font size
+                .style("font-size", "0.45em"); // set font size
         }
 
         function buildGraphTemperature(dataSet) {
