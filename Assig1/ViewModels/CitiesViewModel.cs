@@ -9,6 +9,7 @@ namespace Assig1.ViewModels
         public int? RegionId { get; set; }
         public List<City_CityDetail> CityDetailList { get; set; }
         public City_CityDetail TheCityDetail { get; set; }
+        public List<City_CityDetail> CountryOfCity { get; set; }
         //public Region? TheRegion { get; set; }
         //public Country TheCountry { get; set; }
         //public CitiesViewModel()

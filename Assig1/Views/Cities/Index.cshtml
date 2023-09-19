@@ -31,7 +31,10 @@
     {
         <p>No country</p>
     }*@
-
+    @if(Model.TheCityDetail != null)
+{
+            <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+}
 
 
 </div>
@@ -55,12 +58,15 @@
                     City Name: @Html.DisplayFor(modelItem => item.TheCity.CityName)
                 </td>
                 <td>
-                    CountryId: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryId)
+                    CountryId: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
+                </td>
+                <td>
+                    @*CountryId: @Html.DisplayFor(modelItem => item.)*@
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
+            <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
                 </td>
             </tr>
         }

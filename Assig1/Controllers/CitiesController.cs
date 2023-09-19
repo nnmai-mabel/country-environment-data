@@ -84,11 +84,17 @@ namespace Assig1.Controllers
             var cities = await cityCountryQuery
                 .ToListAsync();
 
+            // Get the first city in order to show the country name
+            var cityDetail = await cityCountryQuery
+                .FirstOrDefaultAsync();
+
             if (cities == null)
             {
                 return NotFound();
             }
             vm.CityDetailList = cities;
+            vm.TheCityDetail = cityDetail;
+
             //vm.CityList = await envDataContext
             //    .Select(city => new City_CityDetail
             //    {
