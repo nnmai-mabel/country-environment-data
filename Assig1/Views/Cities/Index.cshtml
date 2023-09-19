@@ -7,9 +7,12 @@
 
 <h1>Index</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
+<div>
+    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Visit country of the cities</a>
+</div>
 <table class="table">
     <thead>
         <tr>
