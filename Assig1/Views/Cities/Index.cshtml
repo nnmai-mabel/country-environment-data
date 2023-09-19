@@ -11,7 +11,29 @@
     <a asp-action="Create">Create New</a>
 </p>*@
 <div>
-    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Visit country of the cities</a>
+    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
+</div>
+<div>
+    @*@if (Model.TheCityDetail.TheRegion != null)
+    {
+        <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
+    }
+    else
+    {
+        <p>No region</p>
+    }*@
+    @*@if (Model.TheCityDetail.TheCountry != null)
+    {
+        <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+        <p>Image: @Model.TheCityDetail.TheCountry.ImageUrl</p>
+    }
+    else
+    {
+        <p>No country</p>
+    }*@
+
+
+
 </div>
 <table class="table">
     <thead>
@@ -26,19 +48,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.CityList)
+        @foreach (var item in Model.CityDetailList)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TheCity.CityName)
+                    City Name: @Html.DisplayFor(modelItem => item.TheCity.CityName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TheCity.Country.CountryId)
+                    CountryId: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryId)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
+                    @*<a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
                 </td>
             </tr>
         }

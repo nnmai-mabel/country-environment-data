@@ -23,11 +23,8 @@ namespace Assig1.Controllers
         // GET: Cities
         public async Task<IActionResult> Index(CitiesViewModel vm)
         {
-            #region CitiesListQuery
-            var CitiesList = _context.Cities
-                .Select(c => c); // Select all cities
-
-            var envDataContext = CitiesList
+            #region CityCountry
+            var cityCountryQuery = _context.Cities
                 .GroupJoin(_context.Countries,
                 city => city.CountryId,
                 country => country.CountryId,
@@ -43,26 +40,61 @@ namespace Assig1.Controllers
                     theCity = city.theCity,
                     theCountry = country
                 })
-                .OrderBy(city => city.theCity.CityName)
-                .Select(city => new
-                {
-                    city.theCity,
-                    city.theCountry
-                });
-
-            if (vm.CountryId != null)
-            {
-                envDataContext = envDataContext
-                    .Where(c => c.theCountry.CountryId == vm.CountryId);
-            }
-            #endregion
-
-            vm.CityList = await envDataContext
+                .Where(m => m.theCity.CountryId == vm.CountryId)
                 .Select(city => new City_CityDetail
                 {
-                    TheCity = city.theCity
-                })
+                    TheCity = city.theCity,
+                    TheCountry = city.theCountry
+                });
+            #endregion
+            #region CitiesListQuery
+            //var CitiesList = _context.Cities
+            //    .Select(c => c); // Select all cities
+
+            //var envDataContext = CitiesList
+            //    .GroupJoin(_context.Countries,
+            //    city => city.CountryId,
+            //    country => country.CountryId,
+            //    (city, countryGroup) => new
+            //    {
+            //        theCity = city,
+            //        theCountries = countryGroup
+            //    })
+            //    .SelectMany(
+            //    city => city.theCountries.DefaultIfEmpty(),
+            //    (city, country) => new
+            //    {
+            //        theCity = city.theCity,
+            //        theCountry = country
+            //    })
+            //    .OrderBy(city => city.theCity.CityName)
+            //    .Select(city => new
+            //    {
+            //        TheCity = city.theCity,
+            //        TheCountry = city.theCountry
+            //    });
+
+            //if (vm.CountryId != null)
+            //{
+            //    envDataContext = envDataContext
+            //        .Where(c => c.TheCountry.CountryId == vm.CountryId);
+            //}
+            #endregion
+
+            var cities = await cityCountryQuery
                 .ToListAsync();
+
+            if (cities == null)
+            {
+                return NotFound();
+            }
+            vm.CityDetailList = cities;
+            //vm.CityList = await envDataContext
+            //    .Select(city => new City_CityDetail
+            //    {
+            //        TheCity = city.TheCity
+            //    })
+            //    .ToListAsync();
             return View(vm);
             //var envDataContext = _context.Cities.Include(c => c.Country);
             //return View(await envDataContext.ToListAsync());

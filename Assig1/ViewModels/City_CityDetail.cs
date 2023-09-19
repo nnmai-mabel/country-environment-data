@@ -6,6 +6,8 @@ namespace Assig1.ViewModels
 	public class City_CityDetail
 	{
         public City TheCity { get; set; }
+        public Country TheCountry { get; set; }
+        public Region TheRegion { get; set; }
         //public City_CityDetail()
         //{
         //}
