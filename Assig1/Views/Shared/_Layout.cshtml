@@ -23,7 +23,8 @@
                         <a asp-controller="Home" asp-action="About" class="@IsActive("About")" title="Environmental Data About">About</a>
                         <a asp-controller="Regions" asp-action="Index" class="@IsActive("Regions")" title="View Environmental Data Regions">Regions</a>
                         <a asp-controller="Countries" asp-action="Index" class="@IsActive("Countries")" title="View Environmental Data Countries">Countries</a>
-                        <span class="@IsActive("Cities")">Cities</span>
+                        <a asp-controller="Cities" asp-action="Index" class="@IsActive("Cities")" title="View Environmental Data Cities">Cities</a>
+                        @*<span class="@IsActive("Cities")">Cities</span>*@
                     </div>
                 </div>
             </div>
