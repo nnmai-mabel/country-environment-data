@@ -19,7 +19,8 @@
     </div>
 </form>
 <div>
-    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
+    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="" class="btn btn-outline-success">Go Back</a>
+    @*<a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Go Back</a>*@
 </div>
 <div>
     @if (Model.TheCityDetail != null)
