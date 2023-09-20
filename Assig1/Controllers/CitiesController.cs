@@ -136,7 +136,8 @@ namespace Assig1.Controllers
                     TheCountry = cityAir.TheCountry,
                     //TheAirQualityData = cityAir.TheAirQualityData,
                     AirMinYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Min(),
-                    AirMaxYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Max()
+                    AirMaxYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Max(),
+                    AirRecordCount = cityAir.TheCity.AirQualityData.Select(a => a.Year).Count()
                 })
                 .ToListAsync();
 

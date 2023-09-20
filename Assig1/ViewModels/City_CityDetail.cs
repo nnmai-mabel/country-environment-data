@@ -11,7 +11,7 @@ namespace Assig1.ViewModels
         //public AirQualityData TheAirQualityData { get; set; }
         public int? AirMinYear { get; set; }
         public int? AirMaxYear { get; set; }
-        //public int? AirRecordCount { get; set; }
+        public int? AirRecordCount { get; set; }
         //public City_CityDetail()
         //{
         //}
