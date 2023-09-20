@@ -44,14 +44,25 @@
                     <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
                     <p class="card-text">
                         CountryID: @item.TheCountry.CountryId
-                        RegionID: @item.TheCountry.RegionId
-                        ISO3: @item.TheCountry.Iso3
-                        Temperature: @item.TheCountry.TemperatureData
                     </p>
+                    @if (item.TheCountry.Region != null)
+                    {
+                        <p>Region: @item.TheCountry.Region.RegionName</p>
+                        @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries List in same region</a>*@
+                    }
+                    else
+                    {
+                        <p>Region: no regions</p>
+                        @*<a asp-action="Index" asp-route-countryId="" class="btn btn-outline-info">All Countries List</a>*@
+                    }
+
+                    @*ISO3: @item.TheCountry.Iso3
+                    Temperature: @item.TheCountry.TemperatureData*@
+
                     <div class="d-flex justify-content-around">
                         @*May need to fix the link below later*@
                         <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>
-                            <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
                     </div>
 
                 </div>

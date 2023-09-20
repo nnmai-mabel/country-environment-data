@@ -50,10 +50,10 @@ namespace Assig1.Controllers
                     theRegion = r
                 })
                 .OrderBy(c => c.theCountry.CountryName)
-                .Select(c => new
+                .Select(c => new Country_CountryDetail
                 {
-                    c.theCountry,
-                    c.theRegion
+                    TheCountry = c.theCountry,
+                    TheRegion = c.theRegion
                 });
 
             //var envDataContext = countriesWithRegions
@@ -101,19 +101,20 @@ namespace Assig1.Controllers
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 envDataContext = envDataContext
-                    .Where(i => i.theCountry.CountryName.Contains(vm.SearchText));
+                    .Where(i => i.TheCountry.CountryName.Contains(vm.SearchText));
             }
 
             if (vm.RegionId != null)
             {
                 envDataContext = envDataContext
-                    .Where(c => c.theRegion.RegionId == vm.RegionId);
+                    .Where(c => c.TheRegion.RegionId == vm.RegionId);
             }
             #endregion
             vm.CountryList = await envDataContext
                 .Select(c => new Country_CountryDetail
                 {
-                    TheCountry = c.theCountry
+                    TheCountry = c.TheCountry,
+                    TheRegion = c.TheRegion
                 })
                 .ToListAsync();
             return View(vm);
