@@ -41,6 +41,7 @@ namespace Assig1.Controllers
                     theCountry = country
                 })
                 .Where(m => m.theCity.CountryId == vm.CountryId)
+                .OrderBy(city => city.theCity.CityName)
                 //.Select(city => new City_CityDetail
                 //{
                 //    TheCity = city.theCity,
@@ -62,26 +63,27 @@ namespace Assig1.Controllers
                         TheCity = cityCountryRegion.TheCity,
                         TheCountry = cityCountryRegion.TheCountry,
                         TheRegion = region,
-                    });
-                //.GroupJoin(_context.AirQualityData, // Join with the air quality data table
-                //        cityCountryRegion => cityCountryRegion.TheCity.CityId,
-                //        air => air.CityId,
-                //        (cityCountryRegion, airGroup) => new
-                //        {
-                //            TheCity = cityCountryRegion.TheCity,
-                //            TheCountry = cityCountryRegion.TheCountry,
-                //            TheRegion = cityCountryRegion.TheRegion,
-                //            TheAirGroups = airGroup
-                //        })
-                //.SelectMany(
-                //    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
-                //    (cityCountryRegionAir, air) => new City_CityDetail
-                //    {
-                //        TheCity = cityCountryRegionAir.TheCity,
-                //        TheCountry = cityCountryRegionAir.TheCountry,
-                //        TheRegion = cityCountryRegionAir.TheRegion,
-                //        TheAirQualityData = air
-                //    });
+                    })
+                ;
+            //.GroupJoin(_context.AirQualityData, // Join with the air quality data table
+            //        cityCountryRegion => cityCountryRegion.TheCity.CityId,
+            //        air => air.CityId,
+            //        (cityCountryRegion, airGroup) => new
+            //        {
+            //            TheCity = cityCountryRegion.TheCity,
+            //            TheCountry = cityCountryRegion.TheCountry,
+            //            TheRegion = cityCountryRegion.TheRegion,
+            //            TheAirGroups = airGroup
+            //        })
+            //.SelectMany(
+            //    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
+            //    (cityCountryRegionAir, air) => new City_CityDetail
+            //    {
+            //        TheCity = cityCountryRegionAir.TheCity,
+            //        TheCountry = cityCountryRegionAir.TheCountry,
+            //        TheRegion = cityCountryRegionAir.TheRegion,
+            //        TheAirQualityData = air
+            //    });
             //.GroupBy(cityCountryRegionAir => cityCountryRegionAir.TheCity)
             //.Select(group => new
             //{
@@ -298,14 +300,14 @@ namespace Assig1.Controllers
             {
                 _context.Cities.Remove(city);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CityExists(int id)
         {
-          return (_context.Cities?.Any(e => e.CityId == id)).GetValueOrDefault();
+            return (_context.Cities?.Any(e => e.CityId == id)).GetValueOrDefault();
         }
     }
 }
