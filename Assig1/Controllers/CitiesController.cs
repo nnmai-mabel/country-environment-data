@@ -41,11 +41,28 @@ namespace Assig1.Controllers
                     theCountry = country
                 })
                 .Where(m => m.theCity.CountryId == vm.CountryId)
-                .Select(city => new City_CityDetail
-                {
-                    TheCity = city.theCity,
-                    TheCountry = city.theCountry
-                });
+                //.Select(city => new City_CityDetail
+                //{
+                //    TheCity = city.theCity,
+                //    TheCountry = city.theCountry
+                //});
+                .GroupJoin(_context.Regions, // Join with the "regions" table
+                    cityCountry => cityCountry.theCountry.RegionId,
+                    region => region.RegionId,
+                    (cityCountry, regionGroup) => new 
+                    {
+                        TheCity = cityCountry.theCity,
+                        TheCountry = cityCountry.theCountry,
+                        TheRegions = regionGroup
+                    })
+                .SelectMany(
+                    cityCountryRegion => cityCountryRegion.TheRegions.DefaultIfEmpty(),
+                    (cityCountryRegion, region) => new City_CityDetail
+                    {
+                        TheCity = cityCountryRegion.TheCity,
+                        TheCountry = cityCountryRegion.TheCountry,
+                        TheRegion = region
+                    });
             #endregion
             #region CitiesListQuery
             //var CitiesList = _context.Cities
