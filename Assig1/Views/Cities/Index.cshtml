@@ -8,8 +8,8 @@
 <h1>Index</h1>
 
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+        <a asp-action="Create">Create New</a>
+    </p>*@
 <div>
     <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
 </div>
@@ -65,15 +65,18 @@
                     Country Name: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
                 </td>
                 <td>
-                    Air: @Html.DisplayFor(modelItem => item.TheAirQualityData.Year)
+                    Air: @Html.DisplayFor(modelItem => item.AirMinYear)
+                </td>
+                <td>
+                    @*Air Min:@Html.DisplayFor(modelItem => item.mi)*@
                 </td>
                 <td>
                     @*CountryId: @Html.DisplayFor(modelItem => item.)*@
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
+                        <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
                 </td>
             </tr>
         }

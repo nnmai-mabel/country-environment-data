@@ -49,7 +49,7 @@ namespace Assig1.Controllers
                 .GroupJoin(_context.Regions, // Join with the Regions table
                     cityCountry => cityCountry.theCountry.RegionId,
                     region => region.RegionId,
-                    (cityCountry, regionGroup) => new 
+                    (cityCountry, regionGroup) => new
                     {
                         TheCity = cityCountry.theCity,
                         TheCountry = cityCountry.theCountry,
@@ -61,27 +61,34 @@ namespace Assig1.Controllers
                     {
                         TheCity = cityCountryRegion.TheCity,
                         TheCountry = cityCountryRegion.TheCountry,
-                        TheRegion = region
-                    })
-                .GroupJoin(_context.AirQualityData, // Join with the air quality data table
-                        cityCountryRegion => cityCountryRegion.TheCity.CityId,
-                        air => air.CityId,
-                        (cityCountryRegion, airGroup) => new
-                        {
-                            TheCity = cityCountryRegion.TheCity,
-                            TheCountry = cityCountryRegion.TheCountry,
-                            TheRegion = cityCountryRegion.TheRegion,
-                            TheAirGroups = airGroup
-                        })
-                .SelectMany(
-                    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
-                    (cityCountryRegionAir, air) => new City_CityDetail
-                    {
-                        TheCity = cityCountryRegionAir.TheCity,
-                        TheCountry = cityCountryRegionAir.TheCountry,
-                        TheRegion = cityCountryRegionAir.TheRegion,
-                        TheAirQualityData = air
+                        TheRegion = region,
                     });
+                //.GroupJoin(_context.AirQualityData, // Join with the air quality data table
+                //        cityCountryRegion => cityCountryRegion.TheCity.CityId,
+                //        air => air.CityId,
+                //        (cityCountryRegion, airGroup) => new
+                //        {
+                //            TheCity = cityCountryRegion.TheCity,
+                //            TheCountry = cityCountryRegion.TheCountry,
+                //            TheRegion = cityCountryRegion.TheRegion,
+                //            TheAirGroups = airGroup
+                //        })
+                //.SelectMany(
+                //    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
+                //    (cityCountryRegionAir, air) => new City_CityDetail
+                //    {
+                //        TheCity = cityCountryRegionAir.TheCity,
+                //        TheCountry = cityCountryRegionAir.TheCountry,
+                //        TheRegion = cityCountryRegionAir.TheRegion,
+                //        TheAirQualityData = air
+                //    });
+            //.GroupBy(cityCountryRegionAir => cityCountryRegionAir.TheCity)
+            //.Select(group => new
+            //{
+            //    city = group.Key,
+            //    airMinYear = group.Min(cityDetail => cityDetail.TheAirQualityData.Year),
+            //    airMaxYear = group.Max(cityDetail => cityDetail.TheAirQualityData.Year)
+            //});
             #endregion
             #region CitiesListQuery
             //var CitiesList = _context.Cities
@@ -122,6 +129,14 @@ namespace Assig1.Controllers
                 .Select(a => a);
             #endregion
             var cities = await cityCountryQuery
+                .Select(cityAir => new City_CityDetail
+                {
+                    TheCity = cityAir.TheCity,
+                    TheRegion = cityAir.TheRegion,
+                    TheCountry = cityAir.TheCountry,
+                    //TheAirQualityData = cityAir.TheAirQualityData,
+                    AirMinYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Min()
+                })
                 .ToListAsync();
 
             // Get the first city in order to show the country name
