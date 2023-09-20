@@ -65,7 +65,10 @@
                     Country Name: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
                 </td>
                 <td>
-                    Air: @Html.DisplayFor(modelItem => item.AirMinYear)
+                    Air Min Year: @Html.DisplayFor(modelItem => item.AirMinYear)
+                </td>
+                <td>
+                    Air Max Year: @Html.DisplayFor(modelItem => item.AirMaxYear)
                 </td>
                 <td>
                     @*Air Min:@Html.DisplayFor(modelItem => item.mi)*@
@@ -75,8 +78,8 @@
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@item.TheCity.CityId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
+            <a asp-action="Details" asp-route-id="@item.TheCity.CityId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.TheCity.CityId">Delete</a>*@
                 </td>
             </tr>
         }
