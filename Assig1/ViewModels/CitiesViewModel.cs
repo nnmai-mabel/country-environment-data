@@ -5,6 +5,7 @@ namespace Assig1.ViewModels
 {
 	public class CitiesViewModel
 	{
+        public string SearchText { get; set; }
         public int? CountryId { get; set; }
         public int? RegionId { get; set; }
         public List<City_CityDetail> CityDetailList { get; set; }

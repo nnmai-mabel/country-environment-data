@@ -128,6 +128,13 @@ namespace Assig1.Controllers
             var airQualityDataQuery = _context.AirQualityData
                 .Select(a => a);
             #endregion
+
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
+            {
+                cityCountryQuery = cityCountryQuery
+                    .Where(i => i.TheCity.CityName.StartsWith(vm.SearchText));
+            }
+
             var cities = await cityCountryQuery
                 .Select(cityAir => new City_CityDetail
                 {
