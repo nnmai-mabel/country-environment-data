@@ -23,7 +23,7 @@ namespace Assig1.Controllers
         // GET: Cities
         public async Task<IActionResult> Index(CitiesViewModel vm)
         {
-            #region CityCountry
+            #region CityCountryRegionQuery
             var cityCountryQuery = _context.Cities
                 .GroupJoin(_context.Countries,
                 city => city.CountryId,
@@ -46,7 +46,7 @@ namespace Assig1.Controllers
                 //    TheCity = city.theCity,
                 //    TheCountry = city.theCountry
                 //});
-                .GroupJoin(_context.Regions, // Join with the "regions" table
+                .GroupJoin(_context.Regions, // Join with the Regions table
                     cityCountry => cityCountry.theCountry.RegionId,
                     region => region.RegionId,
                     (cityCountry, regionGroup) => new 
@@ -62,6 +62,25 @@ namespace Assig1.Controllers
                         TheCity = cityCountryRegion.TheCity,
                         TheCountry = cityCountryRegion.TheCountry,
                         TheRegion = region
+                    })
+                .GroupJoin(_context.AirQualityData, // Join with the air quality data table
+                        cityCountryRegion => cityCountryRegion.TheCity.CityId,
+                        air => air.CityId,
+                        (cityCountryRegion, airGroup) => new
+                        {
+                            TheCity = cityCountryRegion.TheCity,
+                            TheCountry = cityCountryRegion.TheCountry,
+                            TheRegion = cityCountryRegion.TheRegion,
+                            TheAirGroups = airGroup
+                        })
+                .SelectMany(
+                    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
+                    (cityCountryRegionAir, air) => new City_CityDetail
+                    {
+                        TheCity = cityCountryRegionAir.TheCity,
+                        TheCountry = cityCountryRegionAir.TheCountry,
+                        TheRegion = cityCountryRegionAir.TheRegion,
+                        TheAirQualityData = air
                     });
             #endregion
             #region CitiesListQuery
@@ -98,6 +117,10 @@ namespace Assig1.Controllers
             //}
             #endregion
 
+            #region AirQualityData
+            var airQualityDataQuery = _context.AirQualityData
+                .Select(a => a);
+            #endregion
             var cities = await cityCountryQuery
                 .ToListAsync();
 
@@ -111,7 +134,6 @@ namespace Assig1.Controllers
             }
             vm.CityDetailList = cities;
             vm.TheCityDetail = cityDetail;
-
             //vm.CityList = await envDataContext
             //    .Select(city => new City_CityDetail
             //    {

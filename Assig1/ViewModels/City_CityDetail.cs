@@ -8,6 +8,7 @@ namespace Assig1.ViewModels
         public City TheCity { get; set; }
         public Country TheCountry { get; set; }
         public Region TheRegion { get; set; }
+        public AirQualityData TheAirQualityData { get; set; }
         //public City_CityDetail()
         //{
         //}

@@ -56,10 +56,16 @@
         {
             <tr>
                 <td>
+                    CityId: @Html.DisplayFor(modelItem => item.TheCity.CityId)
+                </td>
+                <td>
                     City Name: @Html.DisplayFor(modelItem => item.TheCity.CityName)
                 </td>
                 <td>
-                    CountryId: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
+                    Country Name: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
+                </td>
+                <td>
+                    Air: @Html.DisplayFor(modelItem => item.TheAirQualityData.Year)
                 </td>
                 <td>
                     @*CountryId: @Html.DisplayFor(modelItem => item.)*@
