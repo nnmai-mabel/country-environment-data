@@ -14,7 +14,7 @@
     <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
 </div>
 <div>
-    @if (Model.TheCityDetail.TheRegion != null)
+    @if (Model.TheCityDetail != null)
     {
         <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
     }
@@ -22,7 +22,7 @@
     {
         <p>No region</p>
     }
-    @if (Model.TheCityDetail.TheCountry != null)
+    @if (Model.TheCityDetail != null)
     {
         <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
         <p>Image: </p>
