@@ -59,11 +59,12 @@
                     @*ISO3: @item.TheCountry.Iso3
                     Temperature: @item.TheCountry.TemperatureData*@
 
-                    <div class="d-flex justify-content-around">
-                        @*May need to fix the link below later*@
-                        <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>
-                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
-                    </div>
+                <div class="d-flex justify-content-around">
+                    @*May need to fix the link below later*@
+                    @*<a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>*@
+                    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
+                    <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
+                </div>
 
                 </div>
             </div>
