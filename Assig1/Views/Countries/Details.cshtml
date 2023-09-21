@@ -168,6 +168,7 @@
                                 return response.json();
                             })
                             .then(data => buildGraphItem(data))
+                            //.then(data => buildTableItem(data))
                             .catch(err => console.log(err.message));
                     }
 
@@ -521,5 +522,9 @@
                 .attr("r", 3) // Add radius of dot
                 .style("fill", "red"); // Set color of dot
         }
+
+        //function buildTableItem(dataSet) {
+        //    console.log("This is table item")
+        //}
     </script>
 }
