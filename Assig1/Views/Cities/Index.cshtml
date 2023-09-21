@@ -10,9 +10,17 @@
 @*<p>
         <a asp-action="Create">Create New</a>
     </p>*@
-<form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" asp-route-regionId="@Model.RegionId" class="row mb-2">
+<form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
     <div class="col-4">
-        <input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Cities" title="Search a city name" />
+        @*<input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Cities" title="Search a city name" />*@
+        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name"/>
+        <datalist id="cityList">
+            @foreach (var city in Model.CityDetailList)
+            {
+                <option value="@city.TheCity.CityName"></option>
+            }
+        </datalist>
+        @*<input type="hidden" id="searchText" asp-for="@Model.SearchText">*@
     </div>
     <div class="col-4">
         <button type="submit" class="btn btn-primary">Search</button>
