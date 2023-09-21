@@ -12,7 +12,14 @@
 
 <form method="post" asp-controller="Countries" asp-action="Index" class="row mb-2">
     <div class="col-4">
-        <input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Countries" title="Search a country name" />
+        @*<input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Countries" title="Search a country name" />*@
+        <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
+        <datalist id="countryList">
+            @foreach (var city in Model.CountryList)
+            {
+                <option value="@city.TheCountry.CountryName"></option>
+            }
+        </datalist>
     </div>
 
     <div class="col-3">
