@@ -191,7 +191,7 @@ namespace Assig1.Controllers
                     theCity = city.theCity,
                     theCountry = country
                 })
-                .Where(m => m.theCity.CityId == vm.CityId)
+                .Where(m => m.theCity.CityId == vm.CityId) // find the cityId
                 .OrderBy(city => city.theCity.CityName)
                 .GroupJoin(_context.Regions, // Join with the Regions table
                     cityCountry => cityCountry.theCountry.RegionId,
