@@ -257,6 +257,90 @@ namespace Assig1.Controllers
             return View(vm);
         }
 
+        [Produces("application/json")]
+        public IActionResult AirQualityReportData(CitiesViewModel vm)
+        {
+            if(vm.CityId > 0)
+            {
+                #region AirQualitySummary
+                var AirQualitySummary = _context.AirQualityData
+                    .GroupJoin(_context.AirQualityStations,
+                    aqd => aqd.AqdId,
+                    aqs => aqs.AqdId,
+                    (aqd, aqsGroup) => new
+                    {
+                        theAirQualityData = aqd,
+                        theAirQualityStationsGroup = aqsGroup
+                    })
+                    .SelectMany(
+                    aqd => aqd.theAirQualityStationsGroup.DefaultIfEmpty(),
+                    (aqd, aqs) => new
+                    {
+                        theAirQualityData = aqd.theAirQualityData,
+                        theAirQualityStations = aqs
+                    })
+                    //.GroupJoin(_context.MonitorStationTypes,
+                    //aqds => aqds.theAirQualityStations.StationTypeId,
+                    //mst => mst.StationTypeId,
+                    //(aqds, mstGroup) => new
+                    //{
+                    //    theAirQualityDataStations = aqds,
+                    //    theMonitorStationTypesGroup = mstGroup
+                    //})
+                    //.SelectMany(
+                    //aqds => aqds.theMonitorStationTypesGroup.DefaultIfEmpty(),
+                    //(aqds, mst) => new
+                    //{
+                    //    theAirQualityDataStations = aqds.theAirQualityDataStations,
+                    //    theMonitorStationTypes = mst
+                    //})
+                    .Where(aqds => aqds.theAirQualityData.CityId == vm.CityId)
+                    .GroupBy(group => new
+                    {
+                        cityId = group.theAirQualityData.CityId,
+                        year = group.theAirQualityData.Year,
+                        annualMean = group.theAirQualityData.AnnualMean,
+                        //annualMeanPm10 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm10,
+                        //annualMeanPm25 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm25,
+                        //annualMeanUgm3 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanUgm3,
+                        //temporalCoverage1 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage1,
+                        //temporalCoverage2 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage2,
+                        //reference = group.theAirQualityDataStations.theAirQualityData.Reference,
+                        //dbYear = group.theAirQualityDataStations.theAirQualityData.Year,
+                        //status = group.theAirQualityDataStations.theAirQualityData.Status,
+                        //stationType = group.theAirQualityDataStations.theAirQualityStations.StationType,
+                        //number = group.theAirQualityDataStations.theAirQualityStations.Number,
+
+                    })
+
+                    .Select(group => new
+                    {
+                        cityId = group.Key.cityId,
+                        year = group.Key.year,
+                        annualMean = group.Key.annualMean,
+                        //annualMeanPm10 = group.Key.annualMeanPm10,
+                        //annualMeanPm25 = group.Key.annualMeanPm25,
+                        //annualMeanUgm3 = group.Key.annualMeanUgm3,
+                        //temporalCoverage1 = group.Key.temporalCoverage1,
+                        //temporalCoverage2 = group.Key.temporalCoverage2,
+                        //reference = group.Key.reference,
+                        //dbYear = group.Key.year,
+                        //status = group.Key.status,
+                        //stationType = group.Key.stationType,
+                        //number = group.Key.number
+                    });
+                #endregion
+
+                //var AirQualitySummary = _context.AirQualityData
+                //    .Where(aqd => aqd.CityId == vm.CityId)
+                //    .Select(aqd => aqd);
+                return Json(AirQualitySummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         // GET: Cities/Create
         public IActionResult Create()
         {
