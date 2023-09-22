@@ -91,7 +91,7 @@
                     Air Record Count: @Html.DisplayFor(modelItem => item.AirRecordCount)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Details [Air Quality Data]</a>
+                    <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Details [Air Quality Data]</a>
                 </td>
                 <td>
                     @*Air Min:@Html.DisplayFor(modelItem => item.mi)*@

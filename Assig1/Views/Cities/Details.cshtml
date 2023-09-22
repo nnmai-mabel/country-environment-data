@@ -6,7 +6,7 @@
 }
 
 <h1>Details</h1>
-<a asp-action="Index" asp-route-countryId="@Model.TheCityDetail.TheCity.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Go back</a>
+<a asp-action="Index" asp-route-id="@Model.RegionId" asp-route-countryId="@Model.TheCityDetail.TheCity.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Go back</a>
 <div>
     @if (Model.TheCityDetail != null)
     {
