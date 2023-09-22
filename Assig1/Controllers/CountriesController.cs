@@ -508,6 +508,9 @@ namespace Assig1.Controllers
                         element = group.theElement.ElementName,
                         value = group.theCountryEmissionItem.theCountryEmission.Value
                     })
+                    .OrderBy(group => group.Key.year)
+                    .ThenBy(group => group.Key.item)
+                    .ThenBy(group => group.Key.element)
                     .Select(group => new
                     {
                         countryId = group.Key.countryId, // use the name in group by
