@@ -70,11 +70,85 @@
         </div>
     </div>
 </div>
+@*<div class="row" id="ItemElementInfo">
+    <div
+</div>*@
+<div id="ItemElementInfo">
+
+    <table >
+        <thead>
+            <tr>
+                <th>
+                    Year
+                </th>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Element
+                </th>
+                <th>
+                    Value
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="ItemElementInfo">
+
+            <tr class="rowData">
+                <td>Year test</td>
+                <td>Item test</td>
+                <td>Element test</td>
+                <td>Value test</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
 
 @section scripts{
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+        //document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+        //    chartLegend2 = legendEvent.target.value;
+        //    console.log("Legend: " + chartLegend);
+        //    updateChartSelection(year, chartLegend, chartAggregation);
+
+        //})
+
+        fetch(`/Countries/ItemElementData?countryId=${@Model.CountryId}`)
+            .then(response => {
+                console.log("response status: " + response.status);
+                console.log("response text: " + response.statusText);
+                return response.json();
+            })
+            .then(data => buildTableItem(data))
+            .catch(err => console.log(err.message));
+
+        function buildTableItem(dataSet) {
+            console.log("This is table item")
+            console.log(dataSet)
+
+            //var table = document.getElementById("ItemElementInfo");
+            var table = document.querySelector(".ItemElementInfo")
+
+            for (let i = 0; i < dataSet.length; i++) {
+                var row = table.querySelector("tr.rowData").cloneNode(true);
+
+                let tdList = row.querySelectorAll('td');
+                tdList[0].innerText = dataSet[i].year;
+                tdList[1].innerText = dataSet[i].item;
+                tdList[2].innerText = dataSet[i].element;
+                tdList[3].innerText = dataSet[i].value;
+
+                table.appendChild(row);
+
+                if (i == (dataSet.length - 1)) {
+                    table.removeChild(table.querySelector("tr.rowData"))
+                }
+            }
+        }
         // 1 Select SVG element
         const svg = d3.select('svg');
 
@@ -523,8 +597,6 @@
                 .style("fill", "red"); // Set color of dot
         }
 
-        //function buildTableItem(dataSet) {
-        //    console.log("This is table item")
-        //}
+
     </script>
 }

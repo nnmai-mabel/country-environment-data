@@ -457,6 +457,74 @@ namespace Assig1.Controllers
             }
         }
 
+        //Action for fetching item element data
+        [Produces("application/json")]
+        public IActionResult ItemElementData(CountriesViewModel vm)
+        {
+            if (vm.CountryId > 0)
+            {
+                var ItemElementSummary = _context.CountryEmissions
+                    .GroupJoin(_context.Items,
+                    ce => ce.ItemId,
+                    i => i.ItemId,
+                    (ce, itemGroup) => new
+                    {
+                        theCountryEmission = ce,
+                        theItems = itemGroup
+                    })
+                    .SelectMany(
+                    ce => ce.theItems.DefaultIfEmpty(),
+                    (ce, i) => new
+                    {
+                        theCountryEmission = ce.theCountryEmission,
+                        theItem = i
+                    })
+
+                    .GroupJoin(_context.Elements,
+                    ice => ice.theCountryEmission.ElementId,
+                    e => e.ElementId,
+                    (ice, elementGroup) => new
+                    {
+                        theCountryEmissionItem = ice,
+                        theElements = elementGroup
+                    })
+                    .SelectMany(
+                    ice => ice.theElements.DefaultIfEmpty(),
+                    (ice, e) => new
+                    {
+                        theCountryEmissionItem = ice.theCountryEmissionItem,
+                        theElement = e
+                    })
+
+                    .Where(ce => ce.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
+                    //.Where(ce => ce.theCountryEmission.Year == vm.Year)
+                    .GroupBy(group => new
+                    {
+                        countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
+                        year = group.theCountryEmissionItem.theCountryEmission.Year,
+                        itemId = group.theCountryEmissionItem.theCountryEmission.ItemId,
+                        elementId = group.theCountryEmissionItem.theCountryEmission.ElementId,
+                        item = group.theCountryEmissionItem.theItem.ItemName,
+                        element = group.theElement.ElementName,
+                        value = group.theCountryEmissionItem.theCountryEmission.Value
+                    })
+                    .Select(group => new
+                    {
+                        countryId = group.Key.countryId, // use the name in group by
+                        year = group.Key.year,
+                        //itemId = group.Key.itemId,
+                        item = group.Key.item,
+                        element = group.Key.element,
+                        value = group.Key.value
+                    });
+                
+                return Json(ItemElementSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         // GET: Countries/Create
         public IActionResult Create()
         {
