@@ -1,4 +1,5 @@
-@model Assig1.Models.City
+@*@model Assig1.Models.City*@
+@model Assig1.ViewModels.CitiesViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -7,19 +8,54 @@
 <h1>Details</h1>
 
 <div>
+    @if (Model.TheCityDetail != null)
+    {
+        <p>City name: @Model.TheCityDetail.TheCity.CityName</p>
+    }
+    else
+    {
+        <p>No name</p>
+    }
+    
+    @if (Model.TheCityDetail != null)
+    {
+        <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
+    }
+    else
+    {
+        <p>No region</p>
+    }
+    @if (Model.TheCityDetail != null)
+    {
+        <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+        <p>Image: </p>
+        <img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">
+    }
+    else
+    {
+        <p>No country</p>
+    }
+    @*@if(Model.TheCityDetail != null)
+        {
+                    <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+        }*@
+
+
+</div>
+@*<div>
     <h4>City</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CityName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CityName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Country)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Country.CountryId)
         </dd>
     </dl>
@@ -27,4 +63,4 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.CityId">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

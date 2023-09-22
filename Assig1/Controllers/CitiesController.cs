@@ -172,22 +172,89 @@ namespace Assig1.Controllers
         }
 
         // GET: Cities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(CitiesViewModel vm)
         {
-            if (id == null || _context.Cities == null)
+            #region CityCountryRegionQuery
+            var cityCountryQuery = _context.Cities
+                .GroupJoin(_context.Countries,
+                city => city.CountryId,
+                country => country.CountryId,
+                (city, countryGroup) => new
+                {
+                    theCity = city,
+                    theCountries = countryGroup
+                })
+                .SelectMany(
+                city => city.theCountries.DefaultIfEmpty(),
+                (city, country) => new
+                {
+                    theCity = city.theCity,
+                    theCountry = country
+                })
+                .Where(m => m.theCity.CityId == vm.CityId)
+                .OrderBy(city => city.theCity.CityName)
+                .GroupJoin(_context.Regions, // Join with the Regions table
+                    cityCountry => cityCountry.theCountry.RegionId,
+                    region => region.RegionId,
+                    (cityCountry, regionGroup) => new
+                    {
+                        TheCity = cityCountry.theCity,
+                        TheCountry = cityCountry.theCountry,
+                        TheRegions = regionGroup
+                    })
+                .SelectMany(
+                    cityCountryRegion => cityCountryRegion.TheRegions.DefaultIfEmpty(),
+                    (cityCountryRegion, region) => new City_CityDetail
+                    {
+                        TheCity = cityCountryRegion.TheCity,
+                        TheCountry = cityCountryRegion.TheCountry,
+                        TheRegion = region
+                    })
+                ;
+            #endregion
+            //if (!string.IsNullOrWhiteSpace(vm.SearchText))
+            //{
+            //    cityCountryQuery = cityCountryQuery
+            //        .Where(i => i.TheCity.CityName.StartsWith(vm.SearchText));
+            //}
+
+            var cities = await cityCountryQuery
+                .Select(cityAir => new City_CityDetail
+                {
+                    TheCity = cityAir.TheCity,
+                    TheRegion = cityAir.TheRegion,
+                    TheCountry = cityAir.TheCountry,
+                    //TheAirQualityData = cityAir.TheAirQualityData,
+                    AirMinYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Min(),
+                    AirMaxYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Max(),
+                    AirRecordCount = (cityAir.TheCity.AirQualityData != null ? cityAir.TheCity.AirQualityData.Select(a => a.Year).Count() : 0)
+                })
+                .ToListAsync();
+
+            // Get the first city in order to show the country name
+            var cityDetail = await cityCountryQuery
+                .FirstOrDefaultAsync();
+
+            if (cities == null)
             {
                 return NotFound();
             }
+            vm.CityDetailList = cities;
+            vm.TheCityDetail = cityDetail;
+            //if (id == null || _context.Cities == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var city = await _context.Cities
-                .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.CityId == id);
-            if (city == null)
-            {
-                return NotFound();
-            }
+            //var city = await _context.Cities
+            //    .Include(c => c.Country)
+            //    .FirstOrDefaultAsync(m => m.CityId == id);
+            //if (city == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(city);
+            return View(vm);
         }
 
         // GET: Cities/Create
