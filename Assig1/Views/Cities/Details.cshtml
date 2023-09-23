@@ -179,8 +179,8 @@
 
 
         var chart = "Year";
-        let year = "0";
-        let station = "null";
+        let year = "";
+        let station = "";
 
         var yearElement = document.getElementById("yearElement");
         var stationElement = document.getElementById("stationElement");
@@ -222,7 +222,7 @@
                 yearElement.classList.add("hideElement")
                 stationElement.classList.remove("hideElement")
 
-                if (station != null) {
+                if (station != "") {
                     fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&stationType=${station}`)
                         .then(response => {
                             console.log("response status: " + response.status);
@@ -240,7 +240,7 @@
                 stationElement.classList.add("hideElement")
                 yearElement.classList.remove("hideElement")
 
-                if (year.length > 0) {
+                if (year > 0) {
 
                     fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&year=${year}`)
                         .then(response => {
