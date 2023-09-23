@@ -51,12 +51,12 @@
         </select>
     </div>
     <div class="col-2" id="yearElement">
-        <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="station">
+        <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
             <option value="">Select year</option>
         </select>
     </div>
     <div class="col-2 hideElement" id="stationElement">
-        <select asp-for="@Model.Station" asp-items="@Model.StationList" class="form-control" id="station">
+        <select asp-for="@Model.StationType" asp-items="@Model.StationTypeList" class="form-control" id="station">
             <option value="">Select station type</option>
         </select>
     </div>
@@ -179,8 +179,8 @@
 
 
         var chart = "Year";
-        let year = "";
-        let station = "";
+        let year = "0";
+        let station = "null";
 
         var yearElement = document.getElementById("yearElement");
         var stationElement = document.getElementById("stationElement");
@@ -194,18 +194,18 @@
 
         })
 
-        document.querySelector('.row .col-2 #yearElement').addEventListener('change', yearEvent => {
+        document.querySelector('.row .col-2 #year').addEventListener('change', yearEvent => {
             year = yearEvent.target.value;
             console.log("Year: " + year);
             updateChartSelection(chart, year, station);
 
         })
 
-        document.querySelector('.row .col-2 #stationElement').addEventListener('change', stationEvent => {
+        document.querySelector('.row .col-2 #station').addEventListener('change', stationEvent => {
             station = stationEvent.target.value;
             console.log("station: " + station);
             updateChartSelection(chart, year, station);
-            
+
         })
 
         function updateChartSelection(chart, year, station) {
@@ -226,8 +226,20 @@
                 console.log("In year")
                 stationElement.classList.add("hideElement")
                 yearElement.classList.remove("hideElement")
-                
-            }
+
+                fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&year=${year}`)
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildAirQualityYear(data))
+                    .catch(err => console.log(err.message));
+                    }
+        }
+
+        function buildAirQualityYear(dataSet) {
+            console.log(dataSet);
         }
     </script>
 }

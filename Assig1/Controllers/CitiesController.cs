@@ -271,7 +271,7 @@ namespace Assig1.Controllers
                 .Distinct()
                 .OrderByDescending(item => item));
             // Only keep the value of station type, not the display text
-            vm.StationList = new SelectList(AirQualitySummary
+            vm.StationTypeList = new SelectList(AirQualitySummary
                 .Select(item => item.stationType)
                 .Distinct()
                 .OrderBy(item => item));
@@ -393,6 +393,18 @@ namespace Assig1.Controllers
                         stationType = group.Key.stationType,
                         number = group.Key.number
                     });
+
+                if(vm.Year > 0)
+                {
+                    AirQualitySummary = AirQualitySummary
+                        .Where(aqs => aqs.year == vm.Year);
+                }
+
+                if (!string.IsNullOrWhiteSpace(vm.StationType))
+                {
+                    AirQualitySummary = AirQualitySummary
+                        .Where(aqs => aqs.stationType == vm.StationType);
+                }
                 #endregion
 
                 //var AirQualitySummary = _context.AirQualityData
