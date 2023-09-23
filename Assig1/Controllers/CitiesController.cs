@@ -212,6 +212,60 @@ namespace Assig1.Controllers
                     })
                 ;
             #endregion
+
+            #region StationSelectList
+            var AirQualitySummary = _context.AirQualityData
+                .GroupJoin(_context.AirQualityStations,
+                aqd => aqd.AqdId,
+                aqs => aqs.AqdId,
+                (aqd, aqsGroup) => new
+                {
+                    theAirQualityData = aqd,
+                    theAirQualityStationsGroup = aqsGroup
+                })
+                .SelectMany(
+                aqd => aqd.theAirQualityStationsGroup.DefaultIfEmpty(),
+                (aqd, aqs) => new
+                {
+                    theAirQualityData = aqd.theAirQualityData,
+                    theAirQualityStations = aqs
+                })
+                .GroupJoin(_context.MonitorStationTypes,
+                aqds => aqds.theAirQualityStations.StationTypeId,
+                mst => mst.StationTypeId,
+                (aqds, mstGroup) => new
+                {
+                    theAirQualityDataStations = aqds,
+                    theMonitorStationTypesGroup = mstGroup
+                })
+                .SelectMany(
+                aqds => aqds.theMonitorStationTypesGroup.DefaultIfEmpty(),
+                (aqds, mst) => new
+                {
+                    theAirQualityDataStations = aqds.theAirQualityDataStations,
+                    theMonitorStationTypes = mst
+                })
+                .Where(aqds => aqds.theAirQualityDataStations.theAirQualityData.CityId == vm.CityId)
+                //.GroupBy(group => new
+                //{
+
+                //    stationType = group.theMonitorStationTypes.StationType
+
+                //})
+
+                .Select(group => new
+                {
+                    stationType = group.theMonitorStationTypes.StationType
+                    //stationType = group.Key.stationType
+                })
+
+                .Distinct()
+                .OrderBy(mst => mst.stationType);
+                //.ToList();
+
+            // Only keep the value of station type, not the display text
+            vm.StationList = new SelectList(AirQualitySummary.Select(item => item.stationType));
+            #endregion
             //if (!string.IsNullOrWhiteSpace(vm.SearchText))
             //{
             //    cityCountryQuery = cityCountryQuery

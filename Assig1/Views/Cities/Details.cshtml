@@ -42,7 +42,13 @@
 
 
 </div>
-
+<div class="row mb-3" id="dataDisplay">
+    <div class="col-2" id="stationElement">
+        <select asp-for="@Model.Station" asp-items="@Model.StationList" class="form-control" id="station">
+            <option value="">Select station</option>
+        </select>
+    </div>
+</div>
 <div>
     <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
 </div>
