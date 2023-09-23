@@ -43,9 +43,9 @@
 
 </div>
 <div class="row mb-3" id="dataDisplay">
-    <div class="col-2" id="yearElement">
+    <div class="col-2" id="chartLegend">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-            <option value="">Select Data</option>
+            @*<option value="">Select Data</option>*@
             <option value="Year">Year</option>
             <option value="Station">Station Type</option>
         </select>
@@ -55,7 +55,7 @@
             <option value="">Select year</option>
         </select>
     </div>
-    <div class="col-2" id="stationElement">
+    <div class="col-2 hideElement" id="stationElement">
         <select asp-for="@Model.Station" asp-items="@Model.StationList" class="form-control" id="station">
             <option value="">Select station type</option>
         </select>
@@ -145,6 +145,88 @@
                 if (i == (dataSet.length - 1)) {
                     table.removeChild(table.querySelector("tr.rowData"))
                 }
+            }
+        }
+
+        // 1 Select SVG element
+        const svg = d3.select('svg');
+
+        // 2 Determine the size of the SVG element
+        let w = svg.node().getBoundingClientRect().width;
+        let h = svg.node().getBoundingClientRect().height;
+
+        console.log("Width: " + w);
+        console.log("Height: " + h);
+
+        // 12 Chart margins
+        const chartMargins = {
+            left: 40,
+            right: 25,
+            top: 25,
+            bottom: 150
+        };
+
+        // 12 Update width and height variable to account for the reduction in size caused by margins
+        w = w - (chartMargins.left + chartMargins.right);
+        h = h - (chartMargins.top + chartMargins.bottom);
+
+        // DDL year event listener
+        // Build default legend and aggregation
+        //let chartLegend = "Elements";
+        //let chartAggregation = "Total";
+        //let chartLegend = "";
+        //let temperatureLegend = "";
+
+
+        var chart = "Year";
+        let year = "";
+        let station = "";
+
+        var yearElement = document.getElementById("yearElement");
+        var stationElement = document.getElementById("stationElement");
+
+        //var chartAggregationElement = document.getElementById("chartAggregationElement");
+
+        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+            chart = legendEvent.target.value;
+            console.log("Legend: " + chartLegend);
+            updateChartSelection(chart, year, station);
+
+        })
+
+        document.querySelector('.row .col-2 #yearElement').addEventListener('change', yearEvent => {
+            year = yearEvent.target.value;
+            console.log("Year: " + year);
+            updateChartSelection(chart, year, station);
+
+        })
+
+        document.querySelector('.row .col-2 #stationElement').addEventListener('change', stationEvent => {
+            station = stationEvent.target.value;
+            console.log("station: " + station);
+            updateChartSelection(chart, year, station);
+            
+        })
+
+        function updateChartSelection(chart, year, station) {
+            chart = chart;
+            year = year;
+            station = station;
+
+            console.log("UPDATED chart: " + chart);
+            console.log("UPDATED CHART year: " + year);
+            console.log("UPDATED CHART station: " + station);
+
+            if (chart == "Station") {
+                console.log("In station")
+                yearElement.classList.add("hideElement")
+                stationElement.classList.remove("hideElement")
+            }
+            else {
+                console.log("In year")
+                stationElement.classList.add("hideElement")
+                yearElement.classList.remove("hideElement")
+                
             }
         }
     </script>
