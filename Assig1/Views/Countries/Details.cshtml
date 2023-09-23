@@ -512,8 +512,10 @@
                 .style("font-size", "0.45em"); // set font size
         }
 
-        // Get the idea of making a line chart from this link, then fix based on bar chart learned in class
+        // Get the idea of making a line chart from these links, then fix based on bar chart learned in class
         //https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
+        //https://itecnote.com/tecnote/javascript-d3-js-how-to-add-labels-to-scatter-points-on-graph/
+        //https://chrissardegna.com/blog/lessons-in-d3-labeling/
         function buildGraphTemperature(dataSet) {
 
             //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
@@ -595,6 +597,28 @@
                 .attr("cy", d => yScale(d.value))
                 .attr("r", 3) // Add radius of dot
                 .style("fill", "red"); // Set color of dot
+
+            // Instead of scatter-label, tried dot-label because was using .dot above and it worked
+            chartGroup.selectAll(".dot-label")
+                .data(dataSet)
+                .enter()
+                .append('text')
+                .attr("class", "dot-label")
+                .attr("x", d => xScale(d.year))
+                .attr("y", d => yScale(d.value) - 10) // Adjust the y position to place text above the dot
+                .attr("text-anchor", "middle")
+                .attr('fill', 'black')
+                .style('font-size', '0.45em')
+                .text(d => d.value.toLocaleString()); // Display the value as text
+
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+                .attr('fill', 'black')
+                .style('font-size', '0.45em')
+                .text((d, i) => d.valueItem.toLocaleString());
         }
 
 
