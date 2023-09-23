@@ -224,13 +224,13 @@
 
                 if (station != null) {
                     fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&stationType=${station}`)
-                    .then(response => {
-                        console.log("response status: " + response.status);
-                        console.log("response text: " + response.statusText);
-                        return response.json();
-                    })
-                    .then(data => buildAirQualityYear(data))
-                    .catch(err => console.log(err.message));
+                        .then(response => {
+                            console.log("response status: " + response.status);
+                            console.log("response text: " + response.statusText);
+                            return response.json();
+                        })
+                        .then(data => buildAirQualityStation(data))
+                        .catch(err => console.log(err.message));
                 }
 
             }
@@ -254,9 +254,129 @@
             }
         }
 
+        function buildAirQualityStation(dataSet) {
+            console.log(dataSet);
+
+            // Clear graph
+            d3.selectAll('svg > g > *').remove();
+
+            // 4 Calculate the maximum value to be displayed
+            let annualMeanRange = d3.extent(dataSet, (d, a) => d.annualMean);
+            let maxAnnualMean = annualMeanRange[1];
+
+            console.log("Max totalElements: " + annualMeanRange);
+
+            // 4 Calculate the bar dimensions
+            const barMargin = 10;
+            const barWidth = w / dataSet.length;
+
+            // 8 Create a YScale
+            let yScale = d3.scaleLinear()
+                .domain([0, maxAnnualMean])
+                .range([h, 0]);
+
+            // 10 Create XScale
+            let annualMeanArray = Array.from(dataSet, (d, a) => d.year);
+            console.log("array: " + annualMeanArray)
+
+            let xScale = d3.scaleBand()
+                .domain(annualMeanArray)
+                .range([0, w])
+                .paddingInner(0.1)
+
+            // example of xScale test:
+            console.log("xscale: " + xScale(1))
+
+            // 12.4 Create chartGroup element
+            const chartGroup = svg.append('g')
+                .classed('chartGroup', true)
+                .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+
+            // 5 Select all 'g' elements and bind the dataSet
+            //let barGroups = svg
+            //    .selectAll('g')
+            //    .data(dataSet);
+            // 12.4 Append the barGroups to the chartGroup
+            let barGroups = chartGroup
+                .selectAll('g')
+                .data(dataSet);
+
+            // 6 Add new bar groups
+            let newBarGroups = barGroups.enter()
+                .append('g')
+                .attr('transform', (d, e) => {
+                    // 9 Implement yScale
+                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
+
+                    // 10 Implement xScale
+                    return `translate(${xScale(d.year)}, ${yScale(d.annualMean)})`;
+                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
+                    // returns transform="translate(x,y)"
+                }); // end transform
+
+            // 7 Append new rectangles
+            // 11 animate
+            newBarGroups
+                .append('rect')
+                .attr('x', 0) // optional line that can be left out since 0 is the default
+                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
+                // 9 Implement yScale
+                .attr('height', 0)
+                .attr('y', (d, a) => { return h - yScale(d.annualMean); })
+                //.attr('width', barWidth - barMargin)
+                //10 Implement xScale
+                .attr('width', xScale.bandwidth())
+                .style('fill', 'transparent')
+                .transition().duration((d, a) => a * 500) // perform transition over 1 second
+                .delay((d, a) => a + 200)
+                .attr('y', 0)
+                .attr('height', (d, a) => { return h - yScale(d.annualMean); })
+                .style("fill", (d, a) => { return `rgb(20, 20, ${a * 15 + 80})` });
+            //.attr('fill', 'blue')
+
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, a) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+                .attr('fill', 'black')
+                .style('font-size', '1em')
+                .text((d, a) => d.annualMean.toLocaleString());
+
+            // 11 Create the axis and add it to the svg
+
+            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            //svg.append('g')
+            //    .classed('axis y', true)
+            //    .call(yAxis);
+            // 12.5 Append the y-Axis to the chartGroup
+            let yAxis = d3.axisLeft(yScale); // declare the axis generator
+            chartGroup.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
+
+            // 13 Append the x-Axis to the chartGroup
+            let xAxis = d3.axisBottom(xScale); // declare the axis generator
+            chartGroup.append('g')
+                .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
+                .classed('axis x', true)
+                .call(xAxis);
+
+            // Style and Rotate the labels
+            chartGroup.selectAll('.axis.x text')
+                .attr("transform", "rotate(-70)")
+                .attr("dx", "-0.8em")
+                .attr("dy", "0.25em")
+                .style("text-anchor", "end") // pull labels to bottom
+                .style("font-size", "0.9em"); // set font size
+        }
+
         function buildAirQualityYear(dataSet) {
             console.log(dataSet);
         }
+
+        
     </script>
 }
 @*<div>
