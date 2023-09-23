@@ -16,6 +16,7 @@ namespace Assig1.ViewModels
         public string Year { get; set; }
         public SelectList StationList { get; set; }
         public string Station { get; set; }
+        public string ChartLegend { get; set; }
         //public List<City_CityDetail> CountryOfCity { get; set; }
         //public Region? TheRegion { get; set; }
         //public Country TheCountry { get; set; }

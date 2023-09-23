@@ -44,13 +44,20 @@
 </div>
 <div class="row mb-3" id="dataDisplay">
     <div class="col-2" id="yearElement">
+        <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
+            <option value="">Select Data</option>
+            <option value="Year">Year</option>
+            <option value="Station">Station Type</option>
+        </select>
+    </div>
+    <div class="col-2" id="yearElement">
         <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="station">
             <option value="">Select year</option>
         </select>
     </div>
     <div class="col-2" id="stationElement">
         <select asp-for="@Model.Station" asp-items="@Model.StationList" class="form-control" id="station">
-            <option value="">Select station</option>
+            <option value="">Select station type</option>
         </select>
     </div>
 </div>
