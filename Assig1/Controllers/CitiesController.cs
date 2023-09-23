@@ -251,7 +251,7 @@ namespace Assig1.Controllers
                     year = group.theAirQualityDataStations.theAirQualityData.Year,
                     annualMean = group.theAirQualityDataStations.theAirQualityData.AnnualMean,
                     stationType = group.theMonitorStationTypes.StationType
-                    
+
                 })
 
                 .Select(group => new
@@ -260,14 +260,21 @@ namespace Assig1.Controllers
                     annualMean = group.Key.annualMean,
                     stationType = group.Key.stationType
                     //stationType = group.Key.stationType
-                })
+                });
 
+                //.Distinct()
+                //.OrderBy(mst => mst.stationType);
+            //.ToList();
+
+            vm.YearList = new SelectList(AirQualitySummary
+                .Select(item => item.year)
                 .Distinct()
-                .OrderBy(mst => mst.stationType);
-                //.ToList();
-
+                .OrderByDescending(item => item));
             // Only keep the value of station type, not the display text
-            vm.StationList = new SelectList(AirQualitySummary.Select(item => item.stationType));
+            vm.StationList = new SelectList(AirQualitySummary
+                .Select(item => item.stationType)
+                .Distinct()
+                .OrderBy(item => item));
             #endregion
             //if (!string.IsNullOrWhiteSpace(vm.SearchText))
             //{

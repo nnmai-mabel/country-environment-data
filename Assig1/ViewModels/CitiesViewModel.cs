@@ -12,6 +12,8 @@ namespace Assig1.ViewModels
         public int? CityId { get; set; }
         public List<City_CityDetail> CityDetailList { get; set; }
         public City_CityDetail TheCityDetail { get; set; }
+        public SelectList YearList { get; set; }
+        public string Year { get; set; }
         public SelectList StationList { get; set; }
         public string Station { get; set; }
         //public List<City_CityDetail> CountryOfCity { get; set; }
