@@ -246,16 +246,19 @@ namespace Assig1.Controllers
                     theMonitorStationTypes = mst
                 })
                 .Where(aqds => aqds.theAirQualityDataStations.theAirQualityData.CityId == vm.CityId)
-                //.GroupBy(group => new
-                //{
-
-                //    stationType = group.theMonitorStationTypes.StationType
-
-                //})
+                .GroupBy(group => new
+                {
+                    year = group.theAirQualityDataStations.theAirQualityData.Year,
+                    annualMean = group.theAirQualityDataStations.theAirQualityData.AnnualMean,
+                    stationType = group.theMonitorStationTypes.StationType
+                    
+                })
 
                 .Select(group => new
                 {
-                    stationType = group.theMonitorStationTypes.StationType
+                    year = group.Key.year,
+                    annualMean = group.Key.annualMean,
+                    stationType = group.Key.stationType
                     //stationType = group.Key.stationType
                 })
 
