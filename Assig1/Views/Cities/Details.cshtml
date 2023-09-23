@@ -189,7 +189,7 @@
 
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
             chart = legendEvent.target.value;
-            console.log("Legend: " + chartLegend);
+            console.log("Legend: " + chart);
             updateChartSelection(chart, year, station);
 
         })
@@ -221,13 +221,9 @@
                 console.log("In station")
                 yearElement.classList.add("hideElement")
                 stationElement.classList.remove("hideElement")
-            }
-            else {
-                console.log("In year")
-                stationElement.classList.add("hideElement")
-                yearElement.classList.remove("hideElement")
 
-                fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&year=${year}`)
+                if (station != null) {
+                    fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&stationType=${station}`)
                     .then(response => {
                         console.log("response status: " + response.status);
                         console.log("response text: " + response.statusText);
@@ -235,7 +231,27 @@
                     })
                     .then(data => buildAirQualityYear(data))
                     .catch(err => console.log(err.message));
-                    }
+                }
+
+            }
+
+            else {
+                console.log("In year")
+                stationElement.classList.add("hideElement")
+                yearElement.classList.remove("hideElement")
+
+                if (year.length > 0) {
+
+                    fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&year=${year}`)
+                        .then(response => {
+                            console.log("response status: " + response.status);
+                            console.log("response text: " + response.statusText);
+                            return response.json();
+                        })
+                        .then(data => buildAirQualityYear(data))
+                        .catch(err => console.log(err.message));
+                }
+            }
         }
 
         function buildAirQualityYear(dataSet) {
