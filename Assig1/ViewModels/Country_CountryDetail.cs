@@ -5,8 +5,8 @@ namespace Assig1.ViewModels
 {
 	public class Country_CountryDetail
 	{
-		public Country TheCountry { get; set; }
-        public Region TheRegion { get; set; }
+		public Country? TheCountry { get; set; }
+        public Region? TheRegion { get; set; }
         //public int CountryId { get; set; }
         //public int? RegionId { get; set; }
         //public Country_CountryDetail()

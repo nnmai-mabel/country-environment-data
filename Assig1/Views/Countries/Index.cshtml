@@ -17,7 +17,7 @@
         <datalist id="countryList">
             @foreach (var city in Model.CountryList)
             {
-                <option value="@city.TheCountry.CountryName"></option>
+                <option value="@city.TheCountry?.CountryName"></option>
             }
         </datalist>
     </div>

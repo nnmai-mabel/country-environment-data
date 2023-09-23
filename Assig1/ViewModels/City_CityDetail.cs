@@ -5,9 +5,9 @@ namespace Assig1.ViewModels
 {
 	public class City_CityDetail
 	{
-        public City TheCity { get; set; }
-        public Country TheCountry { get; set; }
-        public Region TheRegion { get; set; }
+        public City? TheCity { get; set; }
+        public Country? TheCountry { get; set; }
+        public Region? TheRegion { get; set; }
         //public AirQualityData TheAirQualityData { get; set; }
         public int? AirMinYear { get; set; }
         public int? AirMaxYear { get; set; }

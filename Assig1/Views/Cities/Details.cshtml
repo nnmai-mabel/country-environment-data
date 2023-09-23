@@ -6,11 +6,11 @@
 }
 
 <h1>Details</h1>
-<a asp-action="Index" asp-route-id="@Model.RegionId" asp-route-countryId="@Model.TheCityDetail.TheCity.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Go back</a>
+<a asp-action="Index" asp-route-id="@Model.RegionId" asp-route-countryId="@Model.TheCityDetail?.TheCity?.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Go back</a>
 <div>
     @if (Model.TheCityDetail != null)
     {
-        <p>City name: @Model.TheCityDetail.TheCity.CityName</p>
+        <p>City name: @Model.TheCityDetail?.TheCity?.CityName</p>
     }
     else
     {
@@ -19,7 +19,7 @@
 
     @if (Model.TheCityDetail != null)
     {
-        <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
+        <p>Region Name: @Model.TheCityDetail?.TheRegion?.RegionName</p>
     }
     else
     {
@@ -27,7 +27,7 @@
     }
     @if (Model.TheCityDetail != null)
     {
-        <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+        <p>Country Name: @Model.TheCityDetail?.TheCountry?.CountryName</p>
         <p>Image: </p>
         @*<img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
     }
