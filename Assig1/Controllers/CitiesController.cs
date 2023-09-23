@@ -279,37 +279,37 @@ namespace Assig1.Controllers
                         theAirQualityData = aqd.theAirQualityData,
                         theAirQualityStations = aqs
                     })
-                    //.GroupJoin(_context.MonitorStationTypes,
-                    //aqds => aqds.theAirQualityStations.StationTypeId,
-                    //mst => mst.StationTypeId,
-                    //(aqds, mstGroup) => new
-                    //{
-                    //    theAirQualityDataStations = aqds,
-                    //    theMonitorStationTypesGroup = mstGroup
-                    //})
-                    //.SelectMany(
-                    //aqds => aqds.theMonitorStationTypesGroup.DefaultIfEmpty(),
-                    //(aqds, mst) => new
-                    //{
-                    //    theAirQualityDataStations = aqds.theAirQualityDataStations,
-                    //    theMonitorStationTypes = mst
-                    //})
-                    .Where(aqds => aqds.theAirQualityData.CityId == vm.CityId)
+                    .GroupJoin(_context.MonitorStationTypes,
+                    aqds => aqds.theAirQualityStations.StationTypeId,
+                    mst => mst.StationTypeId,
+                    (aqds, mstGroup) => new
+                    {
+                        theAirQualityDataStations = aqds,
+                        theMonitorStationTypesGroup = mstGroup
+                    })
+                    .SelectMany(
+                    aqds => aqds.theMonitorStationTypesGroup.DefaultIfEmpty(),
+                    (aqds, mst) => new
+                    {
+                        theAirQualityDataStations = aqds.theAirQualityDataStations,
+                        theMonitorStationTypes = mst
+                    })
+                    .Where(aqds => aqds.theAirQualityDataStations.theAirQualityData.CityId == vm.CityId)
                     .GroupBy(group => new
                     {
-                        cityId = group.theAirQualityData.CityId,
-                        year = group.theAirQualityData.Year,
-                        annualMean = group.theAirQualityData.AnnualMean,
-                        //annualMeanPm10 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm10,
-                        //annualMeanPm25 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm25,
-                        //annualMeanUgm3 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanUgm3,
-                        //temporalCoverage1 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage1,
-                        //temporalCoverage2 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage2,
-                        //reference = group.theAirQualityDataStations.theAirQualityData.Reference,
-                        //dbYear = group.theAirQualityDataStations.theAirQualityData.Year,
-                        //status = group.theAirQualityDataStations.theAirQualityData.Status,
-                        //stationType = group.theAirQualityDataStations.theAirQualityStations.StationType,
-                        //number = group.theAirQualityDataStations.theAirQualityStations.Number,
+                        cityId = group.theAirQualityDataStations.theAirQualityData.CityId,
+                        year = group.theAirQualityDataStations.theAirQualityData.Year,
+                        annualMean = group.theAirQualityDataStations.theAirQualityData.AnnualMean,
+                        annualMeanPm10 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm10,
+                        annualMeanPm25 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanPm25,
+                        annualMeanUgm3 = group.theAirQualityDataStations.theAirQualityData.AnnualMeanUgm3,
+                        temporalCoverage1 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage1,
+                        temporalCoverage2 = group.theAirQualityDataStations.theAirQualityData.TemporalCoverage2,
+                        reference = group.theAirQualityDataStations.theAirQualityData.Reference,
+                        dbYear = group.theAirQualityDataStations.theAirQualityData.Year,
+                        status = group.theAirQualityDataStations.theAirQualityData.Status,
+                        stationType = group.theMonitorStationTypes.StationType,
+                        number = group.theAirQualityDataStations.theAirQualityStations.Number,
 
                     })
 
@@ -318,16 +318,16 @@ namespace Assig1.Controllers
                         cityId = group.Key.cityId,
                         year = group.Key.year,
                         annualMean = group.Key.annualMean,
-                        //annualMeanPm10 = group.Key.annualMeanPm10,
-                        //annualMeanPm25 = group.Key.annualMeanPm25,
-                        //annualMeanUgm3 = group.Key.annualMeanUgm3,
-                        //temporalCoverage1 = group.Key.temporalCoverage1,
-                        //temporalCoverage2 = group.Key.temporalCoverage2,
-                        //reference = group.Key.reference,
-                        //dbYear = group.Key.year,
-                        //status = group.Key.status,
-                        //stationType = group.Key.stationType,
-                        //number = group.Key.number
+                        annualMeanPm10 = group.Key.annualMeanPm10,
+                        annualMeanPm25 = group.Key.annualMeanPm25,
+                        annualMeanUgm3 = group.Key.annualMeanUgm3,
+                        temporalCoverage1 = group.Key.temporalCoverage1,
+                        temporalCoverage2 = group.Key.temporalCoverage2,
+                        reference = group.Key.reference,
+                        dbYear = group.Key.year,
+                        status = group.Key.status,
+                        stationType = group.Key.stationType,
+                        number = group.Key.number
                     });
                 #endregion
 
