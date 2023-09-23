@@ -42,7 +42,44 @@
 
 
 </div>
-
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>cityId</th>
+                <th>year</th>
+                <th>annualMean</th>
+                <th>annualMeanPm10</th>
+                <th>annualMeanPm25</th>
+                <th>annualMeanUgm3</th>
+                <th>temporalCoverage1</th>
+                <th>temporalCoverage2</th>
+                <th>reference</th>
+                <th>dbYear</th>
+                <th>status</th>
+                <th>stationType</th>
+                <th>number</th>
+            </tr>
+        </thead>
+        <tbody class="AirQualityInfo">
+            <tr class="rowData">
+                <td>cityId test</td>
+                <td>year test</td>
+                <td>annualMean test</td>
+                <td>annualMeanPm10 test</td>
+                <td>annualMeanPm25 test</td>
+                <td>annualMeanUgm3 test</td>
+                <td>temporalCoverage1 test</td>
+                <td>temporalCoverage2 test</td>
+                <td>reference test</td>
+                <td>dbYear test</td>
+                <td>status test</td>
+                <td>stationType test</td>
+                <td>number test</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 @section scripts{
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
@@ -57,30 +94,57 @@
             .catch(err => console.log(err.message));
 
         function buildAirQualityTable(dataSet) {
-        console.log("This is air quality table")
-        console.log(dataSet)
-    }
+            console.log("This is air quality table")
+            console.log(dataSet)
+
+            var table = document.querySelector(".AirQualityInfo")
+
+            for (let i = 0; i < dataSet.length; i++) {
+                var row = table.querySelector("tr.rowData").cloneNode(true);
+
+                let tdList = row.querySelectorAll('td');
+                tdList[0].innerText = dataSet[i].cityId;
+                tdList[1].innerText = dataSet[i].year;
+                tdList[2].innerText = dataSet[i].annualMean;
+                tdList[3].innerText = dataSet[i].annualMeanPm10;
+                tdList[4].innerText = dataSet[i].annualMeanPm25;
+                tdList[5].innerText = dataSet[i].annualMeanUgm3;
+                tdList[6].innerText = dataSet[i].temporalCoverage1;
+                tdList[7].innerText = dataSet[i].temporalCoverage2;
+                tdList[8].innerText = dataSet[i].reference;
+                tdList[9].innerText = dataSet[i].dbYear;
+                tdList[10].innerText = dataSet[i].status;
+                tdList[11].innerText = dataSet[i].stationType;
+                tdList[12].innerText = dataSet[i].number;
+
+                table.appendChild(row);
+
+                if (i == (dataSet.length - 1)) {
+                    table.removeChild(table.querySelector("tr.rowData"))
+                }
+            }
+        }
     </script>
 }
-    @*<div>
-            <h4>City</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.CityName)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.CityName)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Country)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Country.CountryId)
-                </dd>
-            </dl>
-        </div>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model?.CityId">Edit</a> |
-            <a asp-action="Index">Back to List</a>
-        </div>*@
+@*<div>
+        <h4>City</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CityName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CityName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Country.CountryId)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.CityId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
