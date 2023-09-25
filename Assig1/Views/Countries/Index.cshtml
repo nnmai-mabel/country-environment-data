@@ -46,6 +46,10 @@
     {
         <div class="col-3 m-1">
             <div class="card" style="width: 20rem;">
+                @*Handle image error*@
+                @*https://themeisle.com/blog/missing-images-on-website/#gref*@
+                @*<img src="@item.TheCountry.ImageUrl" onerror="this.onerror=null;this.src='https://blog.hubspot.com/hs-fs/hubfs/http-error-500-google.webp?width=650&height=462&name=http-error-500-google.webp';"
+                     class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />*@
                 <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
                 <div class="card-body justify-content-around">
                     <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
@@ -64,14 +68,14 @@
                     }
 
                     @*ISO3: @item.TheCountry.Iso3
-                    Temperature: @item.TheCountry.TemperatureData*@
+            Temperature: @item.TheCountry.TemperatureData*@
 
-                <div class="d-flex justify-content-around">
-                    @*May need to fix the link below later*@
-                    @*<a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>*@
-                    <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
-                    <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
-                </div>
+                    <div class="d-flex justify-content-around">
+                        @*May need to fix the link below later*@
+                        @*<a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>*@
+                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
+                    </div>
 
                 </div>
             </div>
