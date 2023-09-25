@@ -344,8 +344,8 @@ namespace Assig1.Controllers
                 else
                 {
                     // Calculate average
-                    if (vm.ChartAggregation == "Average")
-                    {
+                    //if (vm.ChartAggregation == "Average")
+                    //{
                         var elementEmissionsSummary = _context.CountryEmissions
                             .GroupJoin(_context.Elements,
                             ce => ce.ElementId,
@@ -377,77 +377,78 @@ namespace Assig1.Controllers
                                 year = group.Key.year,
                                 elementId = group.Key.elementId,
                                 element = group.Key.element,
-                                valueElement = group.Average(ce => ce.theCountryEmission.Value)
+                                valueElementAverage = group.Average(ce => ce.theCountryEmission.Value),
+                                valueElementTotal = group.Sum(ce => ce.theCountryEmission.Value)
                             });
                         return Json(elementEmissionsSummary);
 
-                        //var countryEmissionsSummary = _context.CountryEmissions
-                        //    .Where(ce => ce.Year == vm.Year)
-                        //    .Where(ce => ce.CountryId == vm.CountryId)
-                        //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                        //    .Select(group => new
-                        //    {
-                        //        countryId = group.Key.CountryId,
-                        //        year = group.Key.Year,
-                        //        element = group.Key.ElementId,
-                        //        valueElement = group.Average(ce => ce.Value)
-                        //    });
-                        //return Json(countryEmissionsSummary);
-                    }
+                    //var countryEmissionsSummary = _context.CountryEmissions
+                    //    .Where(ce => ce.Year == vm.Year)
+                    //    .Where(ce => ce.CountryId == vm.CountryId)
+                    //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
+                    //    .Select(group => new
+                    //    {
+                    //        countryId = group.Key.CountryId,
+                    //        year = group.Key.Year,
+                    //        element = group.Key.ElementId,
+                    //        valueElement = group.Average(ce => ce.Value)
+                    //    });
+                    //return Json(countryEmissionsSummary);
+                    //}
 
                     // Calculate sum
-                    else
-                    {
-                        var elementEmissionsSummary = _context.CountryEmissions
-                            .GroupJoin(_context.Elements,
-                            ce => ce.ElementId,
-                            e => e.ElementId,
-                            (ce, elementGroup) => new
-                            {
-                                theCountryEmission = ce,
-                                theElements = elementGroup
-                            })
-                            .SelectMany(
-                            ce => ce.theElements.DefaultIfEmpty(),
-                            (ce, e) => new
-                            {
-                                theCountryEmission = ce.theCountryEmission,
-                                theElement = e
-                            })
-                            .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                            .Where(ce => ce.theCountryEmission.Year == vm.Year)
-                            .GroupBy(group => new
-                            {
-                                countryId = group.theCountryEmission.CountryId,
-                                year = group.theCountryEmission.Year,
-                                elementId = group.theCountryEmission.ElementId,
-                                element = group.theElement.ElementName
-                            })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.countryId,
-                                year = group.Key.year,
-                                elementId = group.Key.elementId,
-                                element = group.Key.element,
-                                valueElement = group.Sum(ce => ce.theCountryEmission.Value)
-                            });
-                        return Json(elementEmissionsSummary);
+                    //else
+                    //{
+                    //var elementEmissionsSummary = _context.CountryEmissions
+                    //    .GroupJoin(_context.Elements,
+                    //    ce => ce.ElementId,
+                    //    e => e.ElementId,
+                    //    (ce, elementGroup) => new
+                    //    {
+                    //        theCountryEmission = ce,
+                    //        theElements = elementGroup
+                    //    })
+                    //    .SelectMany(
+                    //    ce => ce.theElements.DefaultIfEmpty(),
+                    //    (ce, e) => new
+                    //    {
+                    //        theCountryEmission = ce.theCountryEmission,
+                    //        theElement = e
+                    //    })
+                    //    .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
+                    //    .Where(ce => ce.theCountryEmission.Year == vm.Year)
+                    //    .GroupBy(group => new
+                    //    {
+                    //        countryId = group.theCountryEmission.CountryId,
+                    //        year = group.theCountryEmission.Year,
+                    //        elementId = group.theCountryEmission.ElementId,
+                    //        element = group.theElement.ElementName
+                    //    })
+                    //    .Select(group => new
+                    //    {
+                    //        countryId = group.Key.countryId,
+                    //        year = group.Key.year,
+                    //        elementId = group.Key.elementId,
+                    //        element = group.Key.element,
+                    //        valueElement = group.Sum(ce => ce.theCountryEmission.Value)
+                    //    });
+                    //return Json(elementEmissionsSummary);
 
-                        //var countryEmissionsSummary = _context.CountryEmissions
-                        //    .Where(ce => ce.Year == vm.Year)
-                        //    .Where(ce => ce.CountryId == vm.CountryId)
-                        //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                        //    .Select(group => new
-                        //    {
-                        //        countryId = group.Key.CountryId,
-                        //        year = group.Key.Year,
-                        //        element = group.Key.ElementId,
-                        //        valueElement = group.Sum(ce => ce.Value)
-                        //    });
-                        //return Json(countryEmissionsSummary);
-                    }
+                    //var countryEmissionsSummary = _context.CountryEmissions
+                    //    .Where(ce => ce.Year == vm.Year)
+                    //    .Where(ce => ce.CountryId == vm.CountryId)
+                    //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
+                    //    .Select(group => new
+                    //    {
+                    //        countryId = group.Key.CountryId,
+                    //        year = group.Key.Year,
+                    //        element = group.Key.ElementId,
+                    //        valueElement = group.Sum(ce => ce.Value)
+                    //    });
+                    //return Json(countryEmissionsSummary);
                 }
             }
+            //}
             else
             {
                 return BadRequest();
