@@ -274,20 +274,46 @@
 
             let valueElementsRangeTotal = "";
             let maxValueElementsTotal = "";
+
+            let valueItemsRangeAverage = "";
+            let maxValueItemsAverage = "";
+
+            let valueItemsRangeTotal = "";
+            let maxValueItemsTotal = "";
             // 4 Calculate the maximum value to be displayed
-            // Average
-            if (chartAggregation == "Average") {
-                valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
-                maxValueElementsAverage = valueElementsRangeAverage[1];
 
-                console.log("Max totalElements average: " + maxValueElementsAverage);
+            // Items
+            if (chartLegend == "Items") {
+                if (chartAggregation == "Average") {
+                    valueItemsRangeAverage = d3.extent(dataSet, (d, i) => d.valueItemAverage);
+                    maxValueItemsAverage = valueItemsRangeAverage[1];
+
+                    console.log("Max totalItems average in build graph item: " + maxValueItemsAverage);
+                }
+                // Total
+                else {
+                    valueItemsRangeTotal = d3.extent(dataSet, (d, i) => d.valueItemTotal);
+                    maxValueItemsTotal = valueItemsRangeTotal[1];
+
+                    console.log("Max totalItems total in build graph item: " + maxValueItemsTotal);
+                }
             }
-            // Total
+            // Elements
             else {
-                valueElementsRangeTotal = d3.extent(dataSet, (d, e) => d.valueElementTotal);
-                maxValueElementsTotal = valueElementsRangeTotal[1];
+                // Average
+                if (chartAggregation == "Average") {
+                    valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
+                    maxValueElementsAverage = valueElementsRangeAverage[1];
 
-                console.log("Max totalElements average: " + maxValueElementsTotal);
+                    console.log("Max totalElements average: " + maxValueElementsAverage);
+                }
+                // Total
+                else {
+                    valueElementsRangeTotal = d3.extent(dataSet, (d, e) => d.valueElementTotal);
+                    maxValueElementsTotal = valueElementsRangeTotal[1];
+
+                    console.log("Max totalElements average: " + maxValueElementsTotal);
+                }
             }
 
             // 4 Calculate the bar dimensions
@@ -296,25 +322,52 @@
 
             // 8 Create a YScale
             let yScale = "";
-            // Average
-            if (chartAggregation == "Average") {
-                yScale = d3.scaleLinear()
-                    .domain([0, maxValueElementsAverage])
-                    .range([h, 0]);
+            // Items
+            if (chartLegend == "Items") {
+                //Average
+                if (chartAggregation == "Average") {
+                    yScale = d3.scaleLinear()
+                        .domain([0, maxValueItemsAverage])
+                        .range([h, 0]);
+                }
+                // Total
+                else {
+                    yScale = d3.scaleLinear()
+                        .domain([0, maxValueItemsTotal])
+                        .range([h, 0]);
+                }
             }
-            // Total
+            //Elements
             else {
-                yScale = d3.scaleLinear()
-                    .domain([0, maxValueElementsTotal])
-                    .range([h, 0]);
+                // Average
+                if (chartAggregation == "Average") {
+                    yScale = d3.scaleLinear()
+                        .domain([0, maxValueElementsAverage])
+                        .range([h, 0]);
+                }
+                // Total
+                else {
+                    yScale = d3.scaleLinear()
+                        .domain([0, maxValueElementsTotal])
+                        .range([h, 0]);
+                }
             }
-
+            
             // 10 Create XScale
-            let elementArray = Array.from(dataSet, (d, e) => d.element);
-            console.log("array: " + elementArray)
-
+            let array = "";
+            // Items
+            if (chartLegend == "Items") {
+                array = Array.from(dataSet, (d, i) => d.item);
+                console.log("array: " + array)
+            }
+            // Elements
+            else {
+                array = Array.from(dataSet, (d, e) => d.element);
+                console.log("array: " + array)
+            }
+           
             let xScale = d3.scaleBand()
-                .domain(elementArray)
+                .domain(array)
                 .range([0, w])
                 .paddingInner(0.1)
 
@@ -343,14 +396,33 @@
                     //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    // Average
-                    if (chartAggregation == "Average") {
-                        return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
+                    // Items
+                    let y = "";
+                    // Items
+                    if (chartLegend == "Items") {
+                        if (chartAggregation == "Average") {
+                            y = d.valueItemAverage >= 0 ? h - (d.valueItemAverage / maxValueItemsAverage) * h : h // if value is negative, set y coordinate to h, placing the bar below the chart
+                        }
+                        // Total
+                        else {
+                            y = d.valueItemTotal >= 0 ? h - (d.valueItemTotal / maxValueItemsTotal) * h : h
+                        }
+                        //return `translate(${i * barWidth}, ${y})`;
+                        return `translate(${xScale(d.item)}, ${y})`;
+
                     }
-                    // Total
+                    // Elements
                     else {
-                        return `translate(${xScale(d.element)}, ${yScale(d.valueElementTotal)})`;
+                        // Average
+                        if (chartAggregation == "Average") {
+                            return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
+                        }
+                        // Total
+                        else {
+                            return `translate(${xScale(d.element)}, ${yScale(d.valueElementTotal)})`;
+                        }
                     }
+                    
                     //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
@@ -725,14 +797,14 @@
                 .style('font-size', '0.45em')
                 .text(d => d.value.toLocaleString()); // Display the value as text
 
-            newBarGroups
-                .append('text')
-                .attr("text-anchor", "middle")
-                .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
-                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-                .attr('fill', 'black')
-                .style('font-size', '0.45em')
-                .text((d, i) => d.valueItem.toLocaleString());
+            //newBarGroups
+            //    .append('text')
+            //    .attr("text-anchor", "middle")
+            //    .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
+            //    .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+            //    .attr('fill', 'black')
+            //    .style('font-size', '0.45em')
+            //    .text((d, i) => d.valueItem.toLocaleString());
         }
 
 
