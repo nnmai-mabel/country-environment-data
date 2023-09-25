@@ -1,4 +1,3 @@
-@*@model IEnumerable<Assig1.Models.Country>*@
 @model Assig1.ViewModels.CountriesViewModel
 
 @{
@@ -12,7 +11,6 @@
 
 <form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="row mb-2">
     <div class="col-4">
-        @*<input asp-for="@Model.SearchText" class="form-control" maxlength="100" type="text" placeholder="Search Countries" title="Search a country name" />*@
         <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
         <datalist id="countryList">
             @foreach (var city in Model.CountryList)
@@ -59,20 +57,13 @@
                     @if (item.TheCountry.Region != null)
                     {
                         <p>Region: @item.TheCountry.Region.RegionName</p>
-                        @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries List in same region</a>*@
                     }
                     else
                     {
                         <p>Region: no regions</p>
-                        @*<a asp-action="Index" asp-route-countryId="" class="btn btn-outline-info">All Countries List</a>*@
                     }
 
-                    @*ISO3: @item.TheCountry.Iso3
-            Temperature: @item.TheCountry.TemperatureData*@
-
                     <div class="d-flex justify-content-around">
-                        @*May need to fix the link below later*@
-                        @*<a asp-controller="Cities" asp-action="Index" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@item.TheCountry.RegionId" class="btn btn-outline-success">Visit cities</a>*@
                         <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
                         <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
                     </div>
@@ -82,50 +73,3 @@
         </div>
     }
 </div>
-@*<h1>Index</h1>
-
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Iso3)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CountryName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageUrl)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Region)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Iso3)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageUrl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Region.RegionId)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CountryId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CountryId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CountryId">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@
