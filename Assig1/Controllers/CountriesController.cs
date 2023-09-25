@@ -160,277 +160,110 @@ namespace Assig1.Controllers
         {
             if (vm.Year > 0)
             {
-                // Calculate data on Items
+                // Calculate data based on Items
+                // Join Country Emissions table with Items and parent Items to show item with its parent item name
                 if (vm.ChartLegend == "Items")
                 {
-                    // Calculate average
-                    //if (vm.ChartAggregation == "Average")
-                    //{
-                        var itemEmissionsSummary = _context.CountryEmissions
-                            .GroupJoin(_context.Items,
-                            ce => ce.ItemId,
-                            i => i.ItemId,
-                            (ce, itemGroup) => new
-                            {
-                                theCountryEmission = ce,
-                                theItems = itemGroup
-                            })
-                            .SelectMany(
-                            ce => ce.theItems.DefaultIfEmpty(),
-                            (ce, i) => new
-                            {
-                                theCountryEmission = ce.theCountryEmission,
-                                theItem = i
-                            })
+                    var itemEmissionsSummary = _context.CountryEmissions
+                        .GroupJoin(_context.Items,
+                        ce => ce.ItemId,
+                        i => i.ItemId,
+                        (ce, itemGroup) => new
+                        {
+                            theCountryEmission = ce,
+                            theItems = itemGroup
+                        })
+                        .SelectMany(
+                        ce => ce.theItems.DefaultIfEmpty(),
+                        (ce, i) => new
+                        {
+                            theCountryEmission = ce.theCountryEmission,
+                            theItem = i
+                        })
 
-                            .GroupJoin(_context.Items,
-                            cei => cei.theItem.ParentId,
-                            pi => pi.ItemId,
-                            (cei, parentItemGroup) => new
-                            {
-                                theCountryEmissionItem = cei,
-                                theParentItem = parentItemGroup
-                            })
-                            .SelectMany(
-                            cei => cei.theParentItem.DefaultIfEmpty(),
-                            (cei, pi) => new
-                            {
-                                theCountryEmissionItem = cei.theCountryEmissionItem,
-                                theParentItem = pi
-                            })
+                        .GroupJoin(_context.Items,
+                        cei => cei.theItem.ParentId,
+                        pi => pi.ItemId,
+                        (cei, parentItemGroup) => new
+                        {
+                            theCountryEmissionItem = cei,
+                            theParentItem = parentItemGroup
+                        })
+                        .SelectMany(
+                        cei => cei.theParentItem.DefaultIfEmpty(),
+                        (cei, pi) => new
+                        {
+                            theCountryEmissionItem = cei.theCountryEmissionItem,
+                            theParentItem = pi
+                        })
 
-                            .Where(cei => cei.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
-                            .Where(cei => cei.theCountryEmissionItem.theCountryEmission.Year == vm.Year)
-                            .GroupBy(group => new
-                            {
-                                countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
-                                year = group.theCountryEmissionItem.theCountryEmission.Year,
-                                itemId = group.theCountryEmissionItem.theCountryEmission.ItemId,
-                                item = group.theParentItem != null
-                                    ? group.theCountryEmissionItem.theItem.ItemName + " - " + group.theParentItem.ItemName
-                                    : group.theCountryEmissionItem.theItem.ItemName
-                            })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.countryId, // use the name in group by
-                                year = group.Key.year,
-                                itemId = group.Key.itemId,
-                                item = group.Key.item,
-                                valueItemAverage = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value),
-                                valueItemTotal = group.Sum(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
-                            });
-                        //.GroupJoin(_context.Items, // Join with the "regions" table
-                        //    itemEmission => itemEmission.theItem.ParentId,
-                        //    parentItem => parentItem.ItemId,
-                        //    (itemEmission, parentItemGroup) => new
-                        //    {
-                        //        TheCountryEmissions = itemEmission.theCountryEmission,
-                        //        TheItem = itemEmission.theItem,
-                        //        TheParentItems = parentItemGroup.DefaultIfEmpty()
-                        //    })
-                        //.SelectMany(
-                        //    itemEmssionsParent => itemEmssionsParent.TheParentItems.DefaultIfEmpty(),
-                        //    (itemEmssionsParent, parentItem) => new
-                        //    {
-                        //        TheCountryEmissions = itemEmssionsParent.TheCountryEmissions,
-                        //        TheItem = itemEmssionsParent.TheItem,
-                        //        TheParentItem = parentItem
-                        //    })
-                        //.GroupBy(group => new
-                        //{
-                        //    countryId = group.TheCountryEmissions.CountryId,
-                        //    year = group.TheCountryEmissions.Year,
-                        //    itemId = group.TheCountryEmissions.ItemId,
-                        //    item = group.TheItem.ItemName,
-                        //    parentItem = group.TheParentItem.ItemName
-                        //})
-                        //.Select(group => new
-                        //{
-                        //    countryId = group.Key.countryId, // use the name in group by
-                        //    year = group.Key.year,
-                        //    itemId = group.Key.itemId,
-                        //    item = group.Key.item,
-                        //    parentItem = group.Key.parentItem,
-                        //    valueItem = group.Average(ce => ce.TheCountryEmissions.Value)
-                        //});
-                        return Json(itemEmissionsSummary);
+                        .Where(cei => cei.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
+                        .Where(cei => cei.theCountryEmissionItem.theCountryEmission.Year == vm.Year)
+                        .GroupBy(group => new
+                        {
+                            countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
+                            year = group.theCountryEmissionItem.theCountryEmission.Year,
+                            itemId = group.theCountryEmissionItem.theCountryEmission.ItemId,
+                            item = group.theParentItem != null
+                                ? group.theCountryEmissionItem.theItem.ItemName + " - " + group.theParentItem.ItemName
+                                : group.theCountryEmissionItem.theItem.ItemName
+                        })
+                        .Select(group => new
+                        {
+                            countryId = group.Key.countryId, // use the name in group by
+                            year = group.Key.year,
+                            itemId = group.Key.itemId,
+                            item = group.Key.item,
+                            valueItemAverage = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value),
+                            valueItemTotal = group.Sum(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
+                        });
 
-                        //var countryEmissionsSummary = _context.CountryEmissions
-                        //    .Where(ce => ce.Year == vm.Year)
-                        //    .Where(ce => ce.CountryId == vm.CountryId)
-                        //    .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
-                        //    .Select(group => new
-                        //    {
-                        //        countryId = group.Key.CountryId,
-                        //        year = group.Key.Year,
-                        //        item = group.Key.ItemId,
-                        //        valueItem = group.Average(ce => ce.Value)
-                        //    });
-                        //return Json(countryEmissionsSummary);
-                    }
+                    return Json(itemEmissionsSummary);
 
-                    // Calculate sum
-                    //else
-                    //{
-                        //var itemEmissionsSummary = _context.CountryEmissions
-                        //    .GroupJoin(_context.Items,
-                        //    ce => ce.ItemId,
-                        //    i => i.ItemId,
-                        //    (ce, itemGroup) => new
-                        //    {
-                        //        theCountryEmission = ce,
-                        //        theItems = itemGroup
-                        //    })
-                        //    .SelectMany(
-                        //    ce => ce.theItems.DefaultIfEmpty(),
-                        //    (ce, i) => new
-                        //    {
-                        //        theCountryEmission = ce.theCountryEmission,
-                        //        theItem = i
-                        //    })
-                        //    .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                        //    .Where(ce => ce.theCountryEmission.Year == vm.Year)
-                        //    .GroupBy(group => new
-                        //    {
-                        //        countryId = group.theCountryEmission.CountryId,
-                        //        year = group.theCountryEmission.Year,
-                        //        itemId = group.theCountryEmission.ItemId,
-                        //        item = group.theItem.ItemName
-                        //    })
-                        //    .Select(group => new
-                        //    {
-                        //        countryId = group.Key.countryId, // use the name in group by
-                        //        year = group.Key.year,
-                        //        itemId = group.Key.itemId,
-                        //        item = group.Key.item,
-                        //        valueItem = group.Sum(ce => ce.theCountryEmission.Value)
-                        //    });
-                        //return Json(itemEmissionsSummary);
-
-                        //var countryEmissionsSummary = _context.CountryEmissions
-                        //    .Where(ce => ce.Year == vm.Year)
-                        //    .Where(ce => ce.CountryId == vm.CountryId)
-                        //    .GroupBy(ce => new { ce.CountryId, ce.ItemId, ce.Year })
-                        //    .Select(group => new
-                        //    {
-                        //        countryId = group.Key.CountryId,
-                        //        year = group.Key.Year,
-                        //        item = group.Key.ItemId,
-                        //        valueItem = group.Sum(ce => ce.Value)
-                        //    });
-                        //return Json(countryEmissionsSummary);
-                    //}
-                //}
+                }
 
                 // Calculate based on Elements
                 else
                 {
-                    // Calculate average
-                    //if (vm.ChartAggregation == "Average")
-                    //{
-                        var elementEmissionsSummary = _context.CountryEmissions
-                            .GroupJoin(_context.Elements,
-                            ce => ce.ElementId,
-                            e => e.ElementId,
-                            (ce, elementGroup) => new
-                            {
-                                theCountryEmission = ce,
-                                theElements = elementGroup
-                            })
-                            .SelectMany(
-                            ce => ce.theElements.DefaultIfEmpty(),
-                            (ce, e) => new
-                            {
-                                theCountryEmission = ce.theCountryEmission,
-                                theElement = e
-                            })
-                            .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                            .Where(ce => ce.theCountryEmission.Year == vm.Year)
-                            .GroupBy(group => new
-                            {
-                                countryId = group.theCountryEmission.CountryId,
-                                year = group.theCountryEmission.Year,
-                                elementId = group.theCountryEmission.ElementId,
-                                element = group.theElement.ElementName
-                            })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.countryId, // use the name in group by
-                                year = group.Key.year,
-                                elementId = group.Key.elementId,
-                                element = group.Key.element,
-                                valueElementAverage = group.Average(ce => ce.theCountryEmission.Value),
-                                valueElementTotal = group.Sum(ce => ce.theCountryEmission.Value)
-                            });
-                        return Json(elementEmissionsSummary);
+                    var elementEmissionsSummary = _context.CountryEmissions
+                        .GroupJoin(_context.Elements,
+                        ce => ce.ElementId,
+                        e => e.ElementId,
+                        (ce, elementGroup) => new
+                        {
+                            theCountryEmission = ce,
+                            theElements = elementGroup
+                        })
+                        .SelectMany(
+                        ce => ce.theElements.DefaultIfEmpty(),
+                        (ce, e) => new
+                        {
+                            theCountryEmission = ce.theCountryEmission,
+                            theElement = e
+                        })
+                        .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
+                        .Where(ce => ce.theCountryEmission.Year == vm.Year)
+                        .GroupBy(group => new
+                        {
+                            countryId = group.theCountryEmission.CountryId,
+                            year = group.theCountryEmission.Year,
+                            elementId = group.theCountryEmission.ElementId,
+                            element = group.theElement.ElementName
+                        })
+                        .Select(group => new
+                        {
+                            countryId = group.Key.countryId, // use the name in group by
+                            year = group.Key.year,
+                            elementId = group.Key.elementId,
+                            element = group.Key.element,
+                            valueElementAverage = group.Average(ce => ce.theCountryEmission.Value),
+                            valueElementTotal = group.Sum(ce => ce.theCountryEmission.Value)
+                        });
+                    return Json(elementEmissionsSummary);
 
-                    //var countryEmissionsSummary = _context.CountryEmissions
-                    //    .Where(ce => ce.Year == vm.Year)
-                    //    .Where(ce => ce.CountryId == vm.CountryId)
-                    //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                    //    .Select(group => new
-                    //    {
-                    //        countryId = group.Key.CountryId,
-                    //        year = group.Key.Year,
-                    //        element = group.Key.ElementId,
-                    //        valueElement = group.Average(ce => ce.Value)
-                    //    });
-                    //return Json(countryEmissionsSummary);
-                    //}
-
-                    // Calculate sum
-                    //else
-                    //{
-                    //var elementEmissionsSummary = _context.CountryEmissions
-                    //    .GroupJoin(_context.Elements,
-                    //    ce => ce.ElementId,
-                    //    e => e.ElementId,
-                    //    (ce, elementGroup) => new
-                    //    {
-                    //        theCountryEmission = ce,
-                    //        theElements = elementGroup
-                    //    })
-                    //    .SelectMany(
-                    //    ce => ce.theElements.DefaultIfEmpty(),
-                    //    (ce, e) => new
-                    //    {
-                    //        theCountryEmission = ce.theCountryEmission,
-                    //        theElement = e
-                    //    })
-                    //    .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                    //    .Where(ce => ce.theCountryEmission.Year == vm.Year)
-                    //    .GroupBy(group => new
-                    //    {
-                    //        countryId = group.theCountryEmission.CountryId,
-                    //        year = group.theCountryEmission.Year,
-                    //        elementId = group.theCountryEmission.ElementId,
-                    //        element = group.theElement.ElementName
-                    //    })
-                    //    .Select(group => new
-                    //    {
-                    //        countryId = group.Key.countryId,
-                    //        year = group.Key.year,
-                    //        elementId = group.Key.elementId,
-                    //        element = group.Key.element,
-                    //        valueElement = group.Sum(ce => ce.theCountryEmission.Value)
-                    //    });
-                    //return Json(elementEmissionsSummary);
-
-                    //var countryEmissionsSummary = _context.CountryEmissions
-                    //    .Where(ce => ce.Year == vm.Year)
-                    //    .Where(ce => ce.CountryId == vm.CountryId)
-                    //    .GroupBy(ce => new { ce.CountryId, ce.ElementId, ce.Year })
-                    //    .Select(group => new
-                    //    {
-                    //        countryId = group.Key.CountryId,
-                    //        year = group.Key.Year,
-                    //        element = group.Key.ElementId,
-                    //        valueElement = group.Sum(ce => ce.Value)
-                    //    });
-                    //return Json(countryEmissionsSummary);
+                    
                 }
             }
-            //}
             else
             {
                 return BadRequest();
@@ -523,7 +356,7 @@ namespace Assig1.Controllers
                         element = group.Key.element,
                         value = group.Key.value
                     });
-                
+
                 return Json(ItemElementSummary);
             }
             else
