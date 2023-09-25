@@ -33,6 +33,7 @@ namespace Assig1.Controllers
             var CountriesList = _context.Countries
                 .Select(c => c); // Select all countries
 
+            // Join Regions and Countries table using group join
             var envDataContext = CountriesList
                 .GroupJoin(_context.Regions,
                 c => c.RegionId,
@@ -56,34 +57,6 @@ namespace Assig1.Controllers
                     TheRegion = c.theRegion
                 });
 
-            //var envDataContext = countriesWithRegions
-
-            //    .OrderBy(c => c.theCountry.CountryName)
-            //    .SelectMany(
-            //    c => c.theRegions.DefaultIfEmpty(),
-            //    (c, r) => new
-            //    {
-            //        theCountry = c.theCountry,
-            //        theRegion = r
-            //    }
-            //    );
-
-            //var envDataContext = CountriesList
-            //    .Join(_context.Regions,
-            //    c => c.RegionId,
-            //    r => r.RegionId,
-            //    (c, r) => new { theCountry = c, theRegion = r })
-            //    .OrderBy(c => c.theCountry.CountryName)
-            //    .Select(c => new 
-            //    {
-            //        c.theCountry,
-            //        c.theRegion
-            //    });
-
-
-            //var envDataContext = CountriesList;
-            //.Include(i => i.Region);
-
             // Implement countries search
             var Regions = _context.Regions
                 .OrderBy(r => r.RegionName)
@@ -94,22 +67,27 @@ namespace Assig1.Controllers
                 })
                 .ToList();
 
+            // Pass result back to view model using select list
             vm.RegionSelectList = new SelectList(Regions,
                 nameof(Region.RegionId),
                 nameof(Region.RegionName));
 
+            // Return results when user searches country name
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 envDataContext = envDataContext
                     .Where(i => i.TheCountry.CountryName.Contains(vm.SearchText));
             }
 
+            // Return results when user search regions
             if (vm.RegionId != null)
             {
                 envDataContext = envDataContext
                     .Where(c => c.TheRegion.RegionId == vm.RegionId);
             }
             #endregion
+
+            // Pass result back to view model
             vm.CountryList = await envDataContext
                 .Select(c => new Country_CountryDetail
                 {
@@ -117,9 +95,8 @@ namespace Assig1.Controllers
                     TheRegion = c.TheRegion
                 })
                 .ToListAsync();
+
             return View(vm);
-            //var envDataContext = _context.Countries.Include(c => c.Region);
-            //return View(await envDataContext.ToListAsync());
         }
 
         // GET: Countries/Details/5
