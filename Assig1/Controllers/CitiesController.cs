@@ -42,11 +42,6 @@ namespace Assig1.Controllers
                 })
                 .Where(m => m.theCity.CountryId == vm.CountryId)
                 .OrderBy(city => city.theCity.CityName)
-                //.Select(city => new City_CityDetail
-                //{
-                //    TheCity = city.theCity,
-                //    TheCountry = city.theCountry
-                //});
                 .GroupJoin(_context.Regions, // Join with the Regions table
                     cityCountry => cityCountry.theCountry.RegionId,
                     region => region.RegionId,
@@ -63,67 +58,8 @@ namespace Assig1.Controllers
                         TheCity = cityCountryRegion.TheCity,
                         TheCountry = cityCountryRegion.TheCountry,
                         TheRegion = region,
-                    })
-                ;
-            //.GroupJoin(_context.AirQualityData, // Join with the air quality data table
-            //        cityCountryRegion => cityCountryRegion.TheCity.CityId,
-            //        air => air.CityId,
-            //        (cityCountryRegion, airGroup) => new
-            //        {
-            //            TheCity = cityCountryRegion.TheCity,
-            //            TheCountry = cityCountryRegion.TheCountry,
-            //            TheRegion = cityCountryRegion.TheRegion,
-            //            TheAirGroups = airGroup
-            //        })
-            //.SelectMany(
-            //    cityCountryRegionAir => cityCountryRegionAir.TheAirGroups.DefaultIfEmpty(),
-            //    (cityCountryRegionAir, air) => new City_CityDetail
-            //    {
-            //        TheCity = cityCountryRegionAir.TheCity,
-            //        TheCountry = cityCountryRegionAir.TheCountry,
-            //        TheRegion = cityCountryRegionAir.TheRegion,
-            //        TheAirQualityData = air
-            //    });
-            //.GroupBy(cityCountryRegionAir => cityCountryRegionAir.TheCity)
-            //.Select(group => new
-            //{
-            //    city = group.Key,
-            //    airMinYear = group.Min(cityDetail => cityDetail.TheAirQualityData.Year),
-            //    airMaxYear = group.Max(cityDetail => cityDetail.TheAirQualityData.Year)
-            //});
-            #endregion
-            #region CitiesListQuery
-            //var CitiesList = _context.Cities
-            //    .Select(c => c); // Select all cities
+                    });
 
-            //var envDataContext = CitiesList
-            //    .GroupJoin(_context.Countries,
-            //    city => city.CountryId,
-            //    country => country.CountryId,
-            //    (city, countryGroup) => new
-            //    {
-            //        theCity = city,
-            //        theCountries = countryGroup
-            //    })
-            //    .SelectMany(
-            //    city => city.theCountries.DefaultIfEmpty(),
-            //    (city, country) => new
-            //    {
-            //        theCity = city.theCity,
-            //        theCountry = country
-            //    })
-            //    .OrderBy(city => city.theCity.CityName)
-            //    .Select(city => new
-            //    {
-            //        TheCity = city.theCity,
-            //        TheCountry = city.theCountry
-            //    });
-
-            //if (vm.CountryId != null)
-            //{
-            //    envDataContext = envDataContext
-            //        .Where(c => c.TheCountry.CountryId == vm.CountryId);
-            //}
             #endregion
 
             #region AirQualityData
@@ -143,7 +79,6 @@ namespace Assig1.Controllers
                     TheCity = cityAir.TheCity,
                     TheRegion = cityAir.TheRegion,
                     TheCountry = cityAir.TheCountry,
-                    //TheAirQualityData = cityAir.TheAirQualityData,
                     AirMinYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Min(),
                     AirMaxYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Max(),
                     AirRecordCount = (cityAir.TheCity.AirQualityData != null ? cityAir.TheCity.AirQualityData.Select(a => a.Year).Count() : 0)
@@ -158,17 +93,11 @@ namespace Assig1.Controllers
             {
                 return NotFound();
             }
+
             vm.CityDetailList = cities;
             vm.TheCityDetail = cityDetail;
-            //vm.CityList = await envDataContext
-            //    .Select(city => new City_CityDetail
-            //    {
-            //        TheCity = city.TheCity
-            //    })
-            //    .ToListAsync();
+
             return View(vm);
-            //var envDataContext = _context.Cities.Include(c => c.Country);
-            //return View(await envDataContext.ToListAsync());
         }
 
         // GET: Cities/Details/5
@@ -259,28 +188,19 @@ namespace Assig1.Controllers
                     year = group.Key.year,
                     annualMean = group.Key.annualMean,
                     stationType = group.Key.stationType
-                    //stationType = group.Key.stationType
                 });
-
-                //.Distinct()
-                //.OrderBy(mst => mst.stationType);
-            //.ToList();
 
             vm.YearList = new SelectList(AirQualitySummary
                 .Select(item => item.year)
                 .Distinct()
                 .OrderByDescending(item => item));
+
             // Only keep the value of station type, not the display text
             vm.StationTypeList = new SelectList(AirQualitySummary
                 .Select(item => item.stationType)
                 .Distinct()
                 .OrderBy(item => item));
             #endregion
-            //if (!string.IsNullOrWhiteSpace(vm.SearchText))
-            //{
-            //    cityCountryQuery = cityCountryQuery
-            //        .Where(i => i.TheCity.CityName.StartsWith(vm.SearchText));
-            //}
 
             var cities = await cityCountryQuery
                 .Select(cityAir => new City_CityDetail
@@ -288,7 +208,6 @@ namespace Assig1.Controllers
                     TheCity = cityAir.TheCity,
                     TheRegion = cityAir.TheRegion,
                     TheCountry = cityAir.TheCountry,
-                    //TheAirQualityData = cityAir.TheAirQualityData,
                     AirMinYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Min(),
                     AirMaxYear = cityAir.TheCity.AirQualityData.Select(a => a.Year).Max(),
                     AirRecordCount = (cityAir.TheCity.AirQualityData != null ? cityAir.TheCity.AirQualityData.Select(a => a.Year).Count() : 0)
@@ -305,18 +224,6 @@ namespace Assig1.Controllers
             }
             vm.CityDetailList = cities;
             vm.TheCityDetail = cityDetail;
-            //if (id == null || _context.Cities == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var city = await _context.Cities
-            //    .Include(c => c.Country)
-            //    .FirstOrDefaultAsync(m => m.CityId == id);
-            //if (city == null)
-            //{
-            //    return NotFound();
-            //}
 
             return View(vm);
         }
@@ -324,7 +231,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult AirQualityReportData(CitiesViewModel vm)
         {
-            if(vm.CityId > 0)
+            if (vm.CityId > 0)
             {
                 #region AirQualitySummary
                 var AirQualitySummary = _context.AirQualityData
@@ -394,7 +301,7 @@ namespace Assig1.Controllers
                         number = group.Key.number
                     });
 
-                if(vm.Year > 0)
+                if (vm.Year > 0)
                 {
                     AirQualitySummary = AirQualitySummary
                         .Where(aqs => aqs.year == vm.Year);
@@ -407,9 +314,6 @@ namespace Assig1.Controllers
                 }
                 #endregion
 
-                //var AirQualitySummary = _context.AirQualityData
-                //    .Where(aqd => aqd.CityId == vm.CityId)
-                //    .Select(aqd => aqd);
                 return Json(AirQualitySummary);
             }
             else
