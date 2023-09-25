@@ -261,7 +261,6 @@ namespace Assig1.Controllers
                         });
                     return Json(elementEmissionsSummary);
 
-                    
                 }
             }
             else
@@ -299,6 +298,7 @@ namespace Assig1.Controllers
         {
             if (vm.CountryId > 0)
             {
+                // Join Country Emissions with Elements and Items table
                 var ItemElementSummary = _context.CountryEmissions
                     .GroupJoin(_context.Items,
                     ce => ce.ItemId,
@@ -333,7 +333,6 @@ namespace Assig1.Controllers
                     })
 
                     .Where(ce => ce.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
-                    //.Where(ce => ce.theCountryEmission.Year == vm.Year)
                     .GroupBy(group => new
                     {
                         countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
@@ -351,7 +350,6 @@ namespace Assig1.Controllers
                     {
                         countryId = group.Key.countryId, // use the name in group by
                         year = group.Key.year,
-                        //itemId = group.Key.itemId,
                         item = group.Key.item,
                         element = group.Key.element,
                         value = group.Key.value
