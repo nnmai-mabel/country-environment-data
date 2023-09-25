@@ -4,12 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-@*<h1>Index</h1>*@
-
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
-
 <div class="container">
     <h1 class="alert-secondary p-2 text-center mb-3">Index</h1>
     <p>
@@ -17,15 +11,6 @@
     </p>
 
 </div>
-@*<form method="post" asp-controller="Regions" asp-action="Index" class="row mb-2">
-        <div class="col-4">
-            <input class="form-control" maxlength="100" type="text" placeholder="Search Regions" asp-for="@Model.SearchRegion" title="Search a region" />
-        </div>
-
-        <div class="col-3">
-            <select class="form-control" asp-for="@Model.RegionId" asp-items="@Model.RegionList" title=""
-        </div>
-    </form>*@
 <div class="row justify-content-center">
     <div class="col-3 m-1">
         <div class="card" style="width: 20rem;">
@@ -58,36 +43,3 @@
 </div>
 @*for 3 or more buttons*@ 
 @*<div class="d-flex justify-content-between mt-auto">*@
-    @*<a asp-action="Edit" asp-route-id="@item.RegionId" class="btn btn-outline-success">Edit</a>*@
-    @*<a asp-action="Delete" asp-route-id="@item.RegionId" class="btn btn-outline-danger">Delete</a>*@
-
-    @*<table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.RegionName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ImageUrl)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-        @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegionName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImageUrl)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.RegionId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.RegionId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.RegionId">Delete</a>
-                    </td>
-                </tr>
-        }
-            </tbody>
-        </table>*@
