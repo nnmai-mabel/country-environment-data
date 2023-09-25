@@ -234,7 +234,7 @@ namespace Assig1.Controllers
                                 year = group.Key.year,
                                 itemId = group.Key.itemId,
                                 item = group.Key.item,
-                                valueItem = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
+                                valueItemAverage = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
                             });
                         //.GroupJoin(_context.Items, // Join with the "regions" table
                         //    itemEmission => itemEmission.theItem.ParentId,
