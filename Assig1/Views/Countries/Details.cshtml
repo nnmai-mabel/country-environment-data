@@ -269,20 +269,45 @@
             // Clear graph
             d3.selectAll('svg > g > *').remove();
 
-            // 4 Calculate the maximum value to be displayed
-            let valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
-            let maxValueElementsAverage = valueElementsRangeAverage[1];
+            let valueElementsRangeAverage = "";
+            let maxValueElementsAverage = "";
 
-            console.log("Max totalElements: " + maxValueElementsAverage);
+            let valueElementsRangeTotal = "";
+            let maxValueElementsTotal = "";
+            // 4 Calculate the maximum value to be displayed
+            // Average
+            if (chartAggregation == "Average") {
+                valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
+                maxValueElementsAverage = valueElementsRangeAverage[1];
+
+                console.log("Max totalElements average: " + maxValueElementsAverage);
+            }
+            // Total
+            else {
+                valueElementsRangeTotal = d3.extent(dataSet, (d, e) => d.valueElementTotal);
+                maxValueElementsTotal = valueElementsRangeTotal[1];
+
+                console.log("Max totalElements average: " + maxValueElementsTotal);
+            }
 
             // 4 Calculate the bar dimensions
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
             // 8 Create a YScale
-            let yScale = d3.scaleLinear()
-                .domain([0, maxValueElementsAverage])
-                .range([h, 0]);
+            let yScale = "";
+            // Average
+            if (chartAggregation == "Average") {
+                yScale = d3.scaleLinear()
+                    .domain([0, maxValueElementsAverage])
+                    .range([h, 0]);
+            }
+            // Total
+            else {
+                yScale = d3.scaleLinear()
+                    .domain([0, maxValueElementsTotal])
+                    .range([h, 0]);
+            }
 
             // 10 Create XScale
             let elementArray = Array.from(dataSet, (d, e) => d.element);
@@ -318,7 +343,14 @@
                     //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
+                    }
+                    // Total
+                    else {
+                        return `translate(${xScale(d.element)}, ${yScale(d.valueElementTotal)})`;
+                    }
                     //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
                     // returns transform="translate(x,y)"
                 }); // end transform
@@ -331,7 +363,16 @@
                 //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
                 .attr('height', 0)
-                .attr('y', (d, e) => { return h - yScale(d.valueElementAverage); })
+                .attr('y', (d, e) => {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return h - yScale(d.valueElementAverage);
+                    }
+                    // Total
+                    else {
+                        return h - yScale(d.valueElementTotal);
+                    }
+                })
                 //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
@@ -339,7 +380,16 @@
                 .transition().duration((d, e) => e * 500) // perform transition over 1 second
                 .delay((d, e) => e + 200)
                 .attr('y', 0)
-                .attr('height', (d, e) => { return h - yScale(d.valueElementAverage); })
+                .attr('height', (d, e) => {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return h - yScale(d.valueElementAverage);
+                    }
+                    // Total
+                    else {
+                        return h - yScale(d.valueElementTotal);
+                    }
+                })
                 .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
                 //.attr('fill', 'blue')
 
@@ -351,7 +401,16 @@
                 .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
                 .attr('fill', 'black')
                 .style('font-size', '1em')
-                .text((d, e) => d.valueElementAverage.toLocaleString());
+                .text((d, e) => {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return d.valueElementAverage.toLocaleString();
+                    }
+                    // Total
+                    else {
+                        return d.valueElementTotal.toLocaleString();
+                    }
+                });
 
             // 11 Create the axis and add it to the svg
 
