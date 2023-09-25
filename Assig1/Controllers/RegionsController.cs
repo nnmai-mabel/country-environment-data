@@ -34,9 +34,6 @@ namespace Assig1.Controllers
             #endregion
 
             return View(RegionList);
-            //return _context.Regions != null ? 
-            //              View(await _context.Regions.ToListAsync()) :
-            //              Problem("Entity set 'EnvDataContext.Regions'  is null.");
         }
 
         // GET: Regions/Details/5
