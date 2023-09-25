@@ -17,12 +17,6 @@ namespace Assig1.ViewModels
         public SelectList? StationTypeList { get; set; }
         public string? StationType { get; set; }
         public string? ChartLegend { get; set; }
-        //public List<City_CityDetail> CountryOfCity { get; set; }
-        //public Region? TheRegion { get; set; }
-        //public Country TheCountry { get; set; }
-        //public CitiesViewModel()
-        //{
-        //}
     }
 }
 
