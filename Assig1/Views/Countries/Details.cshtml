@@ -1,5 +1,3 @@
-@*@model Assig1.Models.Country*@
-@*@model Assig1.ViewModels.Country_CountryDetail*@
 @model Assig1.ViewModels.CountriesViewModel
 
 @{
@@ -17,8 +15,6 @@
 
     <div class="col-2" id="chartLegendElement">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-            @*<option value="">Select Data</option>*@
-
             <option value="Elements">Elements</option>
             <option value="Items">Items</option>
             <option value="Temperature">Temperature</option>
@@ -27,7 +23,6 @@
 
     <div class="col-2" id="chartAggregationElement">
         <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
-            @*<option value="">Select Aggregation</option>*@
             <option value="Total">Total</option>
             <option value="Average">Average</option>
         </select>
@@ -70,26 +65,16 @@
         </div>
     </div>
 </div>
-@*<div class="row" id="ItemElementInfo">
-        <div
-    </div>*@
+
 <div id="ItemElementInfo">
 
     <table>
         <thead>
             <tr>
-                <th>
-                    Year
-                </th>
-                <th>
-                    Item
-                </th>
-                <th>
-                    Element
-                </th>
-                <th>
-                    Value
-                </th>
+                <th>Year</th>
+                <th>Item</th>
+                <th>Element</th>
+                <th>Value</th>
                 <th></th>
             </tr>
         </thead>
@@ -110,13 +95,6 @@
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-        //document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
-        //    chartLegend2 = legendEvent.target.value;
-        //    console.log("Legend: " + chartLegend);
-        //    updateChartSelection(year, chartLegend, chartAggregation);
-
-        //})
-
         fetch(`/Countries/ItemElementData?countryId=${@Model.CountryId}`)
             .then(response => {
                 console.log("response status: " + response.status);
@@ -130,7 +108,6 @@
             console.log("This is table item")
             console.log(dataSet)
 
-            //var table = document.getElementById("ItemElementInfo");
             var table = document.querySelector(".ItemElementInfo")
 
             for (let i = 0; i < dataSet.length; i++) {
@@ -234,7 +211,7 @@
                 yearElement.classList.remove("hideElement");
                 chartAggregationElement.classList.remove("hideElement");
                 if (year.length > 0) {
-                    
+
                     fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
                         .then(response => {
                             console.log("response status: " + response.status);
@@ -252,18 +229,6 @@
                         //.then(data => buildTableItem(data))
                         .catch(err => console.log(err.message));
                     }
-
-                    @*else {
-                        fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
-                            .then(response => {
-                                console.log("response status: " + response.status);
-                                console.log("response text: " + response.statusText);
-                                return response.json();
-                            })
-                            .then(data => buildGraphElement(data))
-                            .catch(err => console.log(err.message));
-                    }*@
-                //}
             }
         }
 
@@ -297,7 +262,6 @@
                 console.log("Max totalElements average: " + maxValueElementsTotal);
             }
 
-
             // 4 Calculate the bar dimensions
             const barMargin = 10;
             const barWidth = w / dataSet.length;
@@ -317,13 +281,13 @@
                     .domain([0, maxValueElementsTotal])
                     .range([h, 0]);
             }
-       
+
             // 10 Create XScale
 
             // Elements
             let array = Array.from(dataSet, (d, e) => d.element);
             console.log("array: " + array)
-          
+
 
             let xScale = d3.scaleBand()
                 .domain(array)
@@ -355,8 +319,6 @@
                     //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    // Items
-
                     // Average
                     if (chartAggregation == "Average") {
                         return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
@@ -365,10 +327,7 @@
                     else {
                         return `translate(${xScale(d.element)}, ${yScale(d.valueElementTotal)})`;
                     }
-                    
 
-                    //return `translate(${e * barWidth}, ${h - (d.totalValue / maxTotalElements) * h})`;
-                    // returns transform="translate(x,y)"
                 }); // end transform
 
             // 7 Append new rectangles
@@ -376,7 +335,6 @@
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
-                //.attr('height', (d, e) => { return d.totalValue / maxTotalElements * h; })
                 // 9 Implement yScale
                 .attr('height', 0)
                 .attr('y', (d, e) => {
@@ -389,7 +347,6 @@
                         return h - yScale(d.valueElementTotal);
                     }
                 })
-                //.attr('width', barWidth - barMargin)
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
@@ -407,7 +364,6 @@
                     }
                 })
                 .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
-                //.attr('fill', 'blue')
 
             // 14 Create Bar text
             newBarGroups
@@ -528,7 +484,7 @@
             //let barGroups = svg
             //    .selectAll('g')
             //    .data(dataSet);
-        //    // 12.4 Append the barGroups to the chartGroup
+            //12.4 Append the barGroups to the chartGroup
             let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
@@ -538,12 +494,8 @@
                 .append('g')
                 .attr('transform', (d, i) => {
                     // 9 Implement yScale
-                    //return `translate(${e * barWidth}, ${yScale(d.totalValue)})`;
 
                     // 10 Implement xScale
-                    //return `translate(${xScale(d.item)}, ${yScale(d.valueItem)})`;
-
-                    //return `translate(${i * barWidth}, ${h - (d.valueItem / maxValueItems) * h})`;
 
                     let y = "";
                     // Average
@@ -554,10 +506,8 @@
                     else {
                         y = d.valueItemTotal >= 0 ? h - (d.valueItemTotal / maxValueItemsTotal) * h : h
                     }
-                    //return `translate(${i * barWidth}, ${y})`;
                     return `translate(${xScale(d.item)}, ${y})`;
 
-                    // returns transform="translate(x,y)"
                 }); // end transform
 
             // 7 Append new rectangles
@@ -565,9 +515,6 @@
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
-
-                //.attr('height', (d, e) => { return d.valueItem / maxValueItems * h; })
-
                 .attr('height', (d, i) => {
 
                     // Average
@@ -581,19 +528,14 @@
 
                 })
 
-                //// 9 Implement yScale
-                //.attr('height', 0)
-                //.attr('y', (d, i) => { return h - yScale(d.valueItem); })
-                //.attr('width', barWidth - barMargin)
+                // 9 Implement yScale
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
                 .transition().duration((d, i) => i * 200) // perform transition over 0.4 second
                 .delay((d, i) => i + 200)
                 .attr('y', 0)
-                //.attr('height', (d, i) => { return h - yScale(d.valueItem); })
                 .style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
-            //.attr('fill', 'blue')
 
             // 14 Create Bar text
             newBarGroups
@@ -615,11 +557,6 @@
                 })
 
             // 11 Create the axis and add it to the svg
-            //let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h;
-            //let yAxis = d3.axisLeft(yScale); // declare the axis generator
-            //svg.append('g')
-            //    .classed('axis y', true)
-            //    .call(yAxis);
             // 12.5 Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
@@ -740,17 +677,6 @@
                 .attr('fill', 'black')
                 .style('font-size', '0.45em')
                 .text(d => d.value.toLocaleString()); // Display the value as text
-
-            //newBarGroups
-            //    .append('text')
-            //    .attr("text-anchor", "middle")
-            //    .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
-            //    .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-            //    .attr('fill', 'black')
-            //    .style('font-size', '0.45em')
-            //    .text((d, i) => d.valueItem.toLocaleString());
         }
-
-
     </script>
 }
