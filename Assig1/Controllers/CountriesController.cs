@@ -103,6 +103,7 @@ namespace Assig1.Controllers
         public async Task<IActionResult> Details(CountriesViewModel vm)
         {
             #region CountryRegion
+            // Join Regions and Countries table using group join
             var countryRegionQuery = _context.Countries
                .GroupJoin(_context.Regions,
                c => c.RegionId,
@@ -128,12 +129,14 @@ namespace Assig1.Controllers
             #endregion
 
             #region YearSelectList
+            // Return list of years
             var yearList = _context.CountryEmissions
                 .Select(ce => ce.Year)
                 .Distinct()
                 .OrderByDescending(ce => ce)
                 .ToList();
 
+            // Pass result back to view model
             vm.YearList = new SelectList(yearList);
             #endregion
 
@@ -144,6 +147,8 @@ namespace Assig1.Controllers
             {
                 return NotFound();
             }
+
+            // Pass result back to view model
             vm.TheCountryDetail = country;
 
             return View(vm);
