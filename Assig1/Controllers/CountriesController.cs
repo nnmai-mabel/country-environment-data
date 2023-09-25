@@ -200,22 +200,41 @@ namespace Assig1.Controllers
                                 theCountryEmission = ce.theCountryEmission,
                                 theItem = i
                             })
-                            .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                            .Where(ce => ce.theCountryEmission.Year == vm.Year)
+
+                            .GroupJoin(_context.Items,
+                            cei => cei.theItem.ParentId,
+                            pi => pi.ItemId,
+                            (cei, parentItemGroup) => new
+                            {
+                                theCountryEmissionItem = cei,
+                                theParentItem = parentItemGroup
+                            })
+                            .SelectMany(
+                            cei => cei.theParentItem.DefaultIfEmpty(),
+                            (cei, pi) => new
+                            {
+                                theCountryEmissionItem = cei.theCountryEmissionItem,
+                                theParentItem = pi
+                            })
+
+                            .Where(cei => cei.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
+                            .Where(cei => cei.theCountryEmissionItem.theCountryEmission.Year == vm.Year)
                             .GroupBy(group => new
                             {
-                                countryId = group.theCountryEmission.CountryId,
-                                year = group.theCountryEmission.Year,
-                                itemId = group.theCountryEmission.ItemId,
-                                item = group.theItem.ItemName
-                            })
+                                countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
+                                year = group.theCountryEmissionItem.theCountryEmission.Year,
+                                itemId = group.theCountryEmissionItem.theCountryEmission.ItemId,
+                                item = group.theParentItem != null
+                                    ? group.theCountryEmissionItem.theItem.ItemName + " - " + group.theParentItem.ItemName
+                                    : group.theCountryEmissionItem.theItem.ItemName
+                    })
                             .Select(group => new
                             {
                                 countryId = group.Key.countryId, // use the name in group by
                                 year = group.Key.year,
                                 itemId = group.Key.itemId,
                                 item = group.Key.item,
-                                valueItem = group.Average(ce => ce.theCountryEmission.Value)
+                                valueItem = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
                             });
                         //.GroupJoin(_context.Items, // Join with the "regions" table
                         //    itemEmission => itemEmission.theItem.ParentId,
