@@ -71,11 +71,11 @@
     </div>
 </div>
 @*<div class="row" id="ItemElementInfo">
-    <div
-</div>*@
+        <div
+    </div>*@
 <div id="ItemElementInfo">
 
-    <table >
+    <table>
         <thead>
             <tr>
                 <th>
@@ -388,12 +388,26 @@
             // Clear graph
             d3.selectAll('svg > g > *').remove();
 
+            let valueItemsRangeAverage = "";
+            let maxValueItemsAverage = "";
+
+            let valueItemsRangeTotal = "";
+            let maxValueItemsTotal = "";
             // 4 Calculate the maximum value to be displayed
             // Average
-            let valueItemsRangeAverage = d3.extent(dataSet, (d, i) => d.valueItemAverage);
-            let maxValueItemsAverage = valueItemsRangeAverage[1];
+            if (chartAggregation == "Average") {
+                valueItemsRangeAverage = d3.extent(dataSet, (d, i) => d.valueItemAverage);
+                maxValueItemsAverage = valueItemsRangeAverage[1];
 
-            console.log("Max totalItems in build graph item: " + maxValueItemsAverage);
+                console.log("Max totalItems average in build graph item: " + maxValueItemsAverage);
+            }
+            // Total
+            else {
+                valueItemsRangeTotal = d3.extent(dataSet, (d, i) => d.valueItemTotal);
+                maxValueItemsTotal = valueItemsRangeTotal[1];
+
+                console.log("Max totalItems total in build graph item: " + maxValueItemsTotal);
+            }
 
             // 4 Calculate the bar dimensions
             const barMargin = 5;
@@ -402,10 +416,20 @@
             console.log("Bar margin: " + barMargin);
             console.log("Bar width: " + barWidth);
 
-        //    // 8 Create a YScale
-            let yScale = d3.scaleLinear()
-                .domain([0, maxValueItemsAverage])
-                .range([h, 0]);
+            // 8 Create a YScale
+            // Average
+            let yScale = "";
+            if (chartAggregation == "Average") {
+                yScale = d3.scaleLinear()
+                    .domain([0, maxValueItemsAverage])
+                    .range([h, 0]);
+            }
+            // Total
+            else {
+                yScale = d3.scaleLinear()
+                    .domain([0, maxValueItemsTotal])
+                    .range([h, 0]);
+            }
 
             // 10 Create XScale
             //let itemParentArray = Array.from(dataSet, (d, i) => `${d.item} - ${d.parentItem}`);
@@ -445,7 +469,16 @@
                     //return `translate(${xScale(d.item)}, ${yScale(d.valueItem)})`;
 
                     //return `translate(${i * barWidth}, ${h - (d.valueItem / maxValueItems) * h})`;
-                    let y = d.valueItemAverage >= 0 ? h - (d.valueItemAverage / maxValueItemsAverage) * h : h // if value is negative, set y coordinate to h, placing the bar below the chart
+
+                    let y = "";
+                    // Average
+                    if (chartAggregation == "Average") {
+                        y = d.valueItemAverage >= 0 ? h - (d.valueItemAverage / maxValueItemsAverage) * h : h // if value is negative, set y coordinate to h, placing the bar below the chart
+                    }
+                    // Total
+                    else {
+                        y = d.valueItemTotal >= 0 ? h - (d.valueItemTotal / maxValueItemsTotal) * h : h
+                    }
                     //return `translate(${i * barWidth}, ${y})`;
                     return `translate(${xScale(d.item)}, ${y})`;
 
@@ -459,7 +492,19 @@
                 .attr('x', 0) // optional line that can be left out since 0 is the default
 
                 //.attr('height', (d, e) => { return d.valueItem / maxValueItems * h; })
-                .attr('height', (d, i) => Math.abs((d.valueItemAverage / maxValueItemsAverage) * h)) // ensure that height is always positive
+
+                .attr('height', (d, i) => {
+
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return Math.abs((d.valueItemAverage / maxValueItemsAverage) * h); // ensure that height is always positive
+                    }
+                    // Total
+                    else {
+                        return Math.abs((d.valueItemTotal / maxValueItemsTotal) * h);
+                    }
+
+                })
 
                 //// 9 Implement yScale
                 //.attr('height', 0)
@@ -483,7 +528,16 @@
                 .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
                 .attr('fill', 'black')
                 .style('font-size', '0.45em')
-                .text((d, i) => d.valueItemAverage.toLocaleString());
+                .text((d, i) => {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return d.valueItemAverage.toLocaleString();
+                    }
+                    // Total
+                    else {
+                        return d.valueItemTotal.toLocaleString();
+                    }
+                })
 
             // 11 Create the axis and add it to the svg
             //let y = d.valueItem >= 0 ? h - (d.valueItem / maxValueItems) * h : h;

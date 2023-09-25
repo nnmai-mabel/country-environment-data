@@ -182,8 +182,8 @@ namespace Assig1.Controllers
                 if (vm.ChartLegend == "Items")
                 {
                     // Calculate average
-                    if (vm.ChartAggregation == "Average")
-                    {
+                    //if (vm.ChartAggregation == "Average")
+                    //{
                         var itemEmissionsSummary = _context.CountryEmissions
                             .GroupJoin(_context.Items,
                             ce => ce.ItemId,
@@ -227,14 +227,15 @@ namespace Assig1.Controllers
                                 item = group.theParentItem != null
                                     ? group.theCountryEmissionItem.theItem.ItemName + " - " + group.theParentItem.ItemName
                                     : group.theCountryEmissionItem.theItem.ItemName
-                    })
+                            })
                             .Select(group => new
                             {
                                 countryId = group.Key.countryId, // use the name in group by
                                 year = group.Key.year,
                                 itemId = group.Key.itemId,
                                 item = group.Key.item,
-                                valueItemAverage = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
+                                valueItemAverage = group.Average(ce => ce.theCountryEmissionItem.theCountryEmission.Value),
+                                valueItemTotal = group.Sum(ce => ce.theCountryEmissionItem.theCountryEmission.Value)
                             });
                         //.GroupJoin(_context.Items, // Join with the "regions" table
                         //    itemEmission => itemEmission.theItem.ParentId,
@@ -287,42 +288,42 @@ namespace Assig1.Controllers
                     }
 
                     // Calculate sum
-                    else
-                    {
-                        var itemEmissionsSummary = _context.CountryEmissions
-                            .GroupJoin(_context.Items,
-                            ce => ce.ItemId,
-                            i => i.ItemId,
-                            (ce, itemGroup) => new
-                            {
-                                theCountryEmission = ce,
-                                theItems = itemGroup
-                            })
-                            .SelectMany(
-                            ce => ce.theItems.DefaultIfEmpty(),
-                            (ce, i) => new
-                            {
-                                theCountryEmission = ce.theCountryEmission,
-                                theItem = i
-                            })
-                            .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
-                            .Where(ce => ce.theCountryEmission.Year == vm.Year)
-                            .GroupBy(group => new
-                            {
-                                countryId = group.theCountryEmission.CountryId,
-                                year = group.theCountryEmission.Year,
-                                itemId = group.theCountryEmission.ItemId,
-                                item = group.theItem.ItemName
-                            })
-                            .Select(group => new
-                            {
-                                countryId = group.Key.countryId, // use the name in group by
-                                year = group.Key.year,
-                                itemId = group.Key.itemId,
-                                item = group.Key.item,
-                                valueItem = group.Sum(ce => ce.theCountryEmission.Value)
-                            });
-                        return Json(itemEmissionsSummary);
+                    //else
+                    //{
+                        //var itemEmissionsSummary = _context.CountryEmissions
+                        //    .GroupJoin(_context.Items,
+                        //    ce => ce.ItemId,
+                        //    i => i.ItemId,
+                        //    (ce, itemGroup) => new
+                        //    {
+                        //        theCountryEmission = ce,
+                        //        theItems = itemGroup
+                        //    })
+                        //    .SelectMany(
+                        //    ce => ce.theItems.DefaultIfEmpty(),
+                        //    (ce, i) => new
+                        //    {
+                        //        theCountryEmission = ce.theCountryEmission,
+                        //        theItem = i
+                        //    })
+                        //    .Where(ce => ce.theCountryEmission.CountryId == vm.CountryId)
+                        //    .Where(ce => ce.theCountryEmission.Year == vm.Year)
+                        //    .GroupBy(group => new
+                        //    {
+                        //        countryId = group.theCountryEmission.CountryId,
+                        //        year = group.theCountryEmission.Year,
+                        //        itemId = group.theCountryEmission.ItemId,
+                        //        item = group.theItem.ItemName
+                        //    })
+                        //    .Select(group => new
+                        //    {
+                        //        countryId = group.Key.countryId, // use the name in group by
+                        //        year = group.Key.year,
+                        //        itemId = group.Key.itemId,
+                        //        item = group.Key.item,
+                        //        valueItem = group.Sum(ce => ce.theCountryEmission.Value)
+                        //    });
+                        //return Json(itemEmissionsSummary);
 
                         //var countryEmissionsSummary = _context.CountryEmissions
                         //    .Where(ce => ce.Year == vm.Year)
@@ -336,8 +337,8 @@ namespace Assig1.Controllers
                         //        valueItem = group.Sum(ce => ce.Value)
                         //    });
                         //return Json(countryEmissionsSummary);
-                    }
-                }
+                    //}
+                //}
 
                 // Calculate based on Elements
                 else
