@@ -330,6 +330,19 @@
 
                 }); // end transform
 
+            // Add tooltip to show data when hover on bar
+            // Reference link: https://perials.github.io/responsive-bar-chart-with-d3/
+            const tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "d3-tooltip")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .style("padding", "15px")
+                .style("background", "rgba(0,0,0,0.6)")
+                .style("border-radius", "5px")
+                .style("color", "#fff")
+                .text("a simple tooltip");
             // 7 Append new rectangles
             // 11 animate
             newBarGroups
@@ -350,9 +363,41 @@
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
-                .transition().duration((d, e) => e * 500) // perform transition over 1 second
+                //.transition().duration((d, e) => e * 500) // perform transition over 1 second
+                //.delay((d, e) => e + 200)
+                
+
+                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` })
+                // Add data information on tooltip when hover on each bar
+                .on("mouseover", function (d, e) {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        tooltip
+                            .html(`Element: ${e.element} <br>Value: ${e.valueElementAverage}`)
+                            .style("visibility", "visible");
+                    }
+                    // Total
+                    else {
+                        tooltip
+                            .html(`Element: ${e.element} <br>Value: ${e.valueElementTotal}`)
+                            .style("visibility", "visible");
+                    }
+                    
+                    d3.select(this)
+                        .attr("fill", "#000000");
+                })
+                .on("mousemove", function () {
+                    tooltip
+                        .style("top", (event.pageY - 10) + "px")
+                        .style("left", (event.pageX + 10) + "px");
+                })
+                .on("mouseout", function (d, e) {
+                    tooltip.html(``).style("visibility", "hidden");
+                    d3.select(this).attr("fill", `rgb(20, 20, ${e * 15 + 80})`);
+                })
+                .transition()
+                .duration((d, e) => e * 500) // perform transition over 1 second
                 .delay((d, e) => e + 200)
-                .attr('y', 0)
                 .attr('height', (d, e) => {
                     // Average
                     if (chartAggregation == "Average") {
@@ -363,7 +408,8 @@
                         return h - yScale(d.valueElementTotal);
                     }
                 })
-                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` });
+                // Place 'y' after height to get the bar graph built upward, not downward
+                .attr('y', 0);
 
             // 14 Create Bar text
             newBarGroups
@@ -376,11 +422,11 @@
                 .text((d, e) => {
                     // Average
                     if (chartAggregation == "Average") {
-                        return d.valueElementAverage.toLocaleString();
+                        return Math.round(d.valueElementAverage).toLocaleString();
                     }
                     // Total
                     else {
-                        return d.valueElementTotal.toLocaleString();
+                        return Math.round(d.valueElementTotal).toLocaleString();
                     }
                 });
 
