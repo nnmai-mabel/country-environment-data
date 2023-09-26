@@ -487,7 +487,7 @@
             }
 
             // 4 Calculate the bar dimensions
-            const barMargin = 5;
+            const barMargin = 10;
             const barWidth = w / dataSet.length;
 
             console.log("Bar margin: " + barMargin);
@@ -556,6 +556,19 @@
 
                 }); // end transform
 
+            // Add tooltip to show data when hover on bar
+            // Reference link: https://perials.github.io/responsive-bar-chart-with-d3/
+            const tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "d3-tooltip")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .style("padding", "15px")
+                .style("background", "rgba(0,0,0,0.6)")
+                .style("border-radius", "5px")
+                .style("color", "#fff")
+                .text("a simple tooltip");
             // 7 Append new rectangles
             // 11 animate
             newBarGroups
@@ -578,29 +591,57 @@
                 //10 Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
-                .transition().duration((d, i) => i * 200) // perform transition over 0.4 second
+                // Add data information on tooltip when hover on each bar
+                .on("mouseover", function (d, i) {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        tooltip
+                            .html(`Item: ${i.item} <br>Value: ${i.valueItemAverage}`)
+                            .style("visibility", "visible");
+                    }
+                    // Total
+                    else {
+                        tooltip
+                            .html(`Item: ${i.item} <br>Value: ${i.valueItemTotal}`)
+                            .style("visibility", "visible");
+                    }
+
+                    d3.select(this)
+                        .attr("fill", "#000000");
+                })
+                .on("mousemove", function () {
+                    tooltip
+                        .style("top", (event.pageY - 10) + "px")
+                        .style("left", (event.pageX + 10) + "px");
+                })
+                .on("mouseout", function (d, i) {
+                    tooltip.html(``).style("visibility", "hidden");
+                    d3.select(this).attr("fill", `rgb(20, 20, ${i * 15 + 80})`);
+                })
+                .transition()
+                .duration((d, i) => i * 200) // perform transition over 0.4 second
                 .delay((d, i) => i + 200)
                 .attr('y', 0)
                 .style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
 
             // 14 Create Bar text
-            newBarGroups
-                .append('text')
-                .attr("text-anchor", "middle")
-                .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
-                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-                .attr('fill', 'black')
-                .style('font-size', '0.45em')
-                .text((d, i) => {
-                    // Average
-                    if (chartAggregation == "Average") {
-                        return d.valueItemAverage.toLocaleString();
-                    }
-                    // Total
-                    else {
-                        return d.valueItemTotal.toLocaleString();
-                    }
-                })
+            //newBarGroups
+            //    .append('text')
+            //    .attr("text-anchor", "middle")
+            //    .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
+            //    .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+            //    .attr('fill', 'black')
+            //    .style('font-size', '0.45em')
+            //    .text((d, i) => {
+            //        // Average
+            //        if (chartAggregation == "Average") {
+            //            return d.valueItemAverage.toLocaleString();
+            //        }
+            //        // Total
+            //        else {
+            //            return d.valueItemTotal.toLocaleString();
+            //        }
+            //    })
 
             // 11 Create the axis and add it to the svg
             // 12.5 Append the y-Axis to the chartGroup
