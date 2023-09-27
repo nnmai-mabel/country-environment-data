@@ -316,32 +316,50 @@ namespace Assig1.Controllers
                         theItem = i
                     })
 
+                    .GroupJoin(_context.Items,
+                    cei => cei.theItem.ParentId,
+                    pi => pi.ItemId,
+                    (cei, parentItemGroup) => new
+                    {
+                        theCountryEmissionItem = cei,
+                        theParentItem = parentItemGroup
+                    })
+                    .SelectMany(
+                    cei => cei.theParentItem.DefaultIfEmpty(),
+                    (cei, pi) => new
+                    {
+                        theCountryEmissionItem = cei.theCountryEmissionItem,
+                        theParentItem = pi
+                    })
+
                     .GroupJoin(_context.Elements,
-                    ice => ice.theCountryEmission.ElementId,
+                    ice => ice.theCountryEmissionItem.theCountryEmission.ElementId,
                     e => e.ElementId,
                     (ice, elementGroup) => new
                     {
-                        theCountryEmissionItem = ice,
+                        theCountryEmissionItemElement = ice,
                         theElements = elementGroup
                     })
                     .SelectMany(
                     ice => ice.theElements.DefaultIfEmpty(),
                     (ice, e) => new
                     {
-                        theCountryEmissionItem = ice.theCountryEmissionItem,
+                        theCountryEmissionItemElement = ice.theCountryEmissionItemElement,
                         theElement = e
                     })
 
-                    .Where(ce => ce.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
+                    .Where(ce => ce.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.CountryId == vm.CountryId)
                     .GroupBy(group => new
                     {
-                        countryId = group.theCountryEmissionItem.theCountryEmission.CountryId,
-                        year = group.theCountryEmissionItem.theCountryEmission.Year,
-                        itemId = group.theCountryEmissionItem.theCountryEmission.ItemId,
-                        elementId = group.theCountryEmissionItem.theCountryEmission.ElementId,
-                        item = group.theCountryEmissionItem.theItem.ItemName,
+                        countryId = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.CountryId,
+                        year = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.Year,
+                        itemId = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.ItemId,
+                        elementId = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.ElementId,
+                        item = group.theCountryEmissionItemElement.theParentItem != null
+                                ? group.theCountryEmissionItemElement.theCountryEmissionItem.theItem.ItemName + " - " + group.theCountryEmissionItemElement.theParentItem.ItemName
+                                : group.theCountryEmissionItemElement.theCountryEmissionItem.theItem.ItemName,
                         element = group.theElement.ElementName,
-                        value = group.theCountryEmissionItem.theCountryEmission.Value
+                        value = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.Value
                     })
                     .OrderBy(group => group.Key.year)
                     .ThenBy(group => group.Key.item)
