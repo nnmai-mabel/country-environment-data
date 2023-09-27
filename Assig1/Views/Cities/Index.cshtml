@@ -21,28 +21,36 @@
     }
     <div class="text-overlay">
         <div class="left-column">
-            @if (Model.TheCityDetail != null)
+            @if (Model.TheCountry != null)
             {
-                <h1>@Model.TheCityDetail.TheCountry.CountryName</h1>
+                <h1>@Model.TheCountry.CountryName</h1>
             }
             else
             {
                 <p>No country</p>
             }
-            <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
-                <div class="col-8">
-                    <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
-                    <datalist id="cityList">
-                        @foreach (var city in Model.CityDetailList)
-                        {
-                            <option value="@city.TheCity.CityName"></option>
-                        }
-                    </datalist>
-                </div>
-                <div class="col-4">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
+            
+            @if (Model.CityDetailList.Any()) // Check if there are any elements in the list
+            {
+                <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
+                    <div class="col-8">
+                        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
+                        <datalist id="cityList">
+                            @foreach (var city in Model.CityDetailList)
+                            {
+                                <option value="@city.TheCity.CityName"></option>
+                            }
+                        </datalist>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <p>There are no cities available in this country.</p>
+            }
             @if (Model.TheCityDetail != null)
             {
                 <p>Region: @Model.TheCityDetail.TheRegion.RegionName</p>
@@ -52,7 +60,15 @@
             {
                 <p>Region: Not available</p>
             }
-            <p>ISO3: @Model.TheCountry.Iso3</p>
+            @if (Model.TheCountry != null)
+            {
+                <p>ISO3: @(Model.TheCountry?.Iso3 ?? "Not available")</p>
+            }
+            else
+            {
+                <p>Country not available</p>
+            }
+
         </div>
 
         <div class="right-column">
