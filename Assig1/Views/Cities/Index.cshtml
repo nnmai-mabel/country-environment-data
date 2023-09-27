@@ -5,10 +5,12 @@
 }
 
 <h1>Index</h1>
-
+<div>
+    <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
+</div>
 <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
     <div class="col-4">
-        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name"/>
+        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
         <datalist id="cityList">
             @foreach (var city in Model.CityDetailList)
             {
@@ -20,29 +22,50 @@
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
-<div>
-    <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
-</div>
-<div>
+<div class="image-container">
     @if (Model.TheCityDetail != null)
     {
-        <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
+        <img src="@Model.TheCityDetail.TheRegion.ImageUrl" class="card-img-top" alt="@Model.TheCityDetail.TheCountry.CountryName">
     }
     else
     {
-        <p>No region</p>
-    }
-    @if (Model.TheCityDetail != null)
-    {
-        <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
-        <p>Image: </p>
-        <img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">
-    }
-    else
-    {
-        <p>No country</p>
-    }
+        <img class="card-img-top" alt="All regions" src="https://e0.pxfuel.com/wallpapers/1010/550/desktop-wallpaper-light-earth-planet-for-section-%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81-beautiful-planet-earth.jpg">
 
+    }
+    <div class="text-overlay">
+        <div class="left-column">
+            @if (Model.TheCityDetail != null)
+            {
+                <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
+            }
+            else
+            {
+                <p>No region</p>
+            }
+            @if (Model.TheCityDetail != null)
+            {
+                <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
+                <p>Image: </p>
+            }
+            else
+            {
+                <p>No country</p>
+            }
+        </div>
+
+        <div class="right-column">
+            @if (Model.TheCityDetail != null)
+            {
+                <img src="@Model.TheCityDetail.TheRegion.ImageUrl" class="" alt="@Model.TheCityDetail.TheRegion.RegionName">
+            }
+            else
+            {
+                <img class="card-img-top" alt="All regions" src="https://e0.pxfuel.com/wallpapers/1010/550/desktop-wallpaper-light-earth-planet-for-section-%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81-beautiful-planet-earth.jpg">
+
+            }
+
+        </div>
+    </div>
 </div>
 <table class="table">
     <thead>
@@ -87,3 +110,64 @@
         }
     </tbody>
 </table>
+
+<style>
+    .image-container {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        max-height: 500px;
+    }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+            background-size: cover;
+            object-fit: cover;
+        }
+
+    .text-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.6);
+        padding: 20px;
+        color: black;
+        text-align: left;
+        display: flex;
+    }
+
+        .text-overlay h1 {
+            font-size: 2rem;
+        }
+
+        .text-overlay p {
+            font-size: 1.2rem;
+        }
+
+    .left-column {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .right-column {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+        .right-column img {
+            max-width: 100%;
+            height: auto;
+        }
+
+    main {
+        padding: 20px;
+    }
+</style>
