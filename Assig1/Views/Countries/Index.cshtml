@@ -3,13 +3,30 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<div class="container">
-    <h1 class="alert-secondary p-2 text-center mb-3">Index</h1>
-    <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
+@if (Model.CountryList.Count() > 0)
+{<div class="row justify-content-center" align="center" role="alert">
+        @if (Model.CountryList.Count() == 342)
+        {
+            <div class="alert alert-success" role="alert">
+                There are @Model.CountryList.Count() countries in all regions.
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success" role="alert">
+                There are @Model.CountryList.Count() countries in this region.
+            </div>
+        }
+    </div>
+}
+<div class="row justify-content-center" align="center" role="alert">
+    <h1 class="alert-light p-2 text-center mb-3" role="alert">Countries</h1>
 </div>
 
 <form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="row mb-2">
+    <div class="col-2">
+        <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
+    </div>
     <div class="col-4">
         <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
         <datalist id="countryList">
@@ -20,26 +37,26 @@
         </datalist>
     </div>
 
-    <div class="col-3">
+    <div class="col-2">
         <select asp-for="@Model.RegionId" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
             <option value="">All Regions</option>
         </select>
     </div>
 
-    <div class="col-4">
+    <div class="col-2">
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
 
 <div class="row justify-content-center">
-    @if (Model.CountryList.Count() > 0)
-    {
-        <div class="row justify-content-center" align="center" role="alert">
-            <div class="alert alert-success" role="alert">
-                There are @Model.CountryList.Count() countries in region @Model.RegionId.
+    @*@if (Model.CountryList.Count() > 0)
+        {
+            <div class="row justify-content-center" align="center" role="alert">
+                <div class="alert alert-success" role="alert">
+                    There are @Model.CountryList.Count() countries in region @Model.RegionId.
+                </div>
             </div>
-        </div>
-    }
+        }*@
     @foreach (var item in Model.CountryList)
     {
         <div class="col-3 m-1">
@@ -47,7 +64,7 @@
                 @*Handle image error*@
                 @*https://themeisle.com/blog/missing-images-on-website/#gref*@
                 @*<img src="@item.TheCountry.ImageUrl" onerror="this.onerror=null;this.src='https://blog.hubspot.com/hs-fs/hubfs/http-error-500-google.webp?width=650&height=462&name=http-error-500-google.webp';"
-                     class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />*@
+                    class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />*@
                 <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
                 <div class="card-body justify-content-around">
                     <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
