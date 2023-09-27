@@ -97,6 +97,11 @@ namespace Assig1.Controllers
             vm.CityDetailList = cities;
             vm.TheCityDetail = cityDetail;
 
+            var country = _context.Countries
+                .Where(c => c.CountryId == vm.CountryId)
+                .FirstOrDefault();
+            vm.TheCountry = country;
+
             return View(vm);
         }
 

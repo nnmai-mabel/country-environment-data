@@ -8,20 +8,7 @@
 <div>
     <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="btn btn-outline-success">Go Back</a>
 </div>
-<form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
-    <div class="col-4">
-        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
-        <datalist id="cityList">
-            @foreach (var city in Model.CityDetailList)
-            {
-                <option value="@city.TheCity.CityName"></option>
-            }
-        </datalist>
-    </div>
-    <div class="col-4">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
+
 <div class="image-container">
     @if (Model.TheCityDetail != null)
     {
@@ -36,21 +23,36 @@
         <div class="left-column">
             @if (Model.TheCityDetail != null)
             {
-                <p>Region Name: @Model.TheCityDetail.TheRegion.RegionName</p>
-            }
-            else
-            {
-                <p>No region</p>
-            }
-            @if (Model.TheCityDetail != null)
-            {
-                <p>Country Name: @Model.TheCityDetail.TheCountry.CountryName</p>
-                <p>Image: </p>
+                <h1>@Model.TheCityDetail.TheCountry.CountryName</h1>
             }
             else
             {
                 <p>No country</p>
             }
+            <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
+                <div class="col-8">
+                    <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
+                    <datalist id="cityList">
+                        @foreach (var city in Model.CityDetailList)
+                        {
+                            <option value="@city.TheCity.CityName"></option>
+                        }
+                    </datalist>
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            @if (Model.TheCityDetail != null)
+            {
+                <p>Region: @Model.TheCityDetail.TheRegion.RegionName</p>
+
+            }
+            else
+            {
+                <p>Region: Not available</p>
+            }
+            <p>ISO3: @Model.TheCountry.Iso3</p>
         </div>
 
         <div class="right-column">
@@ -134,7 +136,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
         color: black;
         text-align: left;
@@ -153,6 +155,11 @@
         flex: 1;
         padding: 20px;
     }
+
+        .left-column h1 {
+            font-size: 4em;
+            text-align: center;
+        }
 
     .right-column {
         flex: 1;
