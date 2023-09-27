@@ -89,21 +89,36 @@
 <div class="accordion" id="accordionExample">
     @foreach (var item in Model.CityDetailList)
     {
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="heading@(item.TheCity.CityId)">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(item.TheCity.CityId)" aria-expanded="false" aria-controls="collapse@(item.TheCity.CityId)">
-                    @Html.DisplayFor(modelItem => item.TheCity.CityName)
-                </button>
-            </h2>
-            <div id="collapse@(item.TheCity.CityId)" class="accordion-collapse collapse" aria-labelledby="heading@(item.TheCity.CityId)" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    Air Min Year: @Html.DisplayFor(modelItem => item.AirMinYear)
-                    Air Max Year: @Html.DisplayFor(modelItem => item.AirMaxYear)
-                    Air Record Count: @Html.DisplayFor(modelItem => item.AirRecordCount)
-                    <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Details [Air Quality Data]</a>
+        if (item.TheCity != null)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading@(item.TheCity.CityId)">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(item.TheCity.CityId)" aria-expanded="false" aria-controls="collapse@(item.TheCity.CityId)">
+                        @Html.DisplayFor(modelItem => item.TheCity.CityName)
+                    </button>
+                </h2>
+                <div id="collapse@(item.TheCity.CityId)" class="accordion-collapse collapse" aria-labelledby="heading@(item.TheCity.CityId)" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Air Min Year: @Html.DisplayFor(modelItem => item.AirMinYear)
+                        Air Max Year: @Html.DisplayFor(modelItem => item.AirMaxYear)
+                        Air Record Count: @Html.DisplayFor(modelItem => item.AirRecordCount)
+                        @if (item.TheCountry != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Details [Air Quality Data]</a>
+
+                        }
+                        else
+                        {
+                            <p>The Country has no information.</p>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <p>The city has no information.</p>
+        }
     }
 </div>
 
