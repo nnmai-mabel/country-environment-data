@@ -29,7 +29,7 @@
             {
                 <p>No country</p>
             }
-            
+
             @if (Model.CityDetailList.Any()) // Check if there are any elements in the list
             {
                 <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-2">
@@ -85,49 +85,27 @@
         </div>
     </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CityDetailList)
-        {
-            <tr>
-                <td>
-                    CityId: @Html.DisplayFor(modelItem => item.TheCity.CityId)
-                </td>
-                <td>
-                    City Name: @Html.DisplayFor(modelItem => item.TheCity.CityName)
-                </td>
-                <td>
-                    Country Name: @Html.DisplayFor(modelItem => item.TheCity.Country.CountryName)
-                </td>
-                <td>
+
+<div class="accordion" id="accordionExample">
+    @foreach (var item in Model.CityDetailList)
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading@(item.TheCity.CityId)">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(item.TheCity.CityId)" aria-expanded="false" aria-controls="collapse@(item.TheCity.CityId)">
+                    @Html.DisplayFor(modelItem => item.TheCity.CityName)
+                </button>
+            </h2>
+            <div id="collapse@(item.TheCity.CityId)" class="accordion-collapse collapse" aria-labelledby="heading@(item.TheCity.CityId)" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
                     Air Min Year: @Html.DisplayFor(modelItem => item.AirMinYear)
-                </td>
-                <td>
                     Air Max Year: @Html.DisplayFor(modelItem => item.AirMaxYear)
-                </td>
-                <td>
                     Air Record Count: @Html.DisplayFor(modelItem => item.AirRecordCount)
-                </td>
-                <td>
                     <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Details [Air Quality Data]</a>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 <style>
     .image-container {
