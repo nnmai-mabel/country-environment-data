@@ -110,6 +110,7 @@
 
             var table = document.querySelector(".ItemElementInfo")
             var previousYear = null;
+            var previousItem = null;
 
             for (let i = 0; i < dataSet.length; i++) {
                 var row = table.querySelector("tr.rowData").cloneNode(true);
@@ -121,11 +122,17 @@
                 else {
                     tdList[0].innerText = null;
                 }
-                tdList[1].innerText = dataSet[i].item;
+                if (dataSet[i].item != previousItem) {
+                    tdList[1].innerText = dataSet[i].item;
+                }
+                else {
+                    tdList[1].innerText = null;
+                }
                 tdList[2].innerText = dataSet[i].element;
                 tdList[3].innerText = dataSet[i].value;
 
                 previousYear = dataSet[i].year;
+                previousItem = dataSet[i].item;
                 table.appendChild(row);
 
                 if (i == (dataSet.length - 1)) {
