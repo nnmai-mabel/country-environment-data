@@ -109,16 +109,23 @@
             console.log(dataSet)
 
             var table = document.querySelector(".ItemElementInfo")
+            var previousYear = null;
 
             for (let i = 0; i < dataSet.length; i++) {
                 var row = table.querySelector("tr.rowData").cloneNode(true);
 
                 let tdList = row.querySelectorAll('td');
-                tdList[0].innerText = dataSet[i].year;
+                if (dataSet[i].year != previousYear) {
+                    tdList[0].innerText = dataSet[i].year;
+                }
+                else {
+                    tdList[0].innerText = null;
+                }
                 tdList[1].innerText = dataSet[i].item;
                 tdList[2].innerText = dataSet[i].element;
                 tdList[3].innerText = dataSet[i].value;
 
+                previousYear = dataSet[i].year;
                 table.appendChild(row);
 
                 if (i == (dataSet.length - 1)) {
@@ -365,7 +372,7 @@
                 .style('fill', 'transparent')
                 //.transition().duration((d, e) => e * 500) // perform transition over 1 second
                 //.delay((d, e) => e + 200)
-                
+
 
                 .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` })
                 // Add data information on tooltip when hover on each bar
@@ -382,7 +389,7 @@
                             .html(`Element: ${e.element} <br>Value: ${e.valueElementTotal}`)
                             .style("visibility", "visible");
                     }
-                    
+
                     d3.select(this)
                         .attr("fill", "#000000");
                 })
