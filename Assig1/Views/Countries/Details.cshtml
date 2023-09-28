@@ -63,31 +63,42 @@ else
 
     </div>
 </div>
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                View all items and elements data
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div id="ItemElementInfo">
 
-<div id="ItemElementInfo">
+                    <table class="table table-info">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Item</th>
+                                <th>Element</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="ItemElementInfo">
 
-    <table class="table table-info">
-        <thead>
-            <tr>
-                <th>Year</th>
-                <th>Item</th>
-                <th>Element</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody class="ItemElementInfo">
+                            <tr class="rowData">
+                                <td>Year test</td>
+                                <td>Item test</td>
+                                <td>Element test</td>
+                                <td>Value test</td>
+                            </tr>
 
-            <tr class="rowData">
-                <td>Year test</td>
-                <td>Item test</td>
-                <td>Element test</td>
-                <td>Value test</td>
-            </tr>
-
-        </tbody>
-    </table>
+                        </tbody>
+                    </table>
+                </div>            </div>
+        </div>
+    </div>
+    
 </div>
-
 @section scripts{
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
