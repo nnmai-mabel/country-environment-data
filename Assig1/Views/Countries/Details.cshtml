@@ -68,14 +68,13 @@
 
 <div id="ItemElementInfo">
 
-    <table>
+    <table class="table table-info">
         <thead>
             <tr>
                 <th>Year</th>
                 <th>Item</th>
                 <th>Element</th>
                 <th>Value</th>
-                <th></th>
             </tr>
         </thead>
         <tbody class="ItemElementInfo">
@@ -118,18 +117,35 @@
                 let tdList = row.querySelectorAll('td');
                 if (dataSet[i].year != previousYear) {
                     tdList[0].innerText = dataSet[i].year;
+                    tdList[0].style.borderBottom = "none";
+                    tdList[0].style.borderTop = "1px solid";
+                    
                 }
                 else {
-                    tdList[0].innerText = null;
+                    tdList[0].innerText = "";
+                    tdList[0].style.borderLeft = "none";
+                    tdList[0].style.borderRight = "none";
+                    tdList[0].style.borderBottom = "none";
                 }
                 if (dataSet[i].item != previousItem) {
                     tdList[1].innerText = dataSet[i].item;
+                    tdList[1].style.borderBottom = "none";
+                    tdList[1].style.borderTop = "1px solid";
+                    //tdList[2].style.borderBottom = "none";
+                    tdList[2].style.borderTop = "1px solid";
+                    tdList[3].style.borderTop = "1px solid";
                 }
                 else {
-                    tdList[1].innerText = null;
+                    tdList[1].innerText = "";
+                    tdList[1].style.borderLeft = "none";
+                    tdList[1].style.borderRight = "none";
+                    tdList[1].style.borderBottom = "none";
+                    //tdList[2].style.borderBottom = "none";
                 }
                 tdList[2].innerText = dataSet[i].element;
+                tdList[2].style.borderBottom = "none";
                 tdList[3].innerText = dataSet[i].value;
+                tdList[3].style.borderBottom = "none";
 
                 previousYear = dataSet[i].year;
                 previousItem = dataSet[i].item;
