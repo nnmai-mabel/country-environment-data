@@ -23,7 +23,7 @@
     <h1 class="alert-light p-2 text-center mb-3" role="alert">Countries</h1>
 </div>
 
-<form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.RegionId" class="row mb-2">
+<form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="row mb-2">
     <div class="col-2">
         <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
     </div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-2">
-        <select asp-for="@Model.RegionId" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
+        <select asp-for="@Model.Id" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
             <option value="">All Regions</option>
         </select>
     </div>
@@ -82,7 +82,7 @@
 
                     <div class="d-flex justify-content-around">
                         <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
-                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-id="@Model.Id" class="btn btn-outline-info">Details</a>
                     </div>
 
                 </div>

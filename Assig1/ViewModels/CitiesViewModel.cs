@@ -8,7 +8,7 @@ namespace Assig1.ViewModels
 	{
         public string? SearchText { get; set; }
         public int? CountryId { get; set; }
-        public int? RegionId { get; set; }
+        public int? Id { get; set; }
         public Country TheCountry { get; set; }
         public int? CityId { get; set; }
         public List<City_CityDetail>? CityDetailList { get; set; }
