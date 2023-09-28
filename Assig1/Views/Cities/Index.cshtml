@@ -41,7 +41,7 @@
                             </datalist>
                         </div>
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="submit" class="btn btn-info">Search</button>
                         </div>
                     </form>
                 }
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="mt-5">
-                <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" style="margin-top: 70px">Go Back</a>
+                <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-success" style="margin-top: 70px">Go Back</a>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                         <p>Air quality data records: @Html.DisplayFor(modelItem => item.AirRecordCount)</p>
                         @if (item.TheCountry != null)
                         {
-                            <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-outline-primary">Air Quality Data</a>
+                            <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-primary">Air Quality Data</a>
                         }
                         else
                         {

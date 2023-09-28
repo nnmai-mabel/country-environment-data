@@ -15,7 +15,7 @@
                 <h5 class="card-title d-flex align-items-center justify-content-center" style="position: relative; left: 0; right: 0; height: 20%;">All regions</h5>
                 <div class="d-flex justify-content-around" style="padding-top: 10px;">
                     @*May need to fix the link below later*@
-                    <a asp-controller="Countries" asp-action="Index" asp-route-id="" class="btn btn-outline-success">Visit countries of all regions</a>
+                    <a asp-controller="Countries" asp-action="Index" asp-route-id="" class="btn btn-success">Visit countries of all regions</a>
                 </div>
             </div>
         </div>
@@ -30,8 +30,8 @@
                     <h5 class="card-title d-flex align-items-center justify-content-center" style="position: relative; left: 0; right: 0; height: 20%;">@item.RegionName</h5>
                     <div class="d-flex justify-content-around" style="padding-top: 10px;">
                         @*May need to fix the link below later*@
-                        <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@item.RegionId" class="btn btn-outline-success">Visit countries</a>
-                        <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-outline-info">Details</a>
+                        <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@item.RegionId" class="btn btn-success">Visit countries</a>
+                        <a asp-action="Details" asp-route-id="@item.RegionId" class="btn btn-info">Details</a>
                     </div>
                 </div>
             </div>

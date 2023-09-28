@@ -25,7 +25,7 @@
 <div class="mb-5 mt-3">
     <form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="row mb-2">
         <div class="col-2">
-            <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
+            <a asp-controller="Regions" asp-action="Index" class="btn btn-success">Visit all regions</a>
         </div>
         <div class="col-4">
             <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
@@ -44,7 +44,7 @@
         </div>
 
         <div class="col-2">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+            <button type="submit" class="btn btn-info">Search</button>
         </div>
     </form>
 </div>
@@ -83,8 +83,8 @@
                     }
 
                     <div class="d-flex justify-content-around">
-                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
-                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-id="@Model.Id" class="btn btn-outline-primary">Details</a>
+                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-success">Visit cities</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
                     </div>
 
                 </div>
