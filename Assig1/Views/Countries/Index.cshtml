@@ -5,7 +5,7 @@
 }
 @if (Model.CountryList.Count() > 0)
 {<div class="row justify-content-center" align="center" role="alert">
-        @if (Model.CountryList.Count() == 342)
+        @if (Model.Id == null)
         {
             <div class="alert alert-success" role="alert">
                 There are @Model.CountryList.Count() countries in all regions.
