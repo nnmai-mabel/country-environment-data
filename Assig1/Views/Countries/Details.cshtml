@@ -4,15 +4,15 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="text-center mb-5">
+<div class="text-center mb-3">
     <h1 class="mb-3">@Model.TheCountryDetail.TheCountry.CountryName's Details</h1>
     @if (Model.TheCountryDetail.TheRegion != null)
     {
-        <h5>Region: @Model.TheCountryDetail.TheRegion.RegionName</h5>
+        <h4>Region: @Model.TheCountryDetail.TheRegion.RegionName</h4>
     }
     else
     {
-        <p>Region: Not available</p>
+        <h4>Region: Not available</h4>
     }
 </div>
 <div class="row justify-content-center" id="EmissionAlert" align="center" role="alert">
@@ -20,18 +20,20 @@
         This is an alert
     </div>*@
 </div>
-@if (Model.TheCountryDetail.TheRegion != null)
-{
-    @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>*@
-    <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-id="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>
+<div class="mb-4">
+    @if (Model.TheCountryDetail.TheRegion != null)
+    {
+        @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>*@
+        <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-id="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>
 
-}
-else
-{
-    <a asp-action="Index" asp-route-countryId="" class="btn btn-outline-info">All Countries List</a>
-}
-@*<a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" >Go Back</a>*@
-<a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-route-countryId="" class="btn btn-outline-info">All Countries List</a>
+    }
+    @*<a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" >Go Back</a>*@
+    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
+</div>
 
 <div id="EmissionData">
     <div class="row mb-3" id="dataDisplay">
@@ -59,7 +61,7 @@ else
     </div>
 
     <div>
-        <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
+        <svg width="100%" height="600px" class="border border-primary rounded p-2" title="Hover on each bar to view more details"></svg>
     </div>
 
     <!--<div class="row justify-content-end">
@@ -69,7 +71,7 @@ else
 
         <!--</div>
     </div>-->
-    <div class="accordion" id="accordionExample">
+    <div class="accordion mt-3" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -517,11 +519,11 @@ else
 
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
-                .attr("transform", "rotate(-70)")
-                .attr("dx", "-0.8em")
-                .attr("dy", "0.25em")
+                .attr("transform", "rotate(-30)")
+                .attr("dx", "2.5em")
+                .attr("dy", "4em")
                 .style("text-anchor", "end") // pull labels to bottom
-                .style("font-size", "0.9em"); // set font size
+                .style("font-size", "1em"); // set font size
         }
 
         // Graph for item total
@@ -730,6 +732,14 @@ else
                 .attr("dy", "10em") // add margin top and bottom -> increase to go far more bottom
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "0.45em"); // set font size
+
+            svg.append('text')
+                .attr('x', w / 2)
+                .attr('y', chartMargins.top / 2)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .style('font-weight', 'bold')
+                .text('Your Graph Title Here');
         }
 
         // Get the idea of making a line chart from these links, then fix based on bar chart learned in class
