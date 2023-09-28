@@ -20,33 +20,35 @@
     </div>
 }
 <div class="row justify-content-center" align="center" role="alert">
-    <h1 class="alert-light p-2 text-center mb-3" role="alert">Countries</h1>
+    <h1 class="p-2 text-center mb-3" role="alert">Countries</h1>
+</div>
+<div class="mb-5">
+    <form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="row mb-2">
+        <div class="col-2">
+            <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
+        </div>
+        <div class="col-4">
+            <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
+            <datalist id="countryList">
+                @foreach (var city in Model.CountryList)
+                {
+                    <option value="@city.TheCountry?.CountryName"></option>
+                }
+            </datalist>
+        </div>
+
+        <div class="col-2">
+            <select asp-for="@Model.Id" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
+                <option value="">All Regions</option>
+            </select>
+        </div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
 </div>
 
-<form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="row mb-2">
-    <div class="col-2">
-        <a asp-controller="Regions" asp-action="Index" class="btn btn-outline-success">Visit all regions</a>
-    </div>
-    <div class="col-4">
-        <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
-        <datalist id="countryList">
-            @foreach (var city in Model.CountryList)
-            {
-                <option value="@city.TheCountry?.CountryName"></option>
-            }
-        </datalist>
-    </div>
-
-    <div class="col-2">
-        <select asp-for="@Model.Id" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
-            <option value="">All Regions</option>
-        </select>
-    </div>
-
-    <div class="col-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
 
 <div class="row justify-content-center">
     @*@if (Model.CountryList.Count() > 0)
