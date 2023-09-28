@@ -68,16 +68,16 @@
                 <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
                 <div class="card-body justify-content-around">
                     <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
-                    <p class="card-text">
+                    @*<p class="card-text">
                         CountryID: @item.TheCountry.CountryId
-                    </p>
+                    </p>*@
                     @if (item.TheCountry.Region != null)
                     {
                         <p>Region: @item.TheCountry.Region.RegionName</p>
                     }
                     else
                     {
-                        <p>Region: no regions</p>
+                        <p>Region: Not available</p>
                     }
 
                     <div class="d-flex justify-content-around">
