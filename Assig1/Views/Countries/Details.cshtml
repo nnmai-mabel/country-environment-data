@@ -15,6 +15,11 @@
         <p>Region: Not available</p>
     }
 </div>
+<div class="row justify-content-center" id="EmissionAlert" align="center" role="alert">
+    @*<div class="alert alert-danger" role="alert">
+        This is an alert
+    </div>*@
+</div>
 @if (Model.TheCountryDetail.TheRegion != null)
 {
     @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>*@
@@ -28,76 +33,79 @@ else
 @*<a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" >Go Back</a>*@
 <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" class="btn btn-outline-success">Visit cities</a>
 
-<div class="row mb-3" id="dataDisplay">
-    <div class="col-2" id="yearElement">
-        <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
-            <option value="">Select year</option>
-        </select>
-    </div>
-
-    <div class="col-2" id="chartLegendElement">
-        <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-            <option value="Elements">Elements</option>
-            <option value="Items">Items</option>
-            <option value="Temperature">Temperature</option>
-        </select>
-    </div>
-
-    <div class="col-2" id="chartAggregationElement">
-        <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
-            <option value="Total">Total</option>
-            <option value="Average">Average</option>
-        </select>
-    </div>
-
-</div>
-
-<div>
-    <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
-</div>
-
-<div class="row justify-content-end">
-    <div class="col-4">
-        @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
-
-
-    </div>
-</div>
-<div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                View all items and elements data
-            </button>
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <div id="ItemElementInfo">
-
-                    <table class="table table-info">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Item</th>
-                                <th>Element</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody class="ItemElementInfo">
-
-                            <tr class="rowData">
-                                <td>Year test</td>
-                                <td>Item test</td>
-                                <td>Element test</td>
-                                <td>Value test</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>            </div>
+<div id="EmissionData">
+    <div class="row mb-3" id="dataDisplay">
+        <div class="col-2" id="yearElement">
+            <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
+                <option value="">Select year</option>
+            </select>
         </div>
+
+        <div class="col-2" id="chartLegendElement">
+            <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
+                <option value="Elements">Elements</option>
+                <option value="Items">Items</option>
+                <option value="Temperature">Temperature</option>
+            </select>
+        </div>
+
+        <div class="col-2" id="chartAggregationElement">
+            <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
+                <option value="Total">Total</option>
+                <option value="Average">Average</option>
+            </select>
+        </div>
+
     </div>
-    
+
+    <div>
+        <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
+    </div>
+
+    <!--<div class="row justify-content-end">
+        <div class="col-4">-->
+            @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
+
+
+        <!--</div>
+    </div>-->
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    View all items and elements data
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div id="ItemElementInfo">
+
+                        <table class="table table-info">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Item</th>
+                                    <th>Element</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody class="ItemElementInfo">
+
+                                <tr class="rowData">
+                                    <td>Year test</td>
+                                    <td>Item test</td>
+                                    <td>Element test</td>
+                                    <td>Value test</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 @section scripts{
     <script type="module">
@@ -115,54 +123,73 @@ else
         function buildTableItem(dataSet) {
             console.log("This is table item")
             console.log(dataSet)
+            console.log(dataSet.length)
+            if (dataSet.length > 0) {
+                console.log("In if");
+                var table = document.querySelector(".ItemElementInfo")
+                var previousYear = null;
+                var previousItem = null;
 
-            var table = document.querySelector(".ItemElementInfo")
-            var previousYear = null;
-            var previousItem = null;
+                for (let i = 0; i < dataSet.length; i++) {
+                    var row = table.querySelector("tr.rowData").cloneNode(true);
 
-            for (let i = 0; i < dataSet.length; i++) {
-                var row = table.querySelector("tr.rowData").cloneNode(true);
+                    let tdList = row.querySelectorAll('td');
+                    if (dataSet[i].year != previousYear) {
+                        tdList[0].innerText = dataSet[i].year;
+                        tdList[0].style.borderBottom = "none";
+                        tdList[0].style.borderTop = "1px solid";
 
-                let tdList = row.querySelectorAll('td');
-                if (dataSet[i].year != previousYear) {
-                    tdList[0].innerText = dataSet[i].year;
-                    tdList[0].style.borderBottom = "none";
-                    tdList[0].style.borderTop = "1px solid";
+                    }
+                    else {
+                        tdList[0].innerText = "";
+                        tdList[0].style.borderLeft = "none";
+                        tdList[0].style.borderRight = "none";
+                        tdList[0].style.borderBottom = "none";
+                    }
+                    if (dataSet[i].item != previousItem) {
+                        tdList[1].innerText = dataSet[i].item;
+                        tdList[1].style.borderBottom = "none";
+                        tdList[1].style.borderTop = "1px solid";
+                        //tdList[2].style.borderBottom = "none";
+                        tdList[2].style.borderTop = "1px solid";
+                        tdList[3].style.borderTop = "1px solid";
+                    }
+                    else {
+                        tdList[1].innerText = "";
+                        tdList[1].style.borderLeft = "none";
+                        tdList[1].style.borderRight = "none";
+                        tdList[1].style.borderBottom = "none";
+                        //tdList[2].style.borderBottom = "none";
+                    }
+                    tdList[2].innerText = dataSet[i].element;
+                    tdList[2].style.borderBottom = "none";
+                    tdList[3].innerText = dataSet[i].value;
+                    tdList[3].style.borderBottom = "none";
 
+                    previousYear = dataSet[i].year;
+                    previousItem = dataSet[i].item;
+                    table.appendChild(row);
+
+                    if (i == (dataSet.length - 1)) {
+                        table.removeChild(table.querySelector("tr.rowData"))
+                    }
                 }
-                else {
-                    tdList[0].innerText = "";
-                    tdList[0].style.borderLeft = "none";
-                    tdList[0].style.borderRight = "none";
-                    tdList[0].style.borderBottom = "none";
-                }
-                if (dataSet[i].item != previousItem) {
-                    tdList[1].innerText = dataSet[i].item;
-                    tdList[1].style.borderBottom = "none";
-                    tdList[1].style.borderTop = "1px solid";
-                    //tdList[2].style.borderBottom = "none";
-                    tdList[2].style.borderTop = "1px solid";
-                    tdList[3].style.borderTop = "1px solid";
-                }
-                else {
-                    tdList[1].innerText = "";
-                    tdList[1].style.borderLeft = "none";
-                    tdList[1].style.borderRight = "none";
-                    tdList[1].style.borderBottom = "none";
-                    //tdList[2].style.borderBottom = "none";
-                }
-                tdList[2].innerText = dataSet[i].element;
-                tdList[2].style.borderBottom = "none";
-                tdList[3].innerText = dataSet[i].value;
-                tdList[3].style.borderBottom = "none";
+            }
+            else {
+                console.log("In else");
+                var alertContainer = document.querySelector("#EmissionAlert");
 
-                previousYear = dataSet[i].year;
-                previousItem = dataSet[i].item;
-                table.appendChild(row);
+                var alertElement = document.createElement("div");
+                alertElement.className = "alert alert-warning";
+                alertElement.setAttribute("role", "alert");
 
-                if (i == (dataSet.length - 1)) {
-                    table.removeChild(table.querySelector("tr.rowData"))
-                }
+                var message = "There is no emission data in this country.";
+                var textNode = document.createTextNode(message);
+                alertElement.appendChild(textNode);
+                alertContainer.appendChild(alertElement);
+
+                var emissionData = document.getElementById("EmissionData");
+                emissionData.classList.add("hideElement");
             }
         }
         // 1 Select SVG element
