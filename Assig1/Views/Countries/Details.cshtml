@@ -15,24 +15,23 @@
         <h3>Region: Not available</h3>
     }
 </div>
+
 <div class="row justify-content-center" id="EmissionAlert" align="center" role="alert">
-    @*<div class="alert alert-danger" role="alert">
-            This is an alert
-        </div>*@
+    @*This is an alert space*@
 </div>
-<div class="mb-4">
+
+<div class="mb-2">
+
     @if (Model.TheCountryDetail.TheRegion != null)
     {
-        @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>*@
         <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-primary">Countries in same Region</a>
-
     }
     else
     {
-        <a asp-action="Index" asp-route-countryId="" class="btn btn-primary">All Countries List</a>
+        <a asp-action="Index" asp-route-countryId="" class="btn btn-primary">All Countries</a>
     }
-    @*<a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" >Go Back</a>*@
-    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-pageSource="countriesDetails" class="btn btn-warning">Visit cities</a>
+    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-pageSource="countriesDetails" class="btn btn-warning m-3">Visit cities</a>
+
 </div>
 
 <div id="EmissionData">
@@ -64,15 +63,8 @@
         <svg width="100%" height="600px" class="border border-primary rounded p-2" title="Hover on each bar to view more details"></svg>
     </div>
 
-    <!--<div class="row justify-content-end">
-        <div class="col-4">-->
-    @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
-
-
-    <!--</div>
-    </div>-->
     <div id="tips">
-        
+        @*This is the space for the tips alert to show up if user chooses item graph*@
     </div>
     <div class="accordion mt-3" id="accordionExample">
         <div class="accordion-item">
@@ -82,8 +74,28 @@
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body" id="EmissionSummary">
-
+                <div class="accordion-body">
+                    @*This is the space for creating elements and showing data*@
+                    @*<div class="card bg-dark text-white col-6" style="max-width: 600px;">
+                        <img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="img-fluid rounded-start" alt="@Model.TheCountryDetail.TheCountry.CountryName">
+                    </div>*@
+                    <div class="card mx-auto" style="max-width: 1000px;">
+                        <div class="d-flex align-items-center" >
+                            @*<div class="row g-0">*@
+                                <div class="col-md-6">
+                                    <img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="img-fluid rounded-start" alt="@Model.TheCountryDetail.TheCountry.CountryName">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body m-3">
+                                        <h4 class="card-title">Country Emissions Summary</h4>
+                                        <div id="EmissionSummary">
+                                            @*This is the space where data elements are created*@
+                                        </div>
+                                    </div>
+                                </div>
+                            @*</div>*@
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,24 +166,28 @@
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country
             var totalElement = document.createElement("p");
+            totalElement.classList.add("card-text");
             var totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
             var totalTextNode = document.createTextNode(totalMessage);
             totalElement.appendChild(totalTextNode);
             summary.appendChild(totalElement);
 
             var averageElement = document.createElement("p");
+            averageElement.classList.add("card-text");
             var averageMessage = `Average emissions value: ${dataSet[0].averageValue}`;
             var averageTextNode = document.createTextNode(averageMessage);
             averageElement.appendChild(averageTextNode);
             summary.appendChild(averageElement);
 
             var minElement = document.createElement("p");
+            minElement.classList.add("card-text");
             var minMessage = `Min emissions value: ${dataSet[0].minValue}`;
             var minTextNode = document.createTextNode(minMessage);
             minElement.appendChild(minTextNode);
             summary.appendChild(minElement);
 
             var maxElement = document.createElement("p");
+            maxElement.classList.add("card-text");
             var maxMessage = `Max emissions value: ${dataSet[0].maxValue}`;
             var maxTextNode = document.createTextNode(maxMessage);
             maxElement.appendChild(maxTextNode);
