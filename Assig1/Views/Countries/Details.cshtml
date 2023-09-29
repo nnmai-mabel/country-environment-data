@@ -71,8 +71,8 @@
 
     <!--</div>
     </div>-->
-    <div class="alert alert-info mt-3" role="alert">
-        ⚠︎ Hover on each bar to view detailed data.
+    <div id="tips">
+        
     </div>
     <div class="accordion mt-3" id="accordionExample">
         <div class="accordion-item">
@@ -154,8 +154,8 @@
             console.log(dataSet);
             var summary = document.querySelector("#AirSummary");
 
-            // Only need dataSet[0] because all the other rows return the same value since
-            // it is calculating total, average, min, max of all emissions in each country
+            // Only need dataSet[0] because only have 1 row of
+            // total, average, min, max of all emissions in each country
             var totalElement = document.createElement("p");
             var totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
             var totalTextNode = document.createTextNode(totalMessage);
@@ -602,6 +602,21 @@
             // Clear graph
             d3.selectAll('svg > *').remove();
             d3.selectAll('svg > g > *').remove();
+
+            // Link reference for create text node
+            //https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
+            // Only need dataSet[0] because only have 1 row of
+            // total, average, min, max of all emissions in each country
+            var tips = document.querySelector("#tips");
+
+            var alertElement = document.createElement("div");
+            alertElement.className = "alert alert-info mt-3";
+            alertElement.setAttribute("role", "alert");
+
+            var message = "⚠︎ Hover on each bar to view detailed data.";
+            var textNode = document.createTextNode(message);
+            alertElement.appendChild(textNode);
+            tips.appendChild(alertElement);
 
             let valueItemsRangeAverage = "";
             let maxValueItemsAverage = "";
