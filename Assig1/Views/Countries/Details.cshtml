@@ -78,15 +78,12 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    View air quality data summary of the country
+                    View country emissions summary
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body" id="AirSummary">
-                    @*<p>Total emissions value</p>
-                    <p>Average emissions value</p>
-                    <p>Min emissions value</p>
-                    <p>Max emissions value</p>*@
+                <div class="accordion-body" id="EmissionSummary">
+
                 </div>
             </div>
         </div>
@@ -152,7 +149,7 @@
         function buildEmissionSummary(dataSet) {
             console.log("IN build emission summary");
             console.log(dataSet);
-            var summary = document.querySelector("#AirSummary");
+            var summary = document.querySelector("#EmissionSummary");
 
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country

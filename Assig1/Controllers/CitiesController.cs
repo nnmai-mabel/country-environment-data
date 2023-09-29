@@ -323,7 +323,32 @@ namespace Assig1.Controllers
             }
             else
             {
-                return BadRequest(); //
+                return BadRequest();
+            }
+        }
+
+        //Action for fetching average, min, max value data
+        [Produces("application/json")]
+        public IActionResult AirSummaryData(CitiesViewModel vm)
+        {
+            if (vm.CityId > 0)
+            {
+                var airSummary = _context.AirQualityData
+                    .Where(aqd => aqd.CityId == vm.CityId)
+                    //.Where(ce => ce.Year == vm.Year)
+                    .GroupBy(aqd => aqd.CityId)
+                    .Select(value => new
+                    {
+                        //totalValue = value.Sum(aqd => aqd.AnnualMean),
+                        averageValue = value.Average(aqd => aqd.AnnualMean),
+                        minValue = value.Min(aqd => aqd.AnnualMean),
+                        maxValue = value.Max(aqd => aqd.AnnualMean)
+                    });
+                return Json(airSummary);
+            }
+            else
+            {
+                return BadRequest();
             }
         }
     }
