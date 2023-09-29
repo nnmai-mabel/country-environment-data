@@ -156,11 +156,11 @@
 
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country
-            //var totalElement = document.createElement("p");
-            //var totalMessage = `Total annual mean of air quality data: ${dataSet[0].totalValue}`;
-            //var totalTextNode = document.createTextNode(totalMessage);
-            //totalElement.appendChild(totalTextNode);
-            //summary.appendChild(totalElement);
+            var totalElement = document.createElement("p");
+            var totalMessage = `Total annual mean of air quality data: ${dataSet[0].totalValue}`;
+            var totalTextNode = document.createTextNode(totalMessage);
+            totalElement.appendChild(totalTextNode);
+            summary.appendChild(totalElement);
 
             var averageElement = document.createElement("p");
             var averageMessage = `Average annual mean of air quality data: ${dataSet[0].averageValue}`;

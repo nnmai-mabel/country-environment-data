@@ -339,7 +339,7 @@ namespace Assig1.Controllers
                     .GroupBy(aqd => aqd.CityId)
                     .Select(value => new
                     {
-                        //totalValue = value.Sum(aqd => aqd.AnnualMean),
+                        totalValue = value.Sum(aqd => aqd.AnnualMean),
                         averageValue = value.Average(aqd => aqd.AnnualMean),
                         minValue = value.Min(aqd => aqd.AnnualMean),
                         maxValue = value.Max(aqd => aqd.AnnualMean)
