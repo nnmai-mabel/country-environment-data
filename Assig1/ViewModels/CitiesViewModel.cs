@@ -18,6 +18,7 @@ namespace Assig1.ViewModels
         public SelectList? StationTypeList { get; set; }
         public string? StationType { get; set; }
         public string? ChartLegend { get; set; }
+        public string? PageSource { get; set; }
     }
 }
 

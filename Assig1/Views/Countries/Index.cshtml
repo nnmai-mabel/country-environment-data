@@ -83,7 +83,8 @@
                     }
 
                     <div class="d-flex justify-content-around">
-                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@item.TheCountry.CountryId" class="btn btn-warning">Visit cities</a>
+                        @*Add a route parameter to know which page to go back*@
+                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit cities</a>
                         <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
                     </div>
 
