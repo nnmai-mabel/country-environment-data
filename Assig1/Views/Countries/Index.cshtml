@@ -3,8 +3,11 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+@*Alert for showing region*@
 @if (Model.CountryList.Count() > 0)
-{<div class="row justify-content-center" align="center" role="alert">
+{
+    <div class="row justify-content-center" align="center" role="alert">
         @if (Model.RegionId != null)
         {
             <div class="alert alert-success" role="alert">
@@ -14,9 +17,12 @@
         }
     </div>
 }
+
 <div class="row justify-content-center" align="center" role="alert">
     <h1 class="p-2 text-center mb-3" role="alert" id="headingAlert">Countries</h1>
 </div>
+
+@*Buttons and form elements*@
 <div class="mb-5 mt-3">
     <form method="post" asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="row mb-2">
         <div class="col-2">
@@ -44,30 +50,15 @@
     </form>
 </div>
 
-
+@*Show countries with regions*@
 <div class="row justify-content-center">
-    @*@if (Model.CountryList.Count() > 0)
-        {
-            <div class="row justify-content-center" align="center" role="alert">
-                <div class="alert alert-success" role="alert">
-                    There are @Model.CountryList.Count() countries in region @Model.RegionId.
-                </div>
-            </div>
-        }*@
     @foreach (var item in Model.CountryList)
     {
         <div class="col-3 m-3">
             <div class="card" style="width: 20rem;">
-                @*Handle image error*@
-                @*https://themeisle.com/blog/missing-images-on-website/#gref*@
-                @*<img src="@item.TheCountry.ImageUrl" onerror="this.onerror=null;this.src='https://blog.hubspot.com/hs-fs/hubfs/http-error-500-google.webp?width=650&height=462&name=http-error-500-google.webp';"
-                    class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />*@
                 <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
                 <div class="card-body justify-content-around text-center">
                     <h5 class="card-title justify-content-center mb-3 ">@item.TheCountry.CountryName</h5>
-                    @*<p class="card-text">
-                            CountryID: @item.TheCountry.CountryId
-                        </p>*@
                     @if (item.TheCountry.Region != null)
                     {
                         <p>Region: @item.TheCountry.Region.RegionName</p>
@@ -78,7 +69,7 @@
                     }
 
                     <div class="d-flex justify-content-around">
-                        @*Add a route parameter to know which page to go back*@
+                        @*Add a route pageSource parameter to know which page to go back*@
                         <a asp-controller="Cities" asp-action="Index" asp-route-regionId="@Model.RegionId" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit Cities</a>
                         <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@Model.RegionId" class="btn btn-primary">View Data</a>
                     </div>

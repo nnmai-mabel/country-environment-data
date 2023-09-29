@@ -136,7 +136,7 @@ namespace Assig1.Controllers
                 .OrderByDescending(ce => ce)
                 .ToList();
 
-            // Pass result back to view model
+            // Pass result back to view model using select list
             vm.YearList = new SelectList(yearList);
             #endregion
 
@@ -260,7 +260,6 @@ namespace Assig1.Controllers
                             valueElementTotal = group.Sum(ce => ce.theCountryEmission.Value)
                         });
                     return Json(elementEmissionsSummary);
-
                 }
             }
             else
@@ -273,6 +272,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult TemperatureReportData(CountriesViewModel vm)
         {
+            // Fetch data when user chooses Temperature legend
             if (vm.ChartLegend == "Temperature")
             {
                 var temperatureSummary = _context.TemperatureData
@@ -296,6 +296,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult ItemElementData(CountriesViewModel vm)
         {
+            // Fetch data for a country
             if (vm.CountryId > 0)
             {
                 // Join Country Emissions with Elements and Items table
@@ -316,6 +317,7 @@ namespace Assig1.Controllers
                         theItem = i
                     })
 
+                    // Join parent items
                     .GroupJoin(_context.Items,
                     cei => cei.theItem.ParentId,
                     pi => pi.ItemId,
@@ -331,7 +333,7 @@ namespace Assig1.Controllers
                         theCountryEmissionItem = cei.theCountryEmissionItem,
                         theParentItem = pi
                     })
-
+                    // Join Elements table
                     .GroupJoin(_context.Elements,
                     ice => ice.theCountryEmissionItem.theCountryEmission.ElementId,
                     e => e.ElementId,
@@ -357,7 +359,7 @@ namespace Assig1.Controllers
                         elementId = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.ElementId,
                         item = group.theCountryEmissionItemElement.theParentItem != null
                                 ? group.theCountryEmissionItemElement.theCountryEmissionItem.theItem.ItemName + " - " + group.theCountryEmissionItemElement.theParentItem.ItemName
-                                : group.theCountryEmissionItemElement.theCountryEmissionItem.theItem.ItemName,
+                                : group.theCountryEmissionItemElement.theCountryEmissionItem.theItem.ItemName, // show item - parent name if applicable
                         element = group.theElement.ElementName,
                         value = group.theCountryEmissionItemElement.theCountryEmissionItem.theCountryEmission.Value
                     })
@@ -385,11 +387,11 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult EmissionSummaryData(CountriesViewModel vm)
         {
+            // Fetch data for a country
             if(vm.CountryId > 0)
             {
                 var emissionSummary = _context.CountryEmissions
                     .Where(ce => ce.CountryId == vm.CountryId)
-                    //.Where(ce => ce.Year == vm.Year)
                     .GroupBy(ce => ce.CountryId)
                     .Select(value => new
                     {

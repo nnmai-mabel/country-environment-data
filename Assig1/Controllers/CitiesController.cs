@@ -24,6 +24,7 @@ namespace Assig1.Controllers
         public async Task<IActionResult> Index(CitiesViewModel vm)
         {
             #region CityCountryRegionQuery
+            // Join Cities table and Countries table
             var cityCountryQuery = _context.Cities
                 .GroupJoin(_context.Countries,
                 city => city.CountryId,
@@ -59,7 +60,6 @@ namespace Assig1.Controllers
                         TheCountry = cityCountryRegion.TheCountry,
                         TheRegion = region,
                     });
-
             #endregion
 
             #region AirQualityData
@@ -67,12 +67,14 @@ namespace Assig1.Controllers
                 .Select(a => a);
             #endregion
 
+            // Show city suitable with search text
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 cityCountryQuery = cityCountryQuery
                     .Where(i => i.TheCity.CityName.StartsWith(vm.SearchText));
             }
 
+            // Get the aggregations
             var cities = await cityCountryQuery
                 .Select(cityAir => new City_CityDetail
                 {
@@ -109,6 +111,7 @@ namespace Assig1.Controllers
         public async Task<IActionResult> Details(CitiesViewModel vm)
         {
             #region CityCountryRegionQuery
+            // Join Cities, Countries, and Regions table
             var cityCountryQuery = _context.Cities
                 .GroupJoin(_context.Countries,
                 city => city.CountryId,
@@ -148,6 +151,7 @@ namespace Assig1.Controllers
             #endregion
 
             #region StationSelectList
+            // Join Air Quality Data table with Air Quality Stations and Monitor Station Types
             var AirQualitySummary = _context.AirQualityData
                 .GroupJoin(_context.AirQualityStations,
                 aqd => aqd.AqdId,
@@ -239,6 +243,7 @@ namespace Assig1.Controllers
             if (vm.CityId > 0)
             {
                 #region AirQualitySummary
+                // Join Air Quality Data with Air Quality Stations and Monitor Station Types
                 var AirQualitySummary = _context.AirQualityData
                     .GroupJoin(_context.AirQualityStations,
                     aqd => aqd.AqdId,
@@ -306,6 +311,7 @@ namespace Assig1.Controllers
                         number = group.Key.number
                     });
 
+                // Get data suitable for year or station type
                 if (vm.Year > 0)
                 {
                     AirQualitySummary = AirQualitySummary
@@ -331,6 +337,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult AirSummaryData(CitiesViewModel vm)
         {
+            // Get air summary aggregations value
             if (vm.CityId > 0)
             {
                 var airSummary = _context.AirQualityData
