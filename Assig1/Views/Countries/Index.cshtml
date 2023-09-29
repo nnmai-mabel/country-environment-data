@@ -5,22 +5,11 @@
 }
 @if (Model.CountryList.Count() > 0)
 {<div class="row justify-content-center" align="center" role="alert">
-        @*@if (Model.Id == null)
-            {
-                <div class="alert alert-success" role="alert">
-                    There are @Model.CountryList.Count() countries in all regions.
-                </div>
-            }
-            else
-            {
-                <div class="alert alert-success" role="alert">
-                    There are @Model.CountryList.Count() countries in @Model.CountryList[0].TheRegion.RegionName region.
-                </div>
-            }*@
         @if (Model.RegionId != null)
         {
             <div class="alert alert-success" role="alert">
-                There are @Model.CountryList.Count() countries in @Model.CountryList[0].TheRegion.RegionName region.
+                There @(Model.CountryList.Count() == 1 ? "is" : "are") @Model.CountryList.Count()
+                @(Model.CountryList.Count() == 1 ? "country that matches" : "countries that match")  your search in @Model.CountryList[0].TheRegion.RegionName region.
             </div>
         }
     </div>
@@ -31,7 +20,7 @@
 <div class="mb-5 mt-3">
     <form method="post" asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="row mb-2">
         <div class="col-2">
-            <a asp-controller="Regions" asp-action="Index" class="btn btn-success">Visit all regions</a>
+            <a asp-controller="Regions" asp-action="Index" class="btn btn-success">Visit All Regions</a>
         </div>
         <div class="col-4">
             <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
@@ -67,7 +56,7 @@
         }*@
     @foreach (var item in Model.CountryList)
     {
-        <div class="col-3 m-1">
+        <div class="col-3 m-3">
             <div class="card" style="width: 20rem;">
                 @*Handle image error*@
                 @*https://themeisle.com/blog/missing-images-on-website/#gref*@
@@ -90,8 +79,8 @@
 
                     <div class="d-flex justify-content-around">
                         @*Add a route parameter to know which page to go back*@
-                        <a asp-controller="Cities" asp-action="Index" asp-route-regionId="@Model.RegionId" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit cities</a>
-                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@Model.RegionId" class="btn btn-primary">Details</a>
+                        <a asp-controller="Cities" asp-action="Index" asp-route-regionId="@Model.RegionId" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit Cities</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@Model.RegionId" class="btn btn-primary">View Data</a>
                     </div>
 
                 </div>
