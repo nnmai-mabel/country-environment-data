@@ -32,88 +32,96 @@
         <h5>Region: Not available</h5>
     }
 </div>
+
+<div class="row justify-content-center" id="AirAlert" align="center" role="alert">
+    @*<div class="alert alert-danger" role="alert">
+            This is an alert
+        </div>*@
+</div>
 <a asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@Model.TheCityDetail?.TheCity?.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-success">Go back</a>
 
-<div class="row mb-3 mt-3" id="dataDisplay">
-    <div class="col-2" id="chartLegend">
-        <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-            <option value="Year">Year</option>
-            <option value="Station">Station Type</option>
-        </select>
-    </div>
-    <div class="col-2" id="yearElement">
-        <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
-            <option value="">Select year</option>
-        </select>
-    </div>
-    <div class="col-2 hideElement" id="stationElement">
-        <select asp-for="@Model.StationType" asp-items="@Model.StationTypeList" class="form-control" id="station">
-            <option value="">Select station type</option>
-        </select>
-    </div>
-</div>
-<div>
-    <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
-</div>
-<div class="alert alert-info mt-3" role="alert">
-    ⚠︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
-</div>
-<div class="accordion mt-3" id="accordionExample">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                View air quality data summary of the country
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body" id="AirSummary">
-
-            </div>
+<div id="AirData">
+    <div class="row mb-3 mt-3" id="dataDisplay">
+        <div class="col-2" id="chartLegend">
+            <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
+                <option value="Year">Year</option>
+                <option value="Station">Station Type</option>
+            </select>
+        </div>
+        <div class="col-2" id="yearElement">
+            <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
+                <option value="">Select year</option>
+            </select>
+        </div>
+        <div class="col-2 hideElement" id="stationElement">
+            <select asp-for="@Model.StationType" asp-items="@Model.StationTypeList" class="form-control" id="station">
+                <option value="">Select station type</option>
+            </select>
         </div>
     </div>
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                View all air quality data
-            </button>
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <div id="ItemElementInfo">
-                    <table class="table table-info">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Annual Mean</th>
-                                <th>Annual Mean Pm10</th>
-                                <th>Annual Mean Pm25</th>
-                                <th>Annual Mean Ugm3</th>
-                                <th>Temporal Coverage 1</th>
-                                <th>Temporal Coverage 2</th>
-                                <th>Station Type</th>
-                                <th>Number of Stations</th>
-                                <th>Database Year</th>
-                                <th>Status</th>
-                                <th>Reference</th>
-                            </tr>
-                        </thead>
-                        <tbody class="AirQualityInfo">
-                            <tr class="rowData">
-                                <td>year test</td>
-                                <td>annualMean test</td>
-                                <td>annualMeanPm10 test</td>
-                                <td>annualMeanPm25 test</td>
-                                <td>annualMeanUgm3 test</td>
-                                <td>temporalCoverage1 test</td>
-                                <td>temporalCoverage2 test</td>
-                                <td>stationType test</td>
-                                <td>number test</td>
-                                <td>dbYear test</td>
-                                <td>status test</td>
-                                <td>reference test</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div>
+        <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
+    </div>
+    <div class="alert alert-info mt-3" role="alert">
+        ⚠︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
+    </div>
+    <div class="accordion mt-3" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    View air quality data summary of the country
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body" id="AirSummary">
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    View all air quality data
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div id="ItemElementInfo">
+                        <table class="table table-info">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Annual Mean</th>
+                                    <th>Annual Mean Pm10</th>
+                                    <th>Annual Mean Pm25</th>
+                                    <th>Annual Mean Ugm3</th>
+                                    <th>Temporal Coverage 1</th>
+                                    <th>Temporal Coverage 2</th>
+                                    <th>Station Type</th>
+                                    <th>Number of Stations</th>
+                                    <th>Database Year</th>
+                                    <th>Status</th>
+                                    <th>Reference</th>
+                                </tr>
+                            </thead>
+                            <tbody class="AirQualityInfo">
+                                <tr class="rowData">
+                                    <td>year test</td>
+                                    <td>annualMean test</td>
+                                    <td>annualMeanPm10 test</td>
+                                    <td>annualMeanPm25 test</td>
+                                    <td>annualMeanUgm3 test</td>
+                                    <td>temporalCoverage1 test</td>
+                                    <td>temporalCoverage2 test</td>
+                                    <td>stationType test</td>
+                                    <td>number test</td>
+                                    <td>dbYear test</td>
+                                    <td>status test</td>
+                                    <td>reference test</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,29 +185,46 @@
             console.log(dataSet)
 
             var table = document.querySelector(".AirQualityInfo")
+            if (dataSet.length > 0) {
+                for (let i = 0; i < dataSet.length; i++) {
+                    var row = table.querySelector("tr.rowData").cloneNode(true);
 
-            for (let i = 0; i < dataSet.length; i++) {
-                var row = table.querySelector("tr.rowData").cloneNode(true);
+                    let tdList = row.querySelectorAll('td');
+                    tdList[0].innerText = dataSet[i].year;
+                    tdList[1].innerText = dataSet[i].annualMean;
+                    tdList[2].innerText = dataSet[i].annualMeanPm10;
+                    tdList[3].innerText = dataSet[i].annualMeanPm25;
+                    tdList[4].innerText = dataSet[i].annualMeanUgm3;
+                    tdList[5].innerText = dataSet[i].temporalCoverage1;
+                    tdList[6].innerText = dataSet[i].temporalCoverage2;
+                    tdList[7].innerText = dataSet[i].stationType;
+                    tdList[8].innerText = dataSet[i].number;
+                    tdList[9].innerText = dataSet[i].dbYear;
+                    tdList[10].innerText = dataSet[i].status;
+                    tdList[11].innerText = dataSet[i].reference;
 
-                let tdList = row.querySelectorAll('td');
-                tdList[0].innerText = dataSet[i].year;
-                tdList[1].innerText = dataSet[i].annualMean;
-                tdList[2].innerText = dataSet[i].annualMeanPm10;
-                tdList[3].innerText = dataSet[i].annualMeanPm25;
-                tdList[4].innerText = dataSet[i].annualMeanUgm3;
-                tdList[5].innerText = dataSet[i].temporalCoverage1;
-                tdList[6].innerText = dataSet[i].temporalCoverage2;
-                tdList[7].innerText = dataSet[i].stationType;
-                tdList[8].innerText = dataSet[i].number;
-                tdList[9].innerText = dataSet[i].dbYear;
-                tdList[10].innerText = dataSet[i].status;
-                tdList[11].innerText = dataSet[i].reference;
+                    table.appendChild(row);
 
-                table.appendChild(row);
-
-                if (i == (dataSet.length - 1)) {
-                    table.removeChild(table.querySelector("tr.rowData"))
+                    if (i == (dataSet.length - 1)) {
+                        table.removeChild(table.querySelector("tr.rowData"))
+                    }
                 }
+            }
+            else {
+                console.log("In else");
+                var alertContainer = document.querySelector("#AirAlert");
+
+                var alertElement = document.createElement("div");
+                alertElement.className = "alert alert-warning";
+                alertElement.setAttribute("role", "alert");
+
+                var message = "There is no emission data in this country.";
+                var textNode = document.createTextNode(message);
+                alertElement.appendChild(textNode);
+                alertContainer.appendChild(alertElement);
+
+                var airData = document.getElementById("AirData");
+                airData.classList.add("hideElement");
             }
         }
 
