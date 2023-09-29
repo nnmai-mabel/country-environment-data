@@ -5,7 +5,7 @@
 }
 
 <div class="text-center mb-3">
-    <h1 class="mb-3">@Model.TheCountryDetail.TheCountry.CountryName's Details</h1>
+    <h1 class="mb-3">@Model.TheCountryDetail.TheCountry.CountryName's Emissions Data</h1>
     @if (Model.TheCountryDetail.TheRegion != null)
     {
         <h4>Region: @Model.TheCountryDetail.TheRegion.RegionName</h4>
@@ -17,8 +17,8 @@
 </div>
 <div class="row justify-content-center" id="EmissionAlert" align="center" role="alert">
     @*<div class="alert alert-danger" role="alert">
-        This is an alert
-    </div>*@
+            This is an alert
+        </div>*@
 </div>
 <div class="mb-4">
     @if (Model.TheCountryDetail.TheRegion != null)
@@ -32,7 +32,7 @@
         <a asp-action="Index" asp-route-countryId="" class="btn btn-primary">All Countries List</a>
     }
     @*<a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-success" >Go Back</a>*@
-    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" class="btn btn-success">Visit cities</a>
+    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" class="btn btn-warning">Visit cities</a>
 </div>
 
 <div id="EmissionData">
@@ -66,11 +66,14 @@
 
     <!--<div class="row justify-content-end">
         <div class="col-4">-->
-            @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
+    @*<img src="@Model.TheCountryDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
 
 
-        <!--</div>
+    <!--</div>
     </div>-->
+    <div class="alert alert-info mt-3" role="alert">
+        ⚠︎ Hover on each bar to view detailed data.
+    </div>
     <div class="accordion mt-3" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
@@ -206,9 +209,9 @@
 
         // 12 Chart margins
         const chartMargins = {
-            left: 40,
+            left: 100,
             right: 25,
-            top: 25,
+            top: 75,
             bottom: 150
         };
 
@@ -307,6 +310,7 @@
             console.log(dataSet)
 
             // Clear graph
+            d3.selectAll('svg > *').remove();
             d3.selectAll('svg > g > *').remove();
 
             let valueElementsRangeAverage = "";
@@ -410,7 +414,7 @@
                 .style("background", "rgba(0,0,0,0.6)")
                 .style("border-radius", "5px")
                 .style("color", "#fff")
-                .text("a simple tooltip");
+                .text("Hover to view more data");
             // 7 Append new rectangles
             // 11 animate
             newBarGroups
@@ -435,7 +439,7 @@
                 //.delay((d, e) => e + 200)
 
 
-                .style("fill", (d, e) => { return `rgb(20, 20, ${e * 15 + 80})` })
+                .style("fill", (d, e) => { return `rgb(246, 190, ${e * 15 + 40})` })
                 // Add data information on tooltip when hover on each bar
                 .on("mouseover", function (d, e) {
                     // Average
@@ -524,6 +528,13 @@
                 .attr("dy", "4em")
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "1em"); // set font size
+
+            svg.append('text')
+                .attr('x', w / 2)
+                .attr('y', chartMargins.top / 3)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .text(`${chartAggregation} ${chartLegend} Value Graph`);
         }
 
         // Graph for item total
@@ -531,6 +542,7 @@
             console.log(dataSet)
 
             // Clear graph
+            d3.selectAll('svg > *').remove();
             d3.selectAll('svg > g > *').remove();
 
             let valueItemsRangeAverage = "";
@@ -690,7 +702,7 @@
                 .duration((d, i) => i * 200) // perform transition over 0.4 second
                 .delay((d, i) => i + 200)
                 .attr('y', 0)
-                .style("fill", (d, i) => { return `rgb(20, 20, ${i * 15 + 80})` });
+                .style("fill", (d, i) => { return `rgb(20, 20, ${i * 10 + 30})` });
 
             // 14 Create Bar text
             //newBarGroups
@@ -728,18 +740,17 @@
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
                 .attr("transform", "rotate(-50)")
-                .attr("dx", "-12em") // add margin left and right -> go negative to align left
-                .attr("dy", "10em") // add margin top and bottom -> increase to go far more bottom
+                .attr("dx", "-3em") // add margin left and right -> go negative to align left
+                .attr("dy", "2em") // add margin top and bottom -> increase to go far more bottom
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "0.45em"); // set font size
 
             svg.append('text')
                 .attr('x', w / 2)
-                .attr('y', chartMargins.top / 2)
+                .attr('y', chartMargins.top / 3)
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
-                .style('font-weight', 'bold')
-                .text('Your Graph Title Here');
+                .text(`${chartAggregation} ${chartLegend} Value Graph`);
         }
 
         // Get the idea of making a line chart from these links, then fix based on bar chart learned in class
@@ -751,6 +762,7 @@
             //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
             console.log(dataSet)
             // Clear graph
+            d3.selectAll('svg > *').remove();
             d3.selectAll('svg > g > *').remove();
 
             // Calculate the maximum value to be displayed
@@ -840,6 +852,13 @@
                 .attr('fill', 'black')
                 .style('font-size', '0.45em')
                 .text(d => d.value.toLocaleString()); // Display the value as text
+
+            svg.append('text')
+                .attr('x', w / 2)
+                .attr('y', chartMargins.top / 3)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .text(`${chartLegend} Value Graph`);
         }
     </script>
 }
