@@ -380,5 +380,30 @@ namespace Assig1.Controllers
                 return BadRequest();
             }
         }
+
+        //Action for fetching total, average, min, max value data
+        [Produces("application/json")]
+        public IActionResult EmissionSummaryData(CountriesViewModel vm)
+        {
+            if(vm.CountryId > 0)
+            {
+                var emissionSummary = _context.CountryEmissions
+                    .Where(ce => ce.CountryId == vm.CountryId)
+                    //.Where(ce => ce.Year == vm.Year)
+                    .GroupBy(ce => ce.CountryId)
+                    .Select(value => new
+                    {
+                        totalValue = value.Sum(ce => ce.Value),
+                        averageValue = value.Average(ce => ce.Value),
+                        minValue = value.Min(ce => ce.Value),
+                        maxValue = value.Max(ce => ce.Value)
+                    });
+                return Json(emissionSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
