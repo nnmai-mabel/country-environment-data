@@ -52,7 +52,7 @@
                     </div>
                 }
                 <div class="mb-5">
-                    @if (Model.TheCityDetail != null)
+                    @if (Model.TheCityDetail.TheRegion != null)
                     {
                         <p>Region: @Model.TheCityDetail.TheRegion.RegionName</p>
 
@@ -91,7 +91,9 @@
         <div class="right-column">
             @if (Model.TheCityDetail != null)
             {
-                <img src="@Model.TheCityDetail.TheRegion.ImageUrl" class="" alt="@Model.TheCityDetail.TheRegion.RegionName">
+                //Region Image
+                @*<img src="@Model.TheCityDetail.TheRegion.ImageUrl" class="" alt="@Model.TheCityDetail.TheRegion.RegionName">*@
+                <img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="" alt="@Model.TheCityDetail.TheCountry.CountryName">
             }
             else
             {
