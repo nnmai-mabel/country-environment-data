@@ -27,50 +27,52 @@
             {
                 <p>No country</p>
             }
-            <div class="mt-5">
-                @if (Model.CityDetailList.Any()) // Check if there are any elements in the list
+        <div class="mt-5">
+            @if (Model.CityDetailList.Any()) // Check if there are any elements in the list
+            {
+                <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-5">
+                    <div class="col-8">
+                        <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
+                        <datalist id="cityList">
+                            @foreach (var city in Model.CityDetailList)
+                            {
+                                <option value="@city.TheCity.CityName"></option>
+                            }
+                        </datalist>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-info">Search</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    There are no cities available in this country.
+                </div>
+            }
+            <div class="mb-5">
+                @if (Model.TheCityDetail != null)
                 {
-                    <form method="post" asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.CountryId" class="row mb-5">
-                        <div class="col-8">
-                            <input type="text" list="cityList" class="form-control" maxlength="100" id="cityName" asp-for="@Model.SearchText" placeholder="Search cities" title="Search a city name" />
-                            <datalist id="cityList">
-                                @foreach (var city in Model.CityDetailList)
-                                {
-                                    <option value="@city.TheCity.CityName"></option>
-                                }
-                            </datalist>
-                        </div>
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-info">Search</button>
-                        </div>
-                    </form>
+                    <p>Region: @Model.TheCityDetail.TheRegion.RegionName</p>
+
                 }
                 else
                 {
-                    <p>There are no cities available in this country.</p>
+                    <p>Region: Not available</p>
                 }
-                <div class="mb-5">
-                    @if (Model.TheCityDetail != null)
-                    {
-                        <p>Region: @Model.TheCityDetail.TheRegion.RegionName</p>
-
-                    }
-                    else
-                    {
-                        <p>Region: Not available</p>
-                    }
-                    @if (Model.TheCountry != null)
-                    {
-                        <p>ISO3: @(Model.TheCountry?.Iso3 ?? "Not available")</p>
-                    }
-                    else
-                    {
-                        <p>Country not available</p>
-                    }
-                </div>
+                @if (Model.TheCountry != null)
+                {
+                    <p>ISO3: @(Model.TheCountry?.Iso3 ?? "Not available")</p>
+                }
+                else
+                {
+                    <p>Country not available</p>
+                }
             </div>
+        </div>
             <div class="mt-5">
-                <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-success" style="margin-top: 70px">Go Back</a>
+                <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-success" style="margin-top: 45px">Go Back</a>
             </div>
         </div>
 
@@ -89,7 +91,7 @@
     </div>
 </div>
 
-<div class="accordion" id="accordionExample">
+<div class="accordion mt-3" id="accordionExample">
     @foreach (var item in Model.CityDetailList)
     {
         if (item.TheCity != null)
