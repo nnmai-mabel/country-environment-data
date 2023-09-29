@@ -6,21 +6,23 @@
 @if (Model.CountryList.Count() > 0)
 {<div class="row justify-content-center" align="center" role="alert">
         @*@if (Model.Id == null)
-        {
-            <div class="alert alert-success" role="alert">
-                There are @Model.CountryList.Count() countries in all regions.
-            </div>
-        }
-        else
+            {
+                <div class="alert alert-success" role="alert">
+                    There are @Model.CountryList.Count() countries in all regions.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success" role="alert">
+                    There are @Model.CountryList.Count() countries in @Model.CountryList[0].TheRegion.RegionName region.
+                </div>
+            }*@
+        @if (Model.RegionId != null)
         {
             <div class="alert alert-success" role="alert">
                 There are @Model.CountryList.Count() countries in @Model.CountryList[0].TheRegion.RegionName region.
             </div>
-        }*@
-    @if(Model.RegionId != null)
-{
-
-}
+        }
     </div>
 }
 <div class="row justify-content-center" align="center" role="alert">
@@ -75,8 +77,8 @@
                 <div class="card-body justify-content-around text-center">
                     <h5 class="card-title justify-content-center mb-3 ">@item.TheCountry.CountryName</h5>
                     @*<p class="card-text">
-                        CountryID: @item.TheCountry.CountryId
-                    </p>*@
+                            CountryID: @item.TheCountry.CountryId
+                        </p>*@
                     @if (item.TheCountry.Region != null)
                     {
                         <p>Region: @item.TheCountry.Region.RegionName</p>
