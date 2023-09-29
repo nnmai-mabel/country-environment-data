@@ -3,40 +3,38 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
-<a asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@Model.TheCityDetail?.TheCity?.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-primary">Go back</a>
-<div>
+<div class="text-center">
     @if (Model.TheCityDetail != null)
     {
-        <p>City name: @Model.TheCityDetail?.TheCity?.CityName</p>
+        <h1>@Model.TheCityDetail?.TheCity?.CityName's Air Quality Data</h1>
     }
     else
     {
-        <p>No name</p>
-    }
-
-    @if (Model.TheCityDetail != null)
-    {
-        <p>Region Name: @Model.TheCityDetail?.TheRegion?.RegionName</p>
-    }
-    else
-    {
-        <p>No region</p>
+        <div class="alert alert-warning" role="alert">
+            City name not available.
+        </div>
     }
     @if (Model.TheCityDetail != null)
     {
-        <p>Country Name: @Model.TheCityDetail?.TheCountry?.CountryName</p>
-        <p>Image: </p>
+        <h3>@Model.TheCityDetail?.TheCountry?.CountryName</h3>
         @*<img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="card-img-top" alt="...">*@
     }
     else
     {
-        <p>No country</p>
+        <h3>Country: Not available</h3>
     }
-
+    @if (Model.TheCityDetail != null)
+    {
+        <h5>@Model.TheCityDetail?.TheRegion?.RegionName</h5>
+    }
+    else
+    {
+        <h5>Region: Not available</h5>
+    }
 </div>
-<div class="row mb-3" id="dataDisplay">
+<a asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@Model.TheCityDetail?.TheCity?.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-success">Go back</a>
+
+<div class="row mb-3 mt-3" id="dataDisplay">
     <div class="col-2" id="chartLegend">
         <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
             <option value="Year">Year</option>
@@ -57,44 +55,57 @@
 <div>
     <svg width="100%" height="600px" class="border border-primary rounded p-2"></svg>
 </div>
-
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>cityId</th>
-                <th>year</th>
-                <th>annualMean</th>
-                <th>annualMeanPm10</th>
-                <th>annualMeanPm25</th>
-                <th>annualMeanUgm3</th>
-                <th>temporalCoverage1</th>
-                <th>temporalCoverage2</th>
-                <th>reference</th>
-                <th>dbYear</th>
-                <th>status</th>
-                <th>stationType</th>
-                <th>number</th>
-            </tr>
-        </thead>
-        <tbody class="AirQualityInfo">
-            <tr class="rowData">
-                <td>cityId test</td>
-                <td>year test</td>
-                <td>annualMean test</td>
-                <td>annualMeanPm10 test</td>
-                <td>annualMeanPm25 test</td>
-                <td>annualMeanUgm3 test</td>
-                <td>temporalCoverage1 test</td>
-                <td>temporalCoverage2 test</td>
-                <td>reference test</td>
-                <td>dbYear test</td>
-                <td>status test</td>
-                <td>stationType test</td>
-                <td>number test</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="alert alert-info mt-3" role="alert">
+    ⚠︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
+</div>
+<div class="accordion mt-3" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                View all air quality data
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div id="ItemElementInfo">
+                    <table class="table table-info">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Annual Mean</th>
+                                <th>Annual Mean Pm10</th>
+                                <th>Annual Mean Pm25</th>
+                                <th>Annual Mean Ugm3</th>
+                                <th>Temporal Coverage 1</th>
+                                <th>Temporal Coverage 2</th>
+                                <th>Station Type</th>
+                                <th>Number of Stations</th>
+                                <th>Database Year</th>
+                                <th>Status</th>
+                                <th>Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody class="AirQualityInfo">
+                            <tr class="rowData">
+                                <td>year test</td>
+                                <td>annualMean test</td>
+                                <td>annualMeanPm10 test</td>
+                                <td>annualMeanPm25 test</td>
+                                <td>annualMeanUgm3 test</td>
+                                <td>temporalCoverage1 test</td>
+                                <td>temporalCoverage2 test</td>
+                                <td>stationType test</td>
+                                <td>number test</td>
+                                <td>dbYear test</td>
+                                <td>status test</td>
+                                <td>reference test</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @section scripts{
     <script type="module">
@@ -119,19 +130,18 @@
                 var row = table.querySelector("tr.rowData").cloneNode(true);
 
                 let tdList = row.querySelectorAll('td');
-                tdList[0].innerText = dataSet[i].cityId;
-                tdList[1].innerText = dataSet[i].year;
-                tdList[2].innerText = dataSet[i].annualMean;
-                tdList[3].innerText = dataSet[i].annualMeanPm10;
-                tdList[4].innerText = dataSet[i].annualMeanPm25;
-                tdList[5].innerText = dataSet[i].annualMeanUgm3;
-                tdList[6].innerText = dataSet[i].temporalCoverage1;
-                tdList[7].innerText = dataSet[i].temporalCoverage2;
-                tdList[8].innerText = dataSet[i].reference;
+                tdList[0].innerText = dataSet[i].year;
+                tdList[1].innerText = dataSet[i].annualMean;
+                tdList[2].innerText = dataSet[i].annualMeanPm10;
+                tdList[3].innerText = dataSet[i].annualMeanPm25;
+                tdList[4].innerText = dataSet[i].annualMeanUgm3;
+                tdList[5].innerText = dataSet[i].temporalCoverage1;
+                tdList[6].innerText = dataSet[i].temporalCoverage2;
+                tdList[7].innerText = dataSet[i].stationType;
+                tdList[8].innerText = dataSet[i].number;
                 tdList[9].innerText = dataSet[i].dbYear;
                 tdList[10].innerText = dataSet[i].status;
-                tdList[11].innerText = dataSet[i].stationType;
-                tdList[12].innerText = dataSet[i].number;
+                tdList[11].innerText = dataSet[i].reference;
 
                 table.appendChild(row);
 
@@ -313,7 +323,7 @@
                 .delay((d, a) => a + 200)
                 .attr('y', 0)
                 .attr('height', (d, a) => { return h - yScale(d.annualMean); })
-                .style("fill", (d, a) => { return `rgb(20, 20, ${a * 15 + 80})` });
+                .style("fill", (d, a) => { return `rgb(246, 190, ${a * 15 + 80})` });
 
             // 14 Create Bar text
             newBarGroups
@@ -341,11 +351,11 @@
 
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
-                .attr("transform", "rotate(-70)")
-                .attr("dx", "-0.8em")
-                .attr("dy", "0.25em")
+                .attr("transform", "rotate(0)")
+                .attr("dx", "1em")
+                .attr("dy", "1.5em")
                 .style("text-anchor", "end") // pull labels to bottom
-                .style("font-size", "0.9em"); // set font size
+                .style("font-size", "2em"); // set font size
         }
 
         function buildAirQualityYear(dataSet) {
@@ -428,7 +438,6 @@
                 .attr("text-anchor", "middle")
                 .attr('x', (d, a) => { return xScale.bandwidth() / 2; })
                 .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-                .attr('fill', 'black')
                 .style('font-size', '1em')
                 .text((d, a) => d.annualMean.toLocaleString());
 
@@ -448,13 +457,13 @@
 
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
-                .attr("transform", "rotate(-70)")
-                .attr("dx", "-0.8em")
-                .attr("dy", "0.25em")
+                .attr("transform", "rotate(0)")
+                .attr("dx", "2em")
+                .attr("dy", "1.5em")
                 .style("text-anchor", "end") // pull labels to bottom
-                .style("font-size", "0.9em"); // set font size
+                .style("font-size", "1.5em"); // set font size
         }
 
-        
+
     </script>
 }
