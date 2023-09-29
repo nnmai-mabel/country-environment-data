@@ -76,13 +76,13 @@
 
                 @if (@Model.PageSource == "countriesIndex")
                 {
-                    <a asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" asp-route-searchText="@Model.SearchText" class="btn btn-success" style="margin-top: 45px">Go Back</a>
+                    <a asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" asp-route-searchText="@Model.SearchText" class="btn btn-success" style="margin-top: 45px">Go Back</a>
                     @*<a asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@Model.TheCityDetail?.TheCity?.CountryId" asp-route-searchText="@Model.SearchText" class="btn btn-success">Go back</a>*@
 
                 }
                 else
                 {
-                    <a asp-controller="Countries" asp-action="Details" asp-route-id="@Model.Id" asp-route-countryId="@Model.CountryId" class="btn btn-success" style="margin-top: 45px">Go Back</a>
+                    <a asp-controller="Countries" asp-action="Details" asp-route-regionId="@Model.RegionId" asp-route-countryId="@Model.CountryId" class="btn btn-success" style="margin-top: 45px">Go Back</a>
 
                 }
             </div>
@@ -121,7 +121,7 @@
                         <p>Air quality data records: @Html.DisplayFor(modelItem => item.AirRecordCount)</p>
                         @if (item.TheCountry != null)
                         {
-                            <a asp-action="Details" asp-route-id="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-primary">Air Quality Data</a>
+                            <a asp-action="Details" asp-route-regionId="@item.TheCountry.RegionId" asp-route-countryId="@item.TheCity.CountryId" asp-route-cityId="@item.TheCity.CityId" asp-route-searchText="@Model.SearchText" class="btn btn-primary">Air Quality Data</a>
                         }
                         else
                         {

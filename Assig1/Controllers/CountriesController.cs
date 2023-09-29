@@ -80,10 +80,10 @@ namespace Assig1.Controllers
             }
 
             // Return results when user search regions
-            if (vm.Id != null)
+            if (vm.RegionId != null)
             {
                 envDataContext = envDataContext
-                    .Where(c => c.TheRegion.RegionId == vm.Id);
+                    .Where(c => c.TheRegion.RegionId == vm.RegionId);
             }
             #endregion
 

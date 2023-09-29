@@ -24,7 +24,7 @@
     @if (Model.TheCountryDetail.TheRegion != null)
     {
         @*<a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-outline-info">Countries in same Region</a>*@
-        <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-id="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-primary">Countries in same Region</a>
+        <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-primary">Countries in same Region</a>
 
     }
     else

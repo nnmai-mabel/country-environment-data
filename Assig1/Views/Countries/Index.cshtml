@@ -5,7 +5,7 @@
 }
 @if (Model.CountryList.Count() > 0)
 {<div class="row justify-content-center" align="center" role="alert">
-        @if (Model.Id == null)
+        @*@if (Model.Id == null)
         {
             <div class="alert alert-success" role="alert">
                 There are @Model.CountryList.Count() countries in all regions.
@@ -14,16 +14,20 @@
         else
         {
             <div class="alert alert-success" role="alert">
-                There are @Model.CountryList.Count() countries in this region.
+                There are @Model.CountryList.Count() countries in @Model.CountryList[0].TheRegion.RegionName region.
             </div>
-        }
+        }*@
+    @if(Model.RegionId != null)
+{
+
+}
     </div>
 }
 <div class="row justify-content-center" align="center" role="alert">
     <h1 class="p-2 text-center mb-3" role="alert" id="headingAlert">Countries</h1>
 </div>
 <div class="mb-5 mt-3">
-    <form method="post" asp-controller="Countries" asp-action="Index" asp-route-id="@Model.Id" class="row mb-2">
+    <form method="post" asp-controller="Countries" asp-action="Index" asp-route-regionId="@Model.RegionId" class="row mb-2">
         <div class="col-2">
             <a asp-controller="Regions" asp-action="Index" class="btn btn-success">Visit all regions</a>
         </div>
@@ -38,7 +42,7 @@
         </div>
 
         <div class="col-3">
-            <select asp-for="@Model.Id" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
+            <select asp-for="@Model.RegionId" asp-items="@Model.RegionSelectList" class="form-control" title="View countries for a specific region">
                 <option value="">All Regions</option>
             </select>
         </div>
@@ -68,8 +72,8 @@
                 @*<img src="@item.TheCountry.ImageUrl" onerror="this.onerror=null;this.src='https://blog.hubspot.com/hs-fs/hubfs/http-error-500-google.webp?width=650&height=462&name=http-error-500-google.webp';"
                     class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />*@
                 <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
-                <div class="card-body justify-content-around">
-                    <h5 class="card-title justify-content-center mb-3">@item.TheCountry.CountryName</h5>
+                <div class="card-body justify-content-around text-center">
+                    <h5 class="card-title justify-content-center mb-3 ">@item.TheCountry.CountryName</h5>
                     @*<p class="card-text">
                         CountryID: @item.TheCountry.CountryId
                     </p>*@
@@ -84,8 +88,8 @@
 
                     <div class="d-flex justify-content-around">
                         @*Add a route parameter to know which page to go back*@
-                        <a asp-controller="Cities" asp-action="Index" asp-route-id="@Model.Id" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit cities</a>
-                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="Cities" asp-action="Index" asp-route-regionId="@Model.RegionId" asp-route-countryId="@item.TheCountry.CountryId" asp-route-pageSource="countriesIndex" asp-route-searchText="@Model.SearchText" class="btn btn-warning">Visit cities</a>
+                        <a asp-action="Details" asp-route-countryId="@item.TheCountry.CountryId" asp-route-regionId="@Model.RegionId" class="btn btn-primary">Details</a>
                     </div>
 
                 </div>
