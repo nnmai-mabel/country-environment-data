@@ -261,9 +261,9 @@
 
         // 12 Chart margins
         const chartMargins = {
-            left: 40,
+            left: 100,
             right: 25,
-            top: 25,
+            top: 75,
             bottom: 150
         };
 
@@ -449,6 +449,14 @@
                 .attr("dy", "1.5em")
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "2em"); // set font size
+
+            // Add chart title
+            svg.append('text')
+                .attr('x', w / 2)
+                .attr('y', chartMargins.top / 3)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .text(`${chart}'s Air Quality Data Graph`);
         }
 
         // Build graph based on year
@@ -551,6 +559,14 @@
                 .attr("dy", "1.5em")
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "1.5em"); // set font size
+
+            // Add chart title
+            svg.append('text')
+                .attr('x', w / 2)
+                .attr('y', chartMargins.top / 3)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .text(`${chart}'s Air Quality Data Graph`);
         }
 
     </script>
