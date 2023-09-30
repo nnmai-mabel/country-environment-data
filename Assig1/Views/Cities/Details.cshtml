@@ -47,6 +47,13 @@
     <div class="row mb-3 mt-3" id="dataDisplay">
         <div class="col-2" id="chartLegend">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
+                <option value="">Select Data</option>
+                <option value="Pm10">Annual Mean PM10</option>
+                <option value="Pm25">Annual Mean PM2.5</option>
+            </select>
+        </div>
+        @*<div class="col-2" id="chartLegend">
+            <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="Year">Year</option>
                 <option value="Station">Station Type</option>
             </select>
@@ -60,7 +67,7 @@
             <select asp-for="@Model.StationType" asp-items="@Model.StationTypeList" class="form-control" id="station">
                 <option value="">Select station type</option>
             </select>
-        </div>
+        </div>*@
     </div>
 
     <div>
@@ -68,9 +75,9 @@
     </div>
 
     @*Alert info to instruct user to choose data to display on the graph*@
-    <div class="alert alert-info mt-3" role="alert">
-        ⚠︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
-    </div>
+<div class="alert alert-info mt-3" role="alert">
+    ℹ︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
+</div>
 
     @*Show accordion for summary and all data set*@
     <div class="accordion mt-3" id="accordionExample">
