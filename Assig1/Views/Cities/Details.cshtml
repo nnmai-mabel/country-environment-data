@@ -75,7 +75,7 @@
     </div>
 
     @*Alert info to instruct user to choose data to display on the graph*@
-<div class="alert alert-info mt-3" role="alert">
+<div class="alert alert-info mt-3" role="alert" id="tips">
     ℹ︎ Choose either PM10 or PM2.5 to show annual mean data.
 </div>
 
@@ -347,306 +347,30 @@
             chart = legendEvent.target.value;
             console.log("Legend: " + chart);
 
+            alert = document.querySelector("#tips");
+            
             if (chart != null && chart != "") {
+                alert.classList.add("hideElement");
                 fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}`)
-                .then(response => {
-                    console.log("response status: " + response.status);
-                    console.log("response text: " + response.statusText);
-                    return response.json();
-                })
-                .then(data => buildAirQualityGraph(data))
-                .catch(err => console.log(err.message));
-            //updateChartSelection(chart, year, station);
+                    .then(response => {
+                        console.log("response status: " + response.status);
+                        console.log("response text: " + response.statusText);
+                        return response.json();
+                    })
+                    .then(data => buildAirQualityGraph(data))
+                    .catch(err => console.log(err.message));
+            }
+            else {
+                alert.classList.remove("hideElement");
+                d3.selectAll('svg > *').remove();
             }
         })
 
-        //document.querySelector('.row .col-2 #year').addEventListener('change', yearEvent => {
-        //    year = yearEvent.target.value;
-        //    console.log("Year: " + year);
-        //    updateChartSelection(chart, year, station);
-        //})
-
-        //document.querySelector('.row .col-2 #station').addEventListener('change', stationEvent => {
-        //    station = stationEvent.target.value;
-        //    console.log("station: " + station);
-        //    updateChartSelection(chart, year, station);
-        //})
-
-        // Update the chart, show and hide the options user does not chooose
-        @*function updateChartSelection(chart, year, station) {
-            chart = chart;
-            year = year;
-            station = station;
-
-            console.log("UPDATED chart: " + chart);
-            console.log("UPDATED CHART year: " + year);
-            console.log("UPDATED CHART station: " + station);
-
-            // If choose station
-            if (chart == "Station") {
-                console.log("In station")
-                yearElement.classList.add("hideElement")
-                stationElement.classList.remove("hideElement")
-
-                // Fetch data based on station type
-                if (station != "") {
-                    fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&stationType=${station}`)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                            return response.json();
-                        })
-                        .then(data => buildAirQualityStation(data))
-                        .catch(err => console.log(err.message));
-                }
-            }
-            // If choose year
-            else {
-                console.log("In year")
-                stationElement.classList.add("hideElement")
-                yearElement.classList.remove("hideElement")
-
-                if (year > 0) {
-
-                    // Fetch data based on year
-                    fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}&year=${year}`)
-                        .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
-                            return response.json();
-                        })
-                        .then(data => buildAirQualityYear(data))
-                        .catch(err => console.log(err.message));
-                }
-            }
-        }*@
-
-        // Build graph based on station
-        //function buildAirQualityStation(dataSet) {
-        //    console.log(dataSet);
-
-        //    // Clear graph
-        //    d3.selectAll('svg > g > *').remove();
-
-        //    // 4 Calculate the maximum value to be displayed
-        //    let annualMeanRange = d3.extent(dataSet, (d, a) => d.annualMean);
-        //    let maxAnnualMean = annualMeanRange[1];
-
-        //    console.log("Max totalElements: " + annualMeanRange);
-
-        //    // 4 Calculate the bar dimensions
-        //    const barMargin = 10;
-        //    const barWidth = w / dataSet.length;
-
-        //    // 8 Create a YScale
-        //    let yScale = d3.scaleLinear()
-        //        .domain([0, maxAnnualMean])
-        //        .range([h, 0]);
-
-        //    // 10 Create XScale
-        //    let annualMeanArray = Array.from(dataSet, (d, a) => d.year);
-        //    console.log("array: " + annualMeanArray)
-
-        //    let xScale = d3.scaleBand()
-        //        .domain(annualMeanArray)
-        //        .range([0, w])
-        //        .paddingInner(0.1)
-
-        //    // example of xScale test:
-        //    console.log("xscale: " + xScale(1))
-
-        //    // 12.4 Create chartGroup element
-        //    const chartGroup = svg.append('g')
-        //        .classed('chartGroup', true)
-        //        .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
-
-        //    // 12.4 Append the barGroups to the chartGroup
-        //    let barGroups = chartGroup
-        //        .selectAll('g')
-        //        .data(dataSet);
-
-        //    // 6 Add new bar groups
-        //    let newBarGroups = barGroups.enter()
-        //        .append('g')
-        //        .attr('transform', (d, e) => {
-        //            // 9 Implement yScale
-        //            // 10 Implement xScale
-        //            return `translate(${xScale(d.year)}, ${yScale(d.annualMean)})`;
-        //        }); // end transform
-
-        //    // 7 Append new rectangles
-        //    // 11 animate
-        //    newBarGroups
-        //        .append('rect')
-        //        .attr('x', 0) // optional line that can be left out since 0 is the default
-        //        // 9 Implement yScale
-        //        .attr('height', 0)
-        //        .attr('y', (d, a) => { return h - yScale(d.annualMean); })
-        //        //10 Implement xScale
-        //        .attr('width', xScale.bandwidth())
-        //        .style('fill', 'transparent')
-        //        .transition().duration((d, a) => a * 500) // perform transition over 1 second
-        //        .delay((d, a) => a + 200)
-        //        .attr('y', 0)
-        //        .attr('height', (d, a) => { return h - yScale(d.annualMean); })
-        //        .style("fill", (d, a) => { return `rgb(246, 190, ${a * 15 + 80})` });
-
-        //    // 14 Create Bar text
-        //    newBarGroups
-        //        .append('text')
-        //        .attr("text-anchor", "middle")
-        //        .attr('x', (d, a) => { return xScale.bandwidth() / 2; })
-        //        .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-        //        .attr('fill', 'black')
-        //        .style('font-size', '1em')
-        //        .text((d, a) => d.annualMean.toLocaleString());
-
-        //    // 11 Create the axis and add it to the svg
-        //    // 12.5 Append the y-Axis to the chartGroup
-        //    let yAxis = d3.axisLeft(yScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .classed('axis y', true)
-        //        .call(yAxis);
-
-        //    // 13 Append the x-Axis to the chartGroup
-        //    let xAxis = d3.axisBottom(xScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
-        //        .classed('axis x', true)
-        //        .call(xAxis);
-
-        //    // Style and Rotate the labels
-        //    chartGroup.selectAll('.axis.x text')
-        //        .attr("transform", "rotate(0)")
-        //        .attr("dx", "1em")
-        //        .attr("dy", "1.5em")
-        //        .style("text-anchor", "end") // pull labels to bottom
-        //        .style("font-size", "2em"); // set font size
-
-        //    // Add chart title
-        //    svg.append('text')
-        //        .attr('x', w / 2)
-        //        .attr('y', chartMargins.top / 3)
-        //        .attr('text-anchor', 'middle')
-        //        .style('font-size', '1.5em')
-        //        .text(`${chart}'s Air Quality Data Graph`);
-        //}
-
-        // Build graph based on year
-        //function buildAirQualityYear(dataSet) {
-        //    console.log(dataSet);
-
-        //    // Clear graph
-        //    d3.selectAll('svg > g > *').remove();
-
-        //    // 4 Calculate the maximum value to be displayed
-        //    let annualMeanRange = d3.extent(dataSet, (d, a) => d.annualMean);
-        //    let maxAnnualMean = annualMeanRange[1];
-
-        //    console.log("Max totalElements: " + annualMeanRange);
-
-        //    // 4 Calculate the bar dimensions
-        //    const barMargin = 10;
-        //    const barWidth = w / dataSet.length;
-
-        //    // 8 Create a YScale
-        //    let yScale = d3.scaleLinear()
-        //        .domain([0, maxAnnualMean])
-        //        .range([h, 0]);
-
-        //    // 10 Create XScale
-        //    let annualMeanArray = Array.from(dataSet, (d, a) => d.stationType);
-        //    console.log("array: " + annualMeanArray)
-
-        //    let xScale = d3.scaleBand()
-        //        .domain(annualMeanArray)
-        //        .range([0, w])
-        //        .paddingInner(0.1)
-
-        //    // example of xScale test:
-        //    console.log("xscale: " + xScale(1))
-
-        //    // 12.4 Create chartGroup element
-        //    const chartGroup = svg.append('g')
-        //        .classed('chartGroup', true)
-        //        .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
-
-        //    // 12.4 Append the barGroups to the chartGroup
-        //    let barGroups = chartGroup
-        //        .selectAll('g')
-        //        .data(dataSet);
-
-        //    // 6 Add new bar groups
-        //    let newBarGroups = barGroups.enter()
-        //        .append('g')
-        //        .attr('transform', (d, e) => {
-        //            // 9 Implement yScale
-        //            // 10 Implement xScale
-        //            return `translate(${xScale(d.stationType)}, ${yScale(d.annualMean)})`;
-        //        }); // end transform
-
-        //    // 7 Append new rectangles
-        //    // 11 animate
-        //    newBarGroups
-        //        .append('rect')
-        //        .attr('x', 0) // optional line that can be left out since 0 is the default
-        //        // 9 Implement yScale
-        //        .attr('height', 0)
-        //        .attr('y', (d, a) => { return h - yScale(d.annualMean); })
-        //        //10 Implement xScale
-        //        .attr('width', xScale.bandwidth())
-        //        .style('fill', 'transparent')
-        //        .transition().duration((d, a) => a * 500) // perform transition over 1 second
-        //        .delay((d, a) => a + 200)
-        //        .attr('y', 0)
-        //        .attr('height', (d, a) => { return h - yScale(d.annualMean); })
-        //        .style("fill", (d, a) => { return `rgb(20, 20, ${a * 15 + 80})` });
-
-        //    // 14 Create Bar text
-        //    newBarGroups
-        //        .append('text')
-        //        .attr("text-anchor", "middle")
-        //        .attr('x', (d, a) => { return xScale.bandwidth() / 2; })
-        //        .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
-        //        .style('font-size', '1em')
-        //        .text((d, a) => d.annualMean.toLocaleString());
-
-        //    // 11 Create the axis and add it to the svg
-        //    // 12.5 Append the y-Axis to the chartGroup
-        //    let yAxis = d3.axisLeft(yScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .classed('axis y', true)
-        //        .call(yAxis);
-
-        //    // 13 Append the x-Axis to the chartGroup
-        //    let xAxis = d3.axisBottom(xScale); // declare the axis generator
-        //    chartGroup.append('g')
-        //        .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
-        //        .classed('axis x', true)
-        //        .call(xAxis);
-
-        //    // Style and Rotate the labels
-        //    chartGroup.selectAll('.axis.x text')
-        //        .attr("transform", "rotate(0)")
-        //        .attr("dx", "5em")
-        //        .attr("dy", "1.5em")
-        //        .style("text-anchor", "end") // pull labels to bottom
-        //        .style("font-size", "1.5em"); // set font size
-
-        //    // Add chart title
-        //    svg.append('text')
-        //        .attr('x', w / 2)
-        //        .attr('y', chartMargins.top / 3)
-        //        .attr('text-anchor', 'middle')
-        //        .style('font-size', '1.5em')
-        //        .text(`${chart}'s Air Quality Data Graph`);
-        //}
         function buildAirQualityGraph(dataSet) {
             console.log(dataSet);
 
             // Clear graph
             d3.selectAll('svg > *').remove();
-            //d3.selectAll('svg > g > *').remove();
 
             // 4 Calculate the maximum value to be displayed
             let annualMeanRange = "";
