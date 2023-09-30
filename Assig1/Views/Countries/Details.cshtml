@@ -194,6 +194,16 @@
             .then(data => buildEmissionSummary(data))
             .catch(err => console.log(err.message));
 
+        // Fetch temperature summary
+        fetch(`/Countries/TemperatureSummary?countryId=${@Model.CountryId}`)
+            .then(response => {
+                console.log("response status: " + response.status);
+                console.log("response text: " + response.statusText);
+                return response.json();
+            })
+            .then(data => buildTemperatureSummary(data))
+            .catch(err => console.log(err.message));
+
         // Fetch temperature data
         fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}`)
             .then(response => {
@@ -325,6 +335,30 @@
             }
         }
 
+        function buildTemperatureSummary(dataSet) {
+            console.log("In temperature summary");
+
+            var summary = document.querySelector("#TemperatureSummary");
+
+            var minElement = document.createElement("p");
+            var minMessage = `Min temperature: ${dataSet[0].minValue}`;
+            var minTextNode = document.createTextNode(minMessage);
+            minElement.appendChild(minTextNode);
+            summary.appendChild(minElement);
+
+            var maxElement = document.createElement("p");
+            var maxMessage = `Max temperature: ${dataSet[0].maxValue}`;
+            var maxTextNode = document.createTextNode(maxMessage);
+            maxElement.appendChild(maxTextNode);
+            summary.appendChild(maxElement);
+
+            var averageElement = document.createElement("p");
+            var averageMessage = `Average temperature: ${dataSet[0].averageValue}`;
+            var averageTextNode = document.createTextNode(averageMessage);
+            averageElement.appendChild(averageTextNode);
+            summary.appendChild(averageElement);
+        }
+
         function buildTableTemperature(dataSet) {
             console.log("IN table temperature")
             console.log(dataSet)
@@ -333,8 +367,6 @@
             // Build table if there are available data
             if (dataSet.length > 0) {
                 console.log("In if of table temperature");
-
-                var summary = document.querySelector("#TemperatureSummary");
 
                 var table = document.querySelector(".TemperatureTableBody");
 

@@ -297,6 +297,31 @@ namespace Assig1.Controllers
             }
         }
 
+        //Action for fetching temperature data
+        [Produces("application/json")]
+        public IActionResult TemperatureSummary(CountriesViewModel vm)
+        {
+            // Fetch data when user chooses Temperature legend
+            if (vm.CountryId > 0)
+            {
+                var temperatureSummary = _context.TemperatureData
+                    .Where(td => td.CountryId == vm.CountryId)
+                    .GroupBy(td => new { td.CountryId })
+                    .Select(group => new
+                    {
+                        countryId = group.Key.CountryId,
+                        minValue = group.Min(td => td.Value),
+                        maxValue = group.Max(td => td.Value),
+                        averageValue = group.Average(td => td.Value)
+                    });
+                return Json(temperatureSummary);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         //Action for fetching item element data
         [Produces("application/json")]
         public IActionResult ItemElementData(CountriesViewModel vm)
