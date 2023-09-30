@@ -63,8 +63,9 @@
         <svg width="100%" height="600px" class="border border-primary rounded p-2" title="Hover on each bar to view more details"></svg>
     </div>
 
-    <div id="tips">
-        @*This is the space for the tips alert to show up if user chooses item graph*@
+    @*This is the space for the tips alert to show up if user chooses item graph*@
+    <div class="alert alert-info hideElement" role="alert" id="tips">
+        ⚠︎ Hover on each bar to view detailed data.
     </div>
     <div class="accordion mt-3" id="accordionExample">
         @*Data Summary accordion item*@
@@ -336,7 +337,11 @@
             console.log("UPDATED CHART LEGEND: " + chartLegend);
             console.log("UPDATED CHART AGGREGATION: " + chartAggregation);
 
+            var tips = document.querySelector("#tips");
+
             if (chartLegend == "Temperature") {
+                tips.classList.add("hideElement");
+
                 console.log("In temperature")
 
                 // Hide year element and chart aggregation if user chooses temperature legend
@@ -363,6 +368,9 @@
                 // Fetch data when year is provided
                 if (year.length > 0)
                 {
+
+                    tips.classList.remove("hideElement");
+
                     fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
                         .then(response => {
                             console.log("response status: " + response.status);
@@ -386,11 +394,11 @@
         // maybe only need buildgraph element and item, don't need to differentiate element and item because it just builds graph upon data
         // dataSet.length is number of items in the dataSet => elements: 8 for countryid=1
         function buildGraphElement(dataSet) {
+
             console.log(dataSet)
 
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
-            d3.selectAll('svg > g > *').remove();
 
             let valueElementsRangeAverage = "";
             let maxValueElementsAverage = "";
@@ -608,22 +616,11 @@
 
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
-            d3.selectAll('svg > g > *').remove();
 
             // Link reference for create text node
-            //https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
+            // https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country
-            var tips = document.querySelector("#tips");
-
-            var alertElement = document.createElement("div");
-            alertElement.className = "alert alert-info mt-3";
-            alertElement.setAttribute("role", "alert");
-
-            var message = "⚠︎ Hover on each bar to view detailed data.";
-            var textNode = document.createTextNode(message);
-            alertElement.appendChild(textNode);
-            tips.appendChild(alertElement);
 
             let valueItemsRangeAverage = "";
             let maxValueItemsAverage = "";
@@ -812,6 +809,9 @@
         //https://itecnote.com/tecnote/javascript-d3-js-how-to-add-labels-to-scatter-points-on-graph/
         //https://chrissardegna.com/blog/lessons-in-d3-labeling/
         function buildGraphTemperature(dataSet) {
+
+            var tips = document.querySelector("#tips");
+            tips.classList.add("hideElement");
 
             //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
             console.log(dataSet)

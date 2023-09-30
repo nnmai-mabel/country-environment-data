@@ -52,22 +52,6 @@
                 <option value="Pm2.5">Annual Mean PM2.5</option>
             </select>
         </div>
-        @*<div class="col-2" id="chartLegend">
-            <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
-                <option value="Year">Year</option>
-                <option value="Station">Station Type</option>
-            </select>
-        </div>
-        <div class="col-2" id="yearElement">
-            <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
-                <option value="">Select year</option>
-            </select>
-        </div>
-        <div class="col-2 hideElement" id="stationElement">
-            <select asp-for="@Model.StationType" asp-items="@Model.StationTypeList" class="form-control" id="station">
-                <option value="">Select station type</option>
-            </select>
-        </div>*@
     </div>
 
     <div>
@@ -75,9 +59,9 @@
     </div>
 
     @*Alert info to instruct user to choose data to display on the graph*@
-<div class="alert alert-info mt-3" role="alert" id="tips">
-    ℹ︎ Choose either PM10 or PM2.5 to show annual mean data.
-</div>
+    <div class="alert alert-info mt-3" role="alert" id="tips">
+        ℹ︎ Choose either PM10 or PM2.5 to show annual mean data.
+    </div>
 
     @*Show accordion for summary and all data set*@
     <div class="accordion mt-3" id="accordionExample">
@@ -105,12 +89,7 @@
 
                             @*Show test data row*@
                             <tbody id="AirSummaryInfo">
-                                @*<tr class="">
-                                    <td>Measurements test</td>
-                                    <td>Min Annual Mean test</td>
-                                    <td>Max Annual Mean test</td>
-                                    <td>Average Annual Mean test</td>
-                                </tr>*@
+                                @*Data goes here*@
                             </tbody>
                         </table>
                     </div>
@@ -342,7 +321,7 @@
             console.log("Legend: " + chart);
 
             alert = document.querySelector("#tips");
-            
+
             if (chart != null && chart != "") {
                 alert.classList.add("hideElement");
                 fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}`)
@@ -511,7 +490,7 @@
                 .attr('y', chartMargins.top / 2)
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
-                .text(`${chart}'s Air Quality Data Graph`);
+                .text(`Annual Mean of ${chart} Particles over Years Graph`);
 
             svg.append('text')
                 .attr('x', -chartMargins.left * 3) // Adjust as needed for left-right positioning
@@ -519,7 +498,7 @@
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
                 .attr('transform', 'rotate(-90)')
-                .text(`${chart}'s Annual Mean Data`);
+                .text(`${chart}'s Annual Mean`);
         }
     </script>
 }
