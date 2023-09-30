@@ -273,16 +273,21 @@ namespace Assig1.Controllers
         public IActionResult TemperatureReportData(CountriesViewModel vm)
         {
             // Fetch data when user chooses Temperature legend
-            if (vm.ChartLegend == "Temperature")
+            if (vm.CountryId > 0)
             {
                 var temperatureSummary = _context.TemperatureData
                     .Where(td => td.CountryId == vm.CountryId)
-                    .GroupBy(td => new { td.CountryId, td.Year, td.Value })
+                    .GroupBy(td => new { td.CountryId, td.Year, td.Value, td.Unit, td.Change })
                     .Select(group => new
                     {
                         countryId = group.Key.CountryId,
                         year = group.Key.Year,
-                        value = group.Key.Value
+                        value = group.Key.Value,
+                        unit = group.Key.Unit,
+                        change = group.Key.Change,
+                        minValue = group.Min(td => td.Value),
+                        maxValue = group.Max(td => td.Value),
+                        averageValue = group.Average(td => td.Value)
                     });
                 return Json(temperatureSummary);
             }

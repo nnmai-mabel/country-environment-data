@@ -72,7 +72,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    View country emissions summary
+                    View Country Emissions Summary
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -101,7 +101,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    View all items and elements data
+                    View All Items and Elements Data
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -124,6 +124,44 @@
                                     <td>Item test</td>
                                     <td>Element test</td>
                                     <td>Value test</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    View All Temperature Data
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div id="TemperatureSummary">
+                        @*Space for temperature summary data*@
+                    </div>
+
+                    @*Space for temperature data*@
+                    <div id="TemperatureTable">
+
+                        @*Table for all data*@
+                        <table class="table table-success">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Value</th>
+                                    <th>Unit</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody class="TemperatureTableBody">
+                                <tr class="TemperatureRow">
+                                    <td>Year test</td>
+                                    <td>Value test</td>
+                                    <td>Unit test</td>
+                                    <td>Change test</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -154,6 +192,16 @@
                 return response.json();
             })
             .then(data => buildEmissionSummary(data))
+            .catch(err => console.log(err.message));
+
+        // Fetch temperature data
+        fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}`)
+            .then(response => {
+                console.log("response status: " + response.status);
+                console.log("response text: " + response.statusText);
+                return response.json();
+            })
+            .then(data => buildTableTemperature(data))
             .catch(err => console.log(err.message));
 
         function buildEmissionSummary(dataSet) {
@@ -277,6 +325,37 @@
             }
         }
 
+        function buildTableTemperature(dataSet) {
+            console.log("IN table temperature")
+            console.log(dataSet)
+            console.log(dataSet.length)
+
+            // Build table if there are available data
+            if (dataSet.length > 0) {
+                console.log("In if of table temperature");
+
+                var summary = document.querySelector("#TemperatureSummary");
+
+                var table = document.querySelector(".TemperatureTableBody");
+
+                for (let i = 0; i < dataSet.length; i++) {
+                    var row = table.querySelector("tr.TemperatureRow").cloneNode(true);
+
+                    let tdList = row.querySelectorAll('td');
+                    tdList[0].innerText = dataSet[i].year;
+                    tdList[1].innerText = dataSet[i].value;
+                    tdList[2].innerText = dataSet[i].unit;
+                    tdList[3].innerText = dataSet[i].change;
+
+                    table.appendChild(row);
+
+                    // Remove the template table row
+                    if (i == (dataSet.length - 1)) {
+                        table.removeChild(table.querySelector("tr.TemperatureRow"));
+                    }
+                }
+            }
+        }
         // Build graph
         // 1 Select SVG element
         const svg = d3.select('svg');
