@@ -41,7 +41,7 @@
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="Elements">Elements</option>
                 <option value="Items">Items</option>
-                <option value="Temperature">Temperature</option>
+                <option value="Temperature" id="TemperatureOption">Temperature</option>
             </select>
         </div>
 
@@ -131,7 +131,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item">
+        <div class="accordion-item" id="TemperatureData">
             <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     View All Temperature Data
@@ -169,6 +169,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="alert alert-warning hideElement" role="alert" id="NoTemperature">
+        ⚠︎ There are no temperature data available.
     </div>
 </div>
 
@@ -337,27 +340,48 @@
 
         function buildTemperatureSummary(dataSet) {
             console.log("In temperature summary");
+            let alert = document.querySelector("#NoTemperature");
+            let temperatureData = document.querySelector("#TemperatureData");
+            let temperatureOption = document.querySelector("#TemperatureOption");
 
-            // Create elements to show data
-            var summary = document.querySelector("#TemperatureSummary");
+            if (dataSet.length > 0) {
 
-            var minElement = document.createElement("p");
-            var minMessage = `Min temperature: ${dataSet[0].minValue}`;
-            var minTextNode = document.createTextNode(minMessage);
-            minElement.appendChild(minTextNode);
-            summary.appendChild(minElement);
+                // Hide alert 
+                alert.classList.add("hideElement");
 
-            var maxElement = document.createElement("p");
-            var maxMessage = `Max temperature: ${dataSet[0].maxValue}`;
-            var maxTextNode = document.createTextNode(maxMessage);
-            maxElement.appendChild(maxTextNode);
-            summary.appendChild(maxElement);
+                // Show tempareture data and option
+                temperatureData.classList.remove("hideElement");
+                temperatureOption.classList.remove("hideElement");
 
-            var averageElement = document.createElement("p");
-            var averageMessage = `Average temperature: ${dataSet[0].averageValue}`;
-            var averageTextNode = document.createTextNode(averageMessage);
-            averageElement.appendChild(averageTextNode);
-            summary.appendChild(averageElement);
+                // Create elements to show data
+                var summary = document.querySelector("#TemperatureSummary");
+
+                var minElement = document.createElement("p");
+                var minMessage = `Min temperature: ${dataSet[0].minValue}`;
+                var minTextNode = document.createTextNode(minMessage);
+                minElement.appendChild(minTextNode);
+                summary.appendChild(minElement);
+
+                var maxElement = document.createElement("p");
+                var maxMessage = `Max temperature: ${dataSet[0].maxValue}`;
+                var maxTextNode = document.createTextNode(maxMessage);
+                maxElement.appendChild(maxTextNode);
+                summary.appendChild(maxElement);
+
+                var averageElement = document.createElement("p");
+                var averageMessage = `Average temperature: ${dataSet[0].averageValue}`;
+                var averageTextNode = document.createTextNode(averageMessage);
+                averageElement.appendChild(averageTextNode);
+                summary.appendChild(averageElement);
+            }
+            else {
+                // Show alert
+                alert.classList.remove("hideElement");
+
+                // Hide tempareture data and option
+                temperatureData.classList.add("hideElement");
+                temperatureOption.classList.add("hideElement");
+            }
         }
 
         function buildTableTemperature(dataSet) {
