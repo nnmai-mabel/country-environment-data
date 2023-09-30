@@ -76,7 +76,7 @@
 
     @*Alert info to instruct user to choose data to display on the graph*@
 <div class="alert alert-info mt-3" role="alert">
-    ℹ︎ Choose either Year or Station Type and continue choosing a specific Year or Station Type.
+    ℹ︎ Choose either PM10 or PM2.5 to show annual mean data.
 </div>
 
     @*Show accordion for summary and all data set*@
@@ -85,13 +85,13 @@
         @*Accordion for summary*@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     View air quality data summary of the country
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div class="accordion-body" id="AirSummary">
-
+                    @*Space for summary data*@
                 </div>
             </div>
         </div>
@@ -110,8 +110,8 @@
                             <thead>
                                 <tr>
                                     <th>Year</th>
-                                    <th>Annual Mean</th>
                                     <th>Annual Mean Pm10</th>
+                                    <th>Annual Mean</th>
                                     <th>Annual Mean Pm25</th>
                                     <th>Annual Mean Ugm3</th>
                                     <th>Temporal Coverage 1</th>
@@ -128,8 +128,8 @@
                             <tbody class="AirQualityInfo">
                                 <tr class="rowData">
                                     <td>year test</td>
-                                    <td>annualMean test</td>
                                     <td>annualMeanPm10 test</td>
+                                    <td>annualMean test</td>
                                     <td>annualMeanPm25 test</td>
                                     <td>annualMeanUgm3 test</td>
                                     <td>temporalCoverage1 test</td>
@@ -219,8 +219,8 @@
 
                     let tdList = row.querySelectorAll('td');
                     tdList[0].innerText = dataSet[i].year;
-                    tdList[1].innerText = dataSet[i].annualMean;
-                    tdList[2].innerText = dataSet[i].annualMeanPm10;
+                    tdList[1].innerText = dataSet[i].annualMeanPm10;
+                    tdList[2].innerText = dataSet[i].annualMean;
                     tdList[3].innerText = dataSet[i].annualMeanPm25;
                     tdList[4].innerText = dataSet[i].annualMeanUgm3;
                     tdList[5].innerText = dataSet[i].temporalCoverage1;
