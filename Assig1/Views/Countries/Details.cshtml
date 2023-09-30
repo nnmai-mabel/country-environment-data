@@ -534,7 +534,7 @@
                 })
                 .on("mouseout", function (d, e) {
                     tooltip.html(``).style("visibility", "hidden");
-                    d3.select(this).attr("fill", `rgb(20, 20, ${e * 15 + 80})`);
+                    d3.select(this).attr("fill", `rgb(0, 121, ${i * 10 + 100})`);
                 })
                 .transition()
                 .duration((d, e) => e * 500) // perform transition over 1 second
@@ -599,7 +599,7 @@
                 .attr('y', chartMargins.top / 3)
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
-                .text(`${chartAggregation} ${chartLegend} Value Graph`);
+                .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
         }
 
         // Graph for item total
@@ -769,13 +769,13 @@
                 })
                 .on("mouseout", function (d, i) {
                     tooltip.html(``).style("visibility", "hidden");
-                    d3.select(this).attr("fill", `rgb(20, 20, ${i * 15 + 80})`);
+                    d3.select(this).attr("fill", `rgb(0, 121, ${i * 10 + 100})`);
                 })
                 .transition()
                 .duration((d, i) => i * 200) // perform transition over 0.4 second
                 .delay((d, i) => i + 200)
                 .attr('y', 0)
-                .style("fill", (d, i) => { return `rgb(20, 20, ${i * 10 + 30})` });
+                .style("fill", (d, i) => { return `rgb(0, 121, ${i * 5 + 100})` });
 
             // 11 Create the axis and add it to the svg
             // 12.5 Append the y-Axis to the chartGroup
@@ -804,7 +804,7 @@
                 .attr('y', chartMargins.top / 3)
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
-                .text(`${chartAggregation} ${chartLegend} Value Graph`);
+                .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
         }
 
         // Get the idea of making a line chart from these links, then fix based on bar chart learned in class
