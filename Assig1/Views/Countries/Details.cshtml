@@ -261,7 +261,8 @@
             console.log(dataSet)
             console.log(dataSet.length)
 
-            let alert = document.querySelector("#NoEmissions");
+            let noDataAlert = document.querySelector("#NoData");
+            let emissionsAlert = document.querySelector("#NoEmissions");
             let emissionsData = document.querySelector("#EmissionsData");
             let itemsOption = document.querySelector("#ItemsOption");
             let elementsOption = document.querySelector("#ElementsOption");
@@ -273,7 +274,8 @@
             // Build table if there are available data
             if (dataSet.length > 0) {
                 // Hide alert
-                alert.classList.add("hideElement");
+                noDataAlert.classList.add("hideElement");
+                emissionsAlert.classList.add("hideElement");
 
                 // Show data and options
                 emissionsData.classList.remove("hideElement");
@@ -344,19 +346,21 @@
             }
             else { // If there are no data available, show an alert and hide all the data display elements
                 console.log("In else");
-                // Show alert
-                alert.classList.remove("hideElement");
+                // Hide alert
+                //noDataAlert.classList.remove("hideElement");
+                emissionsAlert.classList.remove("hideElement");
 
                 // Hide data and options
                 emissionsData.classList.add("hideElement");
                 itemsOption.classList.add("hideElement");
-
-                elementsOption.innerText = "Select Data";
-                elementsOption.value = "null";
                 elementsOption.classList.add("hideElement");
-
                 aggregationElement.classList.add("hideElement");
                 yearElement.classList.add("hideElement");
+
+                // Change options data
+                elementsOption.innerText = "Select Data";
+                elementsOption.value = "";
+                elementsOption.classList.add("hideElement");
 
                 // Change accordion title
                 countryImage.innerText = "View Country Image";
@@ -366,14 +370,17 @@
 
         function buildTemperatureSummary(dataSet) {
             console.log("In temperature summary");
-            let alert = document.querySelector("#NoTemperature");
+            let noDataAlert = document.querySelector("#NoData");
+
+            let temperatureAlert = document.querySelector("#NoTemperature");
             let temperatureData = document.querySelector("#TemperatureData");
             let temperatureOption = document.querySelector("#TemperatureOption");
 
             if (dataSet.length > 0) {
 
                 // Hide alert
-                alert.classList.add("hideElement");
+                noDataAlert.classList.add("hideElement");
+                temperatureAlert.classList.add("hideElement");
 
                 // Show tempareture data and option
                 temperatureData.classList.remove("hideElement");
@@ -402,11 +409,19 @@
             }
             else {
                 // Show alert
-                alert.classList.remove("hideElement");
+                //noDataAlert.classList.remove("hideElement");
+                temperatureAlert.classList.remove("hideElement");
 
                 // Hide tempareture data and option
                 temperatureData.classList.add("hideElement");
                 temperatureOption.classList.add("hideElement");
+
+                // Show alert
+                //alert.classList.remove("hideElement");
+
+                //// Hide tempareture data and option
+                //temperatureData.classList.add("hideElement");
+                //temperatureOption.classList.add("hideElement");
             }
         }
 
@@ -504,7 +519,7 @@
             if (chartLegend == "Temperature") {
                 tips.classList.add("hideElement");
 
-                console.log("In temperature")
+                //console.log("In temperature")
 
                 // Hide year element and chart aggregation if user chooses temperature legend
                 yearElement.classList.add("hideElement");
@@ -523,6 +538,8 @@
             else {
                 console.log("in other legends")
 
+                tips.classList.remove("hideElement");
+
                 // Show element and chart aggregation if user does not choose temperature legend
                 yearElement.classList.remove("hideElement");
                 chartAggregationElement.classList.remove("hideElement");
@@ -531,7 +548,7 @@
                 if (year.length > 0)
                 {
 
-                    tips.classList.remove("hideElement");
+                    //tips.classList.remove("hideElement");
 
                     fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
                         .then(response => {
@@ -1007,8 +1024,8 @@
         //https://chrissardegna.com/blog/lessons-in-d3-labeling/
         function buildGraphTemperature(dataSet) {
 
-            var tips = document.querySelector("#tips");
-            tips.classList.add("hideElement");
+            //var tips = document.querySelector("#tips");
+            //tips.classList.add("hideElement");
 
             //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
             console.log(dataSet)
@@ -1128,6 +1145,8 @@
         let dataDisplayOptions = document.querySelector("#dataDisplay");
         let svgSpace = document.querySelector("#svgSpace");
         console.log("Before if else no data");
+        console.log(emissionsExistAlert.classList.contains("hideElement"));
+        console.log(temperatureExistAlert.classList.contains("hideElement"));
         if (!emissionsExistAlert.classList.contains("hideElement")
             && !temperatureExistAlert.classList.contains("hideElement")) {
             console.log("IN NO DATA IF");
@@ -1135,15 +1154,29 @@
             noDataAlert.classList.remove("hideElement");
 
             // Hide options and svg and other alerts
-            dataDisplayOptions.classList.add("hideElement");
-            svgSpace.classList.add("hideElement");
-            emissionsExistAlert.classList.add("hideElement");
-            temperatureExistAlert.classList.add("hideElement");
+            //dataDisplayOptions.classList.add("hideElement");
+            //svgSpace.classList.add("hideElement");
+            //emissionsExistAlert.classList.add("hideElement");
+            //temperatureExistAlert.classList.add("hideElement");
         }
         else {
             console.log("IN NO DATA else");
-            console.log(emissionsExistAlert.classList.contains("hideElement"));
-            console.log(temperatureExistAlert.classList.contains("hideElement"));
+            //dataDisplayOptions.classList.remove("hideElement");
+            //svgSpace.classList.remove("hideElement");
+            //dataDisplayOptions.classList.remove("hideElement");
+            //svgSpace.classList.remove("hideElement");
+        }
+
+        if (!noDataAlert.classList.contains("hideElement")) {
+            // Hide options and svg and other alerts
+            //dataDisplayOptions.classList.add("hideElement");
+            //svgSpace.classList.add("hideElement");
+            //emissionsExistAlert.classList.add("hideElement");
+            //tem
+        }
+        else {
+            //dataDisplayOptions.classList.remove("hideElement");
+            //svgSpace.classList.remove("hideElement");
         }
     </script>
 }
