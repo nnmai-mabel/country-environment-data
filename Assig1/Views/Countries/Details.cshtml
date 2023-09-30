@@ -220,56 +220,62 @@
             .then(data => buildTableTemperature(data))
             .catch(err => console.log(err.message));
 
+        let noDataAlert = document.querySelector("#NoData");
+        let emissionsAlert = document.querySelector("#NoEmissions");
+        let emissionsData = document.querySelector("#EmissionsData");
+        let itemsOption = document.querySelector("#ItemsOption");
+        let elementsOption = document.querySelector("#ElementsOption");
+        let aggregationElement = document.querySelector("#chartAggregationElement");
+        let yearElement = document.querySelector("#yearElement");
+        let countryImage = document.querySelector("#CountryImage");
+        let cardHeading = document.querySelector("#CardHeading");
+
+        let temperatureExistAlert = document.querySelector("#NoTemperature");
+        let dataDisplayOptions = document.querySelector("#dataDisplay");
+        let svgSpace = document.querySelector("#svgSpace");
+
         function buildEmissionSummary(dataSet) {
-            console.log(dataSet);
-            var summary = document.querySelector("#EmissionSummary");
+            //console.log(dataSet);
+            if (dataSet.length > 0) {
+                var summary = document.querySelector("#EmissionSummary");
 
-            // Only need dataSet[0] because only have 1 row of
-            // total, average, min, max of all emissions in each country
-            // Build a new element and appendChild to the parent element
-            var totalElement = document.createElement("p");
-            totalElement.classList.add("card-text");
-            var totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
-            var totalTextNode = document.createTextNode(totalMessage);
-            totalElement.appendChild(totalTextNode);
-            summary.appendChild(totalElement);
+                // Only need dataSet[0] because only have 1 row of
+                // total, average, min, max of all emissions in each country
+                // Build a new element and appendChild to the parent element
+                var totalElement = document.createElement("p");
+                totalElement.classList.add("card-text");
+                var totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
+                var totalTextNode = document.createTextNode(totalMessage);
+                totalElement.appendChild(totalTextNode);
+                summary.appendChild(totalElement);
 
-            var averageElement = document.createElement("p");
-            averageElement.classList.add("card-text");
-            var averageMessage = `Average emissions value: ${dataSet[0].averageValue}`;
-            var averageTextNode = document.createTextNode(averageMessage);
-            averageElement.appendChild(averageTextNode);
-            summary.appendChild(averageElement);
+                var averageElement = document.createElement("p");
+                averageElement.classList.add("card-text");
+                var averageMessage = `Average emissions value: ${dataSet[0].averageValue}`;
+                var averageTextNode = document.createTextNode(averageMessage);
+                averageElement.appendChild(averageTextNode);
+                summary.appendChild(averageElement);
 
-            var minElement = document.createElement("p");
-            minElement.classList.add("card-text");
-            var minMessage = `Min emissions value: ${dataSet[0].minValue}`;
-            var minTextNode = document.createTextNode(minMessage);
-            minElement.appendChild(minTextNode);
-            summary.appendChild(minElement);
+                var minElement = document.createElement("p");
+                minElement.classList.add("card-text");
+                var minMessage = `Min emissions value: ${dataSet[0].minValue}`;
+                var minTextNode = document.createTextNode(minMessage);
+                minElement.appendChild(minTextNode);
+                summary.appendChild(minElement);
 
-            var maxElement = document.createElement("p");
-            maxElement.classList.add("card-text");
-            var maxMessage = `Max emissions value: ${dataSet[0].maxValue}`;
-            var maxTextNode = document.createTextNode(maxMessage);
-            maxElement.appendChild(maxTextNode);
-            summary.appendChild(maxElement);
+                var maxElement = document.createElement("p");
+                maxElement.classList.add("card-text");
+                var maxMessage = `Max emissions value: ${dataSet[0].maxValue}`;
+                var maxTextNode = document.createTextNode(maxMessage);
+                maxElement.appendChild(maxTextNode);
+                summary.appendChild(maxElement);
+            }
         }
 
         function buildTableItem(dataSet) {
 
-            console.log(dataSet)
-            console.log(dataSet.length)
-
-            let noDataAlert = document.querySelector("#NoData");
-            let emissionsAlert = document.querySelector("#NoEmissions");
-            let emissionsData = document.querySelector("#EmissionsData");
-            let itemsOption = document.querySelector("#ItemsOption");
-            let elementsOption = document.querySelector("#ElementsOption");
-            let aggregationElement = document.querySelector("#chartAggregationElement");
-            let yearElement = document.querySelector("#yearElement");
-            let countryImage = document.querySelector("#CountryImage");
-            let cardHeading = document.querySelector("#CardHeading");
+            //console.log(dataSet)
+            //console.log(dataSet.length)
 
             // Build table if there are available data
             if (dataSet.length > 0) {
@@ -278,13 +284,16 @@
                 emissionsAlert.classList.add("hideElement");
 
                 // Show data and options
+                dataDisplayOptions.classList.remove("hideElement");
+                svgSpace.classList.remove("hideElement");
+
                 emissionsData.classList.remove("hideElement");
                 itemsOption.classList.remove("hideElement");
                 elementsOption.classList.remove("hideElement");
                 aggregationElement.classList.remove("hideElement");
                 yearElement.classList.remove("hideElement");
 
-                console.log("In if");
+                //console.log("In if");
                 var table = document.querySelector(".ItemElementInfo");
 
                 // Declare the previous year and item to clear the same year and item on page
@@ -369,7 +378,7 @@
         }
 
         function buildTemperatureSummary(dataSet) {
-            console.log("In temperature summary");
+            //console.log("In temperature summary");
             let noDataAlert = document.querySelector("#NoData");
 
             let temperatureAlert = document.querySelector("#NoTemperature");
@@ -383,6 +392,9 @@
                 temperatureAlert.classList.add("hideElement");
 
                 // Show tempareture data and option
+                dataDisplayOptions.classList.remove("hideElement");
+                svgSpace.classList.remove("hideElement");
+
                 temperatureData.classList.remove("hideElement");
                 temperatureOption.classList.remove("hideElement");
 
@@ -426,13 +438,13 @@
         }
 
         function buildTableTemperature(dataSet) {
-            console.log("IN table temperature")
+            //console.log("IN table temperature")
             console.log(dataSet)
             console.log(dataSet.length)
 
             // Build table if there are available data
             if (dataSet.length > 0) {
-                console.log("In if of table temperature");
+                //console.log("In if of table temperature");
 
                 var table = document.querySelector(".TemperatureTableBody");
 
@@ -462,8 +474,8 @@
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
-        console.log("Width: " + w);
-        console.log("Height: " + h);
+        //console.log("Width: " + w);
+        //console.log("Height: " + h);
 
         // 12 Chart margins
         const chartMargins = {
@@ -483,25 +495,25 @@
         let chartAggregation = "Total";
         let year = "";
 
-        var yearElement = document.getElementById("yearElement");
+        //var yearElement = document.getElementById("yearElement");
         var chartAggregationElement = document.getElementById("chartAggregationElement");
 
         // Whenever user changes any option, update the graph immediately
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
             chartLegend = legendEvent.target.value;
-            console.log("Legend: " + chartLegend);
+            //console.log("Legend: " + chartLegend);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
         document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
             chartAggregation = aggregationEvent.target.value;
-            console.log("Chart Aggregation: " + chartAggregation);
+            //console.log("Chart Aggregation: " + chartAggregation);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
         document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
             year = yearEvent.target.value;
-            console.log("Year: " + year);
+            //console.log("Year: " + year);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
@@ -510,9 +522,9 @@
             chartLegend = chartLegend;
             chartAggregation = chartAggregation;
 
-            console.log("UPDATED YEAR: " + year);
-            console.log("UPDATED CHART LEGEND: " + chartLegend);
-            console.log("UPDATED CHART AGGREGATION: " + chartAggregation);
+            //console.log("UPDATED YEAR: " + year);
+            //console.log("UPDATED CHART LEGEND: " + chartLegend);
+            //console.log("UPDATED CHART AGGREGATION: " + chartAggregation);
 
             var tips = document.querySelector("#tips");
 
@@ -536,7 +548,7 @@
                     .catch(err => console.log(err.message));
             }
             else {
-                console.log("in other legends")
+                //console.log("in other legends")
 
                 tips.classList.remove("hideElement");
 
@@ -799,7 +811,7 @@
 
         // Graph for item total
         function buildGraphItem(dataSet) {
-            console.log(dataSet)
+            //console.log(dataSet)
 
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
@@ -820,13 +832,13 @@
             if (chartAggregation == "Average") {
                 valueItemsRangeAverage = d3.extent(dataSet, (d, i) => d.valueItemAverage);
                 maxValueItemsAverage = valueItemsRangeAverage[1];
-                console.log("Max totalItems average in build graph item: " + maxValueItemsAverage);
+                //console.log("Max totalItems average in build graph item: " + maxValueItemsAverage);
             }
             // Total
             else {
                 valueItemsRangeTotal = d3.extent(dataSet, (d, i) => d.valueItemTotal);
                 maxValueItemsTotal = valueItemsRangeTotal[1];
-                console.log("Max totalItems total in build graph item: " + maxValueItemsTotal);
+                //console.log("Max totalItems total in build graph item: " + maxValueItemsTotal);
             }
 
             // 4 Calculate the bar dimensions
@@ -853,7 +865,7 @@
 
             // 10 Create XScale
             let itemArray = Array.from(dataSet, (d, i) => d.item);
-            console.log("array: " + itemArray)
+            //console.log("array: " + itemArray)
 
             let xScale = d3.scaleBand()
                 .domain(itemArray)
@@ -861,7 +873,7 @@
                 .paddingInner(0.1)
 
             // example of xScale test:
-            console.log("xscale: " + xScale(1))
+            //console.log("xscale: " + xScale(1))
 
             // 12.4 Create chartGroup element
             const chartGroup = svg.append('g')
@@ -1028,7 +1040,7 @@
             //tips.classList.add("hideElement");
 
             //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
-            console.log(dataSet)
+            //console.log(dataSet)
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
 
@@ -1036,11 +1048,11 @@
             let valueTemperatureRange = d3.extent(dataSet, (d, t) => d.value);
             let maxValueTemperature = valueTemperatureRange[1];
 
-            console.log("Max totalItems in build graph item: " + maxValueTemperature);
+            //console.log("Max totalItems in build graph item: " + maxValueTemperature);
 
             // Create array of data based on year
             let temperatureArray = Array.from(dataSet, (d, t) => d.year);
-            console.log("array: " + temperatureArray);
+            //console.log("array: " + temperatureArray);
 
             // Create XScale
             let xScale = d3.scaleBand()
@@ -1054,7 +1066,7 @@
                 .range([h, 0]);
 
             // example of xScale test:
-            console.log("xscale: " + xScale(1));
+            //console.log("xscale: " + xScale(1));
 
             // Create chartGroup element
             let chartGroup = svg.append('g')
@@ -1139,40 +1151,43 @@
         }
 
         // Check if there is any data
-        let emissionsExistAlert = document.querySelector("#NoEmissions");
-        let temperatureExistAlert = document.querySelector("#NoTemperature");
-        let noDataAlert = document.querySelector("#NoData");
-        let dataDisplayOptions = document.querySelector("#dataDisplay");
-        let svgSpace = document.querySelector("#svgSpace");
+        //let emissionsExistAlert = document.querySelector("#NoEmissions");
+        //let temperatureExistAlert = document.querySelector("#NoTemperature");
+        //let noDataAlert = document.querySelector("#NoData");
+        //let dataDisplayOptions = document.querySelector("#dataDisplay");
+        //let svgSpace = document.querySelector("#svgSpace");
         console.log("Before if else no data");
-        console.log(emissionsExistAlert.classList.contains("hideElement"));
-        console.log(temperatureExistAlert.classList.contains("hideElement"));
-        if (!emissionsExistAlert.classList.contains("hideElement")
-            && !temperatureExistAlert.classList.contains("hideElement")) {
-            console.log("IN NO DATA IF");
-            // Show no data alert
-            noDataAlert.classList.remove("hideElement");
+        //console.log(emissionsExistAlert.classList.contains("hideElement"));
+        //console.log(temperatureExistAlert.classList.contains("hideElement"));
+        //if (!emissionsAlert.classList.contains("hideElement")
+        //    && !temperatureExistAlert.classList.contains("hideElement")) {
+        //    console.log("IN NO DATA IF");
+        //    // Show no data alert
+        //    //noDataAlert.classList.remove("hideElement");
 
-            // Hide options and svg and other alerts
-            //dataDisplayOptions.classList.add("hideElement");
-            //svgSpace.classList.add("hideElement");
-            //emissionsExistAlert.classList.add("hideElement");
-            //temperatureExistAlert.classList.add("hideElement");
-        }
-        else {
-            console.log("IN NO DATA else");
-            //dataDisplayOptions.classList.remove("hideElement");
-            //svgSpace.classList.remove("hideElement");
-            //dataDisplayOptions.classList.remove("hideElement");
-            //svgSpace.classList.remove("hideElement");
-        }
+        //    // Hide options and svg and other alerts
+        //    //dataDisplayOptions.classList.add("hideElement");
+        //    //svgSpace.classList.add("hideElement");
+        //    //emissionsExistAlert.classList.add("hideElement");
+        //    //temperatureExistAlert.classList.add("hideElement");
+        //}
+        //else {
+        //    console.log("IN NO DATA else");
+        //    //dataDisplayOptions.classList.remove("hideElement");
+        //    //svgSpace.classList.remove("hideElement");
+        //    //dataDisplayOptions.classList.remove("hideElement");
+        //    //svgSpace.classList.remove("hideElement");
+        //}
 
         if (!noDataAlert.classList.contains("hideElement")) {
             // Hide options and svg and other alerts
-            //dataDisplayOptions.classList.add("hideElement");
-            //svgSpace.classList.add("hideElement");
-            //emissionsExistAlert.classList.add("hideElement");
-            //tem
+            dataDisplayOptions.classList.add("hideElement");
+            svgSpace.classList.add("hideElement");
+
+            //emissionsAlert.classList.remove(...emissionsAlert.classList);
+            //emissionsAlert.innerText = "";
+            emissionsAlert.classList.add("hideElement");
+            temperatureExistAlert.classList.add("hideElement");
         }
         else {
             //dataDisplayOptions.classList.remove("hideElement");
