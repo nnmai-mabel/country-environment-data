@@ -346,10 +346,13 @@ namespace Assig1.Controllers
                     .GroupBy(aqd => aqd.CityId)
                     .Select(value => new
                     {
-                        totalValue = value.Sum(aqd => aqd.AnnualMean),
-                        averageValue = value.Average(aqd => aqd.AnnualMean),
-                        minValue = value.Min(aqd => aqd.AnnualMean),
-                        maxValue = value.Max(aqd => aqd.AnnualMean)
+                        //totalValue = value.Sum(aqd => aqd.AnnualMean),
+                        //averageValue = value.Average(aqd => aqd.AnnualMean),
+                        minValuePm10 = value.Min(aqd => aqd.AnnualMean),
+                        maxValuePm10 = value.Max(aqd => aqd.AnnualMean),
+
+                        minValuePm25 = value.Min(aqd => aqd.AnnualMeanUgm3),
+                        maxValuePm25 = value.Max(aqd => aqd.AnnualMeanUgm3)
                     });
                 return Json(airSummary);
             }

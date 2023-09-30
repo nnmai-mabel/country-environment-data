@@ -182,29 +182,41 @@
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country
             // Create element and attach value
-            var totalElement = document.createElement("p");
-            var totalMessage = `Total annual mean of air quality data: ${dataSet[0].totalValue}`;
-            var totalTextNode = document.createTextNode(totalMessage);
-            totalElement.appendChild(totalTextNode);
-            summary.appendChild(totalElement);
+            //var totalElement = document.createElement("p");
+            //var totalMessage = `Total annual mean of air quality data: ${dataSet[0].totalValue}`;
+            //var totalTextNode = document.createTextNode(totalMessage);
+            //totalElement.appendChild(totalTextNode);
+            //summary.appendChild(totalElement);
 
-            var averageElement = document.createElement("p");
-            var averageMessage = `Average annual mean of air quality data: ${dataSet[0].averageValue}`;
-            var averageTextNode = document.createTextNode(averageMessage);
-            averageElement.appendChild(averageTextNode);
-            summary.appendChild(averageElement);
+            //var averageElement = document.createElement("p");
+            //var averageMessage = `Average annual mean of air quality data: ${dataSet[0].averageValue}`;
+            //var averageTextNode = document.createTextNode(averageMessage);
+            //averageElement.appendChild(averageTextNode);
+            //summary.appendChild(averageElement);
 
-            var minElement = document.createElement("p");
-            var minMessage = `Min annual mean of air quality data: ${dataSet[0].minValue}`;
-            var minTextNode = document.createTextNode(minMessage);
-            minElement.appendChild(minTextNode);
-            summary.appendChild(minElement);
+            var minPm10Element = document.createElement("p");
+            var minPm10Message = `Min annual mean of air quality data measured in PM10: ${dataSet[0].minValuePm10}`;
+            var minPm10TextNode = document.createTextNode(minPm10Message);
+            minPm10Element.appendChild(minPm10TextNode);
+            summary.appendChild(minPm10Element);
 
-            var maxElement = document.createElement("p");
-            var maxMessage = `Max annual mean of air quality data: ${dataSet[0].maxValue}`;
-            var maxTextNode = document.createTextNode(maxMessage);
-            maxElement.appendChild(maxTextNode);
-            summary.appendChild(maxElement);
+            var maxPm10Element = document.createElement("p");
+            var maxPm10Message = `Max annual mean of air quality data measured in PM10: ${dataSet[0].maxValuePm10}`;
+            var maxPm10TextNode = document.createTextNode(maxPm10Message);
+            maxPm10Element.appendChild(maxPm10TextNode);
+            summary.appendChild(maxPm10Element);
+
+            var minPm25Element = document.createElement("p");
+            var minPm25Message = `Min annual mean of air quality data measured in PM25: ${dataSet[0].minValuePm25}`;
+            var minPm25TextNode = document.createTextNode(minPm25Message);
+            minPm25Element.appendChild(minPm25TextNode);
+            summary.appendChild(minPm25Element);
+
+            var maxPm25Element = document.createElement("p");
+            var maxPm25Message = `Max annual mean of air quality data measured in PM25: ${dataSet[0].maxValuePm25}`;
+            var maxPm25TextNode = document.createTextNode(maxPm25Message);
+            maxPm25Element.appendChild(maxPm25TextNode);
+            summary.appendChild(maxPm25Element);
         }
 
         // Build table for complete data set
