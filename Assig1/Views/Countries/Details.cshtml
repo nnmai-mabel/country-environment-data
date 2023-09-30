@@ -405,7 +405,7 @@
             left: 100,
             right: 25,
             top: 75,
-            bottom: 150
+            bottom: 230
         };
 
         // 12 Update width and height variable to account for the reduction in size caused by margins
@@ -722,7 +722,7 @@
                 .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
 
             svg.append('text')
-                .attr('x', -chartMargins.left * 3) // Adjust up down position
+                .attr('x', -chartMargins.left * 2) // Adjust up down position
                 .attr('y', 25) // Decrease the value to move the leftward
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
@@ -930,8 +930,8 @@
             // Style and Rotate the labels
             chartGroup.selectAll('.axis.x text')
                 .attr("transform", "rotate(-50)")
-                .attr("dx", "-3em") // add margin left and right -> go negative to align left
-                .attr("dy", "2em") // add margin top and bottom -> increase to go far more bottom
+                .attr("dx", "-7em") // add margin left and right -> go negative to align left
+                .attr("dy", "5em") // add margin top and bottom -> increase to go far more bottom
                 .style("text-anchor", "end") // pull labels to bottom
                 .style("font-size", "0.45em"); // set font size
 
@@ -943,7 +943,7 @@
                 .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
 
             svg.append('text')
-                .attr('x', -chartMargins.left * 3) // Adjust up down position
+                .attr('x', -chartMargins.left * 2) // Adjust up down position
                 .attr('y', 25) // Decrease the value to move the leftward
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
@@ -1062,12 +1062,13 @@
                 .text(`${chartLegend} Value Graph`);
 
             svg.append('text')
-                .attr('x', -chartMargins.left * 3) // Adjust for up down positioning
+                .attr('x', -chartMargins.left * 2) // Adjust for up down positioning
                 .attr('y', 50) // Decrease the value to move the title leftward
                 .attr('text-anchor', 'middle')
-                .style('font-size', '1.5em')
+                .style('font-size', '1em')
                 .attr('transform', 'rotate(-90)')
                 .text(`${chartLegend} Value (Celsius degree)`);
+
         }
     </script>
 }
