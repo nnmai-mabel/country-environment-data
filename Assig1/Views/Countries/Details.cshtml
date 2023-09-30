@@ -608,6 +608,14 @@
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
                 .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
+
+            svg.append('text')
+                .attr('x', -chartMargins.left * 3) // Adjust up down position
+                .attr('y', 25) // Decrease the value to move the leftward
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .attr('transform', 'rotate(-90)')
+                .text(`Emission Value`);
         }
 
         // Graph for item total
@@ -720,6 +728,25 @@
                 .style("color", "#fff")
                 .text("a simple tooltip");
 
+            // 14 Create Bar text
+            newBarGroups
+                .append('text')
+                .attr("text-anchor", "middle")
+                .attr('x', (d, i) => { return xScale.bandwidth() / 2; })
+                .attr('y', -10) // change whether bar text will appear inside or outside bar, 20 makes it stay inside bar
+                .attr('fill', 'black')
+                .style('font-size', '0.3em')
+                .text((d, i) => {
+                    // Average
+                    if (chartAggregation == "Average") {
+                        return Math.round(d.valueItemAverage).toLocaleString();
+                    }
+                    // Total
+                    else {
+                        return Math.round(d.valueItemTotal).toLocaleString();
+                    }
+                });
+
             // 7 Append new rectangles
             // 11 animate
             newBarGroups
@@ -802,6 +829,14 @@
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
                 .text(`${chartAggregation} Country Emissions by ${chartLegend} Graph`);
+
+            svg.append('text')
+                .attr('x', -chartMargins.left * 3) // Adjust up down position
+                .attr('y', 25) // Decrease the value to move the leftward
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .attr('transform', 'rotate(-90)')
+                .text(`Emission Value`);
         }
 
         // Get the idea of making a line chart from these links, then fix based on bar chart learned in class
@@ -817,7 +852,6 @@
             console.log(dataSet)
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
-            d3.selectAll('svg > g > *').remove();
 
             // Calculate the maximum value to be displayed
             let valueTemperatureRange = d3.extent(dataSet, (d, t) => d.value);
@@ -914,6 +948,14 @@
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
                 .text(`${chartLegend} Value Graph`);
+
+            svg.append('text')
+                .attr('x', -chartMargins.left * 3) // Adjust for up down positioning
+                .attr('y', 50) // Decrease the value to move the title leftward
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .attr('transform', 'rotate(-90)')
+                .text(`${chartLegend} Value (Celsius degree)`);
         }
     </script>
 }
