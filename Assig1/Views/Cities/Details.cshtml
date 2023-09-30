@@ -790,10 +790,18 @@
             // Add chart title
             svg.append('text')
                 .attr('x', w / 2)
-                .attr('y', chartMargins.top / 3)
+                .attr('y', chartMargins.top / 2)
                 .attr('text-anchor', 'middle')
                 .style('font-size', '1.5em')
                 .text(`${chart}'s Air Quality Data Graph`);
+
+            svg.append('text')
+                .attr('x', -chartMargins.left * 3) // Adjust as needed for left-right positioning
+                .attr('y', 50) // Increase the value to move the title downward
+                .attr('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .attr('transform', 'rotate(-90)')
+                .text(`${chart}'s Annual Mean Data`);
         }
     </script>
 }
