@@ -35,7 +35,7 @@
 </div>
 
 @*Show options to choose to display related graph*@
-<div id="">
+<div id="AllData">
     <div class="row mb-3" id="dataDisplay">
         <div class="col-2" id="chartLegendElement">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
@@ -184,8 +184,8 @@
 
         fetch(`/Countries/ItemElementData?countryId=${@Model.CountryId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
+                //console.log("response status: " + response.status);
+                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTableItem(data))
@@ -193,8 +193,8 @@
 
         fetch(`/Countries/EmissionSummaryData?countryId=${@Model.CountryId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
+                //console.log("response status: " + response.status);
+                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildEmissionSummary(data))
@@ -203,8 +203,8 @@
         // Fetch temperature summary
         fetch(`/Countries/TemperatureSummary?countryId=${@Model.CountryId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
+                //console.log("response status: " + response.status);
+                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTemperatureSummary(data))
@@ -213,8 +213,8 @@
         // Fetch temperature data
         fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
+                //console.log("response status: " + response.status);
+                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTableTemperature(data))
@@ -234,6 +234,38 @@
         let dataDisplayOptions = document.querySelector("#dataDisplay");
         let svgSpace = document.querySelector("#svgSpace");
 
+        let allData = document.querySelector("#AllData");
+
+        console.log(emissionsAlert.classList.contains("hideElement"));
+        console.log(temperatureExistAlert.classList.contains("hideElement"));
+        if (!emissionsAlert.classList.contains("hideElement") && !temperatureExistAlert.classList.contains("hideElement")) {
+            console.log("In if");
+            //noDataAlert.classList.remove("hideElement");
+            //emissionsAlert.classList.remove("hideElement");
+            //temperatureExistAlert.classList.remove("hideElement");
+
+            //emissionsAlert.classList.add("hideAlert");
+            //temperatureExistAlert.classList.add("hideAlert");
+
+            dataDisplayOptions.classList.add("hideElement");
+            svgSpace.classList.add("hideElement");
+            //allData.classList.add("hideElement");
+        }
+
+        //if (!noDataAlert.classList.contains("hideAlert")) {
+        //    // Hide options and svg and other alerts
+        //    dataDisplayOptions.classList.add("hideElement");
+        //    svgSpace.classList.add("hideElement");
+
+        //    //emissionsAlert.classList.remove(...emissionsAlert.classList);
+        //    //emissionsAlert.innerText = "";
+        //    //emissionsAlert.classList.add("hideAlert");
+        //    //temperatureExistAlert.classList.add("hideAlert");
+        //}
+        //else {
+        //    //dataDisplayOptions.classList.remove("hideElement");
+        //    //svgSpace.classList.remove("hideElement");
+        //}
         function buildEmissionSummary(dataSet) {
             //console.log(dataSet);
             if (dataSet.length > 0) {
@@ -354,7 +386,7 @@
                 }
             }
             else { // If there are no data available, show an alert and hide all the data display elements
-                console.log("In else");
+                //console.log("In else");
                 // Hide alert
                 //noDataAlert.classList.remove("hideElement");
                 emissionsAlert.classList.remove("hideElement");
@@ -439,8 +471,8 @@
 
         function buildTableTemperature(dataSet) {
             //console.log("IN table temperature")
-            console.log(dataSet)
-            console.log(dataSet.length)
+            //console.log(dataSet)
+            //console.log(dataSet.length)
 
             // Build table if there are available data
             if (dataSet.length > 0) {
@@ -540,8 +572,8 @@
                 // Fetch temperature data
                 fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=${chartLegend}`)
                     .then(response => {
-                        console.log("response status: " + response.status);
-                        console.log("response text: " + response.statusText);
+                        //console.log("response status: " + response.status);
+                        //console.log("response text: " + response.statusText);
                         return response.json();
                     })
                     .then(data => buildGraphTemperature(data))
@@ -564,8 +596,8 @@
 
                     fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
                         .then(response => {
-                            console.log("response status: " + response.status);
-                            console.log("response text: " + response.statusText);
+                            //console.log("response status: " + response.status);
+                            //console.log("response text: " + response.statusText);
                             return response.json();
                         })
                         .then(data => {
@@ -845,8 +877,8 @@
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
-            console.log("Bar margin: " + barMargin);
-            console.log("Bar width: " + barWidth);
+            //console.log("Bar margin: " + barMargin);
+            //console.log("Bar width: " + barWidth);
 
             // 8 Create a YScale
             // Average
@@ -1156,20 +1188,20 @@
         //let noDataAlert = document.querySelector("#NoData");
         //let dataDisplayOptions = document.querySelector("#dataDisplay");
         //let svgSpace = document.querySelector("#svgSpace");
-        console.log("Before if else no data");
+        //console.log("Before if else no data");
         //console.log(emissionsExistAlert.classList.contains("hideElement"));
         //console.log(temperatureExistAlert.classList.contains("hideElement"));
         //if (!emissionsAlert.classList.contains("hideElement")
         //    && !temperatureExistAlert.classList.contains("hideElement")) {
-        //    console.log("IN NO DATA IF");
-        //    // Show no data alert
-        //    //noDataAlert.classList.remove("hideElement");
+            //console.log("IN NO DATA IF");
+            // Show no data alert
+            //noDataAlert.classList.remove("hideElement");
 
-        //    // Hide options and svg and other alerts
-        //    //dataDisplayOptions.classList.add("hideElement");
-        //    //svgSpace.classList.add("hideElement");
-        //    //emissionsExistAlert.classList.add("hideElement");
-        //    //temperatureExistAlert.classList.add("hideElement");
+            // Hide options and svg and other alerts
+            //dataDisplayOptions.classList.add("hideElement");
+            //svgSpace.classList.add("hideElement");
+            //emissionsExistAlert.classList.add("hideElement");
+            //temperatureExistAlert.classList.add("hideElement");
         //}
         //else {
         //    console.log("IN NO DATA else");
@@ -1179,19 +1211,6 @@
         //    //svgSpace.classList.remove("hideElement");
         //}
 
-        if (!noDataAlert.classList.contains("hideElement")) {
-            // Hide options and svg and other alerts
-            dataDisplayOptions.classList.add("hideElement");
-            svgSpace.classList.add("hideElement");
 
-            //emissionsAlert.classList.remove(...emissionsAlert.classList);
-            //emissionsAlert.innerText = "";
-            emissionsAlert.classList.add("hideElement");
-            temperatureExistAlert.classList.add("hideElement");
-        }
-        else {
-            //dataDisplayOptions.classList.remove("hideElement");
-            //svgSpace.classList.remove("hideElement");
-        }
     </script>
 }
