@@ -334,14 +334,8 @@
 
         // DDL year event listener
         // Build default legends
-        //var chart = "Year";
-        //let year = "";
-        //let station = "";
-
-        //var yearElement = document.getElementById("yearElement");
-        //var stationElement = document.getElementById("stationElement");
-
         let chart = "";
+
         // Update the graph everytime user changes an option
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
             chart = legendEvent.target.value;
@@ -448,7 +442,7 @@
                     .delay((d, a) => a + 200)
                     .attr('y', 0)
                     .attr('height', (d, a) => { return h - yScale(d.annualMean); })
-                    .style("fill", (d, a) => { return `rgb(246, 190, ${a * 15 + 80})` });
+                    .style("fill", (d, a) => { return `rgb(246, 190, ${a * 5 + 50})` });
 
                 // 14 Create Bar text
                 newBarGroups
@@ -476,7 +470,7 @@
                     .delay((d, a) => a + 200)
                     .attr('y', 0)
                     .attr('height', (d, a) => { return h - yScale(d.annualMeanUgm3); })
-                    .style("fill", (d, a) => { return `rgb(246, 190, ${a * 15 + 80})` });
+                    .style("fill", (d, a) => { return `rgb(246, 190, ${a * 5 + 50})` });
 
                 // 14 Create Bar text
                 newBarGroups
