@@ -272,7 +272,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult TemperatureReportData(CountriesViewModel vm)
         {
-            // Fetch data when user chooses Temperature legend
+            // Fetch data when countryId available
             if (vm.CountryId > 0)
             {
                 var temperatureSummary = _context.TemperatureData
@@ -301,7 +301,7 @@ namespace Assig1.Controllers
         [Produces("application/json")]
         public IActionResult TemperatureSummary(CountriesViewModel vm)
         {
-            // Fetch data when user chooses Temperature legend
+            // Fetch data when countryId available
             if (vm.CountryId > 0)
             {
                 var temperatureSummary = _context.TemperatureData
