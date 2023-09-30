@@ -49,7 +49,7 @@
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="">Select Data</option>
                 <option value="Pm10">Annual Mean PM10</option>
-                <option value="Pm25">Annual Mean PM2.5</option>
+                <option value="Pm2.5">Annual Mean PM2.5</option>
             </select>
         </div>
         @*<div class="col-2" id="chartLegend">
@@ -235,7 +235,7 @@
 
             var Pm25Row = document.createElement("tr");
             var Pm25Element = document.createElement("td");
-            var Pm25Message = `PM25`;
+            var Pm25Message = `PM2.5`;
             var Pm25TextNode = document.createTextNode(Pm25Message);
             Pm25Element.appendChild(Pm25TextNode);
 
