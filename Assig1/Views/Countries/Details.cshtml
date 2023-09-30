@@ -37,12 +37,6 @@
 @*Show options to choose to display related graph*@
 <div id="EmissionData">
     <div class="row mb-3" id="dataDisplay">
-        <div class="col-2" id="yearElement">
-            <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
-                <option value="">Select year</option>
-            </select>
-        </div>
-
         <div class="col-2" id="chartLegendElement">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="Elements">Elements</option>
@@ -55,6 +49,12 @@
             <select asp-for="@Model.ChartAggregation" class="form-control" id="chartAggregation">
                 <option value="Total">Total</option>
                 <option value="Average">Average</option>
+            </select>
+        </div>
+
+        <div class="col-2" id="yearElement">
+            <select asp-for="@Model.Year" asp-items="@Model.YearList" class="form-control" id="year">
+                <option value="">Select year</option>
             </select>
         </div>
     </div>
