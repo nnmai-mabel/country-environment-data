@@ -89,15 +89,15 @@
         </div>
 
         <div class="right-column">
-            @if (Model.TheCityDetail != null)
+            @if (Model.TheCountry != null)
             {
-                //Region Image
-                @*<img src="@Model.TheCityDetail.TheRegion.ImageUrl" class="" alt="@Model.TheCityDetail.TheRegion.RegionName">*@
-                <img src="@Model.TheCityDetail.TheCountry.ImageUrl" class="" alt="@Model.TheCityDetail.TheCountry.CountryName">
+                <img src="@Model.TheCountry.ImageUrl" class="" alt="@Model.TheCountry.CountryName">
             }
             else
             {
-                <img class="card-img-top" alt="All regions" src="https://e0.pxfuel.com/wallpapers/1010/550/desktop-wallpaper-light-earth-planet-for-section-%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81-beautiful-planet-earth.jpg">
+                <div class="alert alert-danger" role="alert">
+                    This country does not have an image.
+                </div>
             }
         </div>
     </div>
