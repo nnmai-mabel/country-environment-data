@@ -347,12 +347,14 @@ namespace Assig1.Controllers
                     .Select(value => new
                     {
                         //totalValue = value.Sum(aqd => aqd.AnnualMean),
-                        //averageValue = value.Average(aqd => aqd.AnnualMean),
+                        
                         minValuePm10 = value.Min(aqd => aqd.AnnualMean),
                         maxValuePm10 = value.Max(aqd => aqd.AnnualMean),
+                        averageValuePm10 = value.Average(aqd => aqd.AnnualMean),
 
                         minValuePm25 = value.Min(aqd => aqd.AnnualMeanUgm3),
-                        maxValuePm25 = value.Max(aqd => aqd.AnnualMeanUgm3)
+                        maxValuePm25 = value.Max(aqd => aqd.AnnualMeanUgm3),
+                        averageValuePm25 = value.Average(aqd => aqd.AnnualMeanUgm3)
                     });
                 return Json(airSummary);
             }
