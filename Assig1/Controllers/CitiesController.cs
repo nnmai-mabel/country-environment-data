@@ -347,7 +347,6 @@ namespace Assig1.Controllers
                     .Select(value => new
                     {
                         //totalValue = value.Sum(aqd => aqd.AnnualMean),
-                        
                         minValuePm10 = value.Min(aqd => aqd.AnnualMean),
                         maxValuePm10 = value.Max(aqd => aqd.AnnualMean),
                         averageValuePm10 = value.Average(aqd => aqd.AnnualMean),
