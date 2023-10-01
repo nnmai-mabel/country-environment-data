@@ -538,8 +538,6 @@
             }
         }
 
-        // TESTING FOR ELEMENTS TOTAL
-        // maybe only need buildgraph element and item, don't need to differentiate element and item because it just builds graph upon data
         // dataSet.length is number of items in the dataSet => elements: 8 for countryid=1
         function buildGraphElement(dataSet) {
 
@@ -566,11 +564,11 @@
                 maxValueElementsTotal = valueElementsRangeTotal[1];
             }
 
-            // 4 Calculate the bar dimensions
+            // Calculate the bar dimensions
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
-            // 8 Create a YScale
+            // Create a YScale
             let yScale = "";
 
             // Average
@@ -894,8 +892,8 @@
                     }
                 })
 
-                // 9 Implement yScale
-                //10 Implement xScale
+                // Implement yScale
+                // Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
                 // Add data information on tooltip when hover on each bar
