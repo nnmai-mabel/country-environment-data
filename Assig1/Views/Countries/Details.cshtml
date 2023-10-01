@@ -24,13 +24,13 @@
 
     @if (Model.TheCountryDetail.TheRegion != null)
     {
-        <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-primary">Countries in same Region</a>
+        <a asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-regionId="@Model.TheCountryDetail.TheRegion.RegionId" class="btn btn-primary">Countries in Same Region</a>
     }
     else
     {
         <a asp-action="Index" asp-route-countryId="" class="btn btn-primary">All Countries</a>
     }
-    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-pageSource="countriesDetails" class="btn btn-warning m-3">Visit cities</a>
+    <a asp-controller="Cities" asp-action="Index" asp-route-countryId="@Model.TheCountryDetail.TheCountry.CountryId" asp-route-pageSource="countriesDetails" class="btn btn-warning m-3">Visit Cities</a>
 
 </div>
 
