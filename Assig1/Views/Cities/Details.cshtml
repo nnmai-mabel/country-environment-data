@@ -359,22 +359,22 @@
                 .range([0, w])
                 .paddingInner(0.1);
 
-            // 12.4 Create chartGroup element
+            // Create chartGroup element
             const chartGroup = svg.append('g')
                 .classed('chartGroup', true)
                 .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
 
-            // 12.4 Append the barGroups to the chartGroup
+            // Append the barGroups to the chartGroup
             let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
 
-            // 6 Add new bar groups
+            // Add new bar groups
             let newBarGroups = barGroups.enter()
                 .append('g')
                 .attr('transform', (d, e) => {
-                    // 9 Implement yScale
-                    // 10 Implement xScale
+                    // Implement yScale
+                    // Implement xScale
                     if (chart == "PM10") {
                         return `translate(${xScale(d.year)}, ${yScale(d.annualMean)})`;
                     }
@@ -384,15 +384,15 @@
                 }); // end transform
 
             if (chart == "PM10") {
-                // 7 Append new rectangles
-                // 11 animate
+                // Append new rectangles
+                // Animate
                 newBarGroups
                     .append('rect')
                     .attr('x', 0) // optional line that can be left out since 0 is the default
-                    // 9 Implement yScale
+                    // Implement yScale
                     .attr('height', 0)
                     .attr('y', (d, a) => { return h - yScale(d.annualMean); })
-                    //10 Implement xScale
+                    // Implement xScale
                     .attr('width', xScale.bandwidth())
                     .style('fill', 'transparent')
                     .transition().duration((d, a) => a * 500) // perform transition over 1 second
@@ -401,7 +401,7 @@
                     .attr('height', (d, a) => { return h - yScale(d.annualMean); })
                     .style("fill", (d, a) => { return `rgb(246, 190, ${a * 5 + 50})` });
 
-                // 14 Create Bar text
+                // Create Bar text
                 newBarGroups
                     .append('text')
                     .attr("text-anchor", "middle")
@@ -412,15 +412,15 @@
                     .text((d, a) => d.annualMean.toLocaleString());
             }
             else {
-                // 7 Append new rectangles
-                // 11 animate
+                // Append new rectangles
+                // Animate
                 newBarGroups
                     .append('rect')
                     .attr('x', 0) // optional line that can be left out since 0 is the default
-                    // 9 Implement yScale
+                    // Implement yScale
                     .attr('height', 0)
                     .attr('y', (d, a) => { return h - yScale(d.annualMeanUgm3); })
-                    //10 Implement xScale
+                    // Implement xScale
                     .attr('width', xScale.bandwidth())
                     .style('fill', 'transparent')
                     .transition().duration((d, a) => a * 500) // perform transition over 1 second
@@ -429,7 +429,7 @@
                     .attr('height', (d, a) => { return h - yScale(d.annualMeanUgm3); })
                     .style("fill", (d, a) => { return `rgb(0, 121, ${a * 10 + 120})` });
 
-                // 14 Create Bar text
+                // Create Bar text
                 newBarGroups
                     .append('text')
                     .attr("text-anchor", "middle")
@@ -440,14 +440,14 @@
                     .text((d, a) => d.annualMeanUgm3.toLocaleString());
             }
 
-            // 11 Create the axis and add it to the svg
-            // 12.5 Append the y-Axis to the chartGroup
+            // Create the axis and add it to the svg
+            // Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
                 .classed('axis y', true)
                 .call(yAxis);
 
-            // 13 Append the x-Axis to the chartGroup
+            // Append the x-Axis to the chartGroup
             let xAxis = d3.axisBottom(xScale); // declare the axis generator
             chartGroup.append('g')
                 .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
