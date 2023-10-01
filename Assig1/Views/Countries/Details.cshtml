@@ -237,36 +237,36 @@
         function buildEmissionSummary(dataSet) {
             //console.log(dataSet);
             if (dataSet.length > 0) {
-                var summary = document.querySelector("#EmissionSummary");
+                let summary = document.querySelector("#EmissionSummary");
 
                 // Only need dataSet[0] because only have 1 row of
                 // total, average, min, max of all emissions in each country
                 // Build a new element and appendChild to the parent element
-                var totalElement = document.createElement("p");
+                let totalElement = document.createElement("p");
                 totalElement.classList.add("card-text");
-                var totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
-                var totalTextNode = document.createTextNode(totalMessage);
+                const totalMessage = `Total emissions value: ${dataSet[0].totalValue}`;
+                const totalTextNode = document.createTextNode(totalMessage);
                 totalElement.appendChild(totalTextNode);
                 summary.appendChild(totalElement);
 
-                var averageElement = document.createElement("p");
+                let averageElement = document.createElement("p");
                 averageElement.classList.add("card-text");
-                var averageMessage = `Average emissions value: ${dataSet[0].averageValue}`;
-                var averageTextNode = document.createTextNode(averageMessage);
+                const averageMessage = `Average emissions value: ${dataSet[0].averageValue}`;
+                const averageTextNode = document.createTextNode(averageMessage);
                 averageElement.appendChild(averageTextNode);
                 summary.appendChild(averageElement);
 
-                var minElement = document.createElement("p");
+                let minElement = document.createElement("p");
                 minElement.classList.add("card-text");
-                var minMessage = `Min emissions value: ${dataSet[0].minValue}`;
-                var minTextNode = document.createTextNode(minMessage);
+                const minMessage = `Min emissions value: ${dataSet[0].minValue}`;
+                const minTextNode = document.createTextNode(minMessage);
                 minElement.appendChild(minTextNode);
                 summary.appendChild(minElement);
 
-                var maxElement = document.createElement("p");
+                let maxElement = document.createElement("p");
                 maxElement.classList.add("card-text");
-                var maxMessage = `Max emissions value: ${dataSet[0].maxValue}`;
-                var maxTextNode = document.createTextNode(maxMessage);
+                const maxMessage = `Max emissions value: ${dataSet[0].maxValue}`;
+                const maxTextNode = document.createTextNode(maxMessage);
                 maxElement.appendChild(maxTextNode);
                 summary.appendChild(maxElement);
             }
@@ -291,14 +291,14 @@
                 aggregationElement.classList.remove("hideElement");
                 yearElement.classList.remove("hideElement");
 
-                var table = document.querySelector(".ItemElementInfo");
+                let table = document.querySelector(".ItemElementInfo");
 
                 // Declare the previous year and item to clear the same year and item on page
-                var previousYear = null;
-                var previousItem = null;
+                let previousYear = null;
+                let previousItem = null;
 
                 for (let i = 0; i < dataSet.length; i++) {
-                    var row = table.querySelector("tr.rowData").cloneNode(true);
+                    let row = table.querySelector("tr.rowData").cloneNode(true);
 
                     let tdList = row.querySelectorAll('td');
 
@@ -394,23 +394,23 @@
                 temperatureOption.classList.remove("hideElement");
 
                 // Create elements to show data
-                var summary = document.querySelector("#TemperatureSummary");
+                let summary = document.querySelector("#TemperatureSummary");
 
-                var minElement = document.createElement("p");
-                var minMessage = `Min temperature: ${dataSet[0].minValue}`;
-                var minTextNode = document.createTextNode(minMessage);
+                let minElement = document.createElement("p");
+                const minMessage = `Min temperature: ${dataSet[0].minValue}`;
+                const minTextNode = document.createTextNode(minMessage);
                 minElement.appendChild(minTextNode);
                 summary.appendChild(minElement);
 
-                var maxElement = document.createElement("p");
-                var maxMessage = `Max temperature: ${dataSet[0].maxValue}`;
-                var maxTextNode = document.createTextNode(maxMessage);
+                let maxElement = document.createElement("p");
+                const maxMessage = `Max temperature: ${dataSet[0].maxValue}`;
+                const maxTextNode = document.createTextNode(maxMessage);
                 maxElement.appendChild(maxTextNode);
                 summary.appendChild(maxElement);
 
-                var averageElement = document.createElement("p");
-                var averageMessage = `Average temperature: ${dataSet[0].averageValue}`;
-                var averageTextNode = document.createTextNode(averageMessage);
+                let averageElement = document.createElement("p");
+                const averageMessage = `Average temperature: ${dataSet[0].averageValue}`;
+                const averageTextNode = document.createTextNode(averageMessage);
                 averageElement.appendChild(averageTextNode);
                 summary.appendChild(averageElement);
             }
@@ -429,7 +429,7 @@
             // Build table if there are available data
             if (dataSet.length > 0) {
 
-                var table = document.querySelector(".TemperatureTableBody");
+                let table = document.querySelector(".TemperatureTableBody");
 
                 for (let i = 0; i < dataSet.length; i++) {
                     var row = table.querySelector("tr.TemperatureRow").cloneNode(true);
@@ -475,7 +475,7 @@
         let chartAggregation = "Total";
         let year = "";
 
-        var chartAggregationElement = document.getElementById("chartAggregationElement");
+        let chartAggregationElement = document.getElementById("chartAggregationElement");
 
         // Whenever user changes any option, update the graph immediately
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
@@ -498,7 +498,7 @@
             chartLegend = chartLegend;
             chartAggregation = chartAggregation;
 
-            var tips = document.querySelector("#tips");
+            let tips = document.querySelector("#tips");
 
             if (chartLegend == "Temperature") {
                 tips.classList.add("hideElement");
