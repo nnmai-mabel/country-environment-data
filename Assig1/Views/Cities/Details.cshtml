@@ -173,31 +173,32 @@
         // Build summary in a bootstrap card
         function buildAirSummary(dataSet) {
 
-            var tableBody = document.querySelector("#AirSummaryInfo");
+            let tableBody = document.querySelector("#AirSummaryInfo");
 
             // Only need dataSet[0] because only have 1 row of
             // total, average, min, max of all emissions in each country
             // Create element and attach value
 
-            var Pm10Row = document.createElement("tr");
-            var Pm10Element = document.createElement("td");
-            var Pm10Message = `PM10`;
-            var Pm10TextNode = document.createTextNode(Pm10Message);
+            let Pm10Row = document.createElement("tr");
+
+            let Pm10Element = document.createElement("td");
+            const Pm10Message = `PM10`;
+            const Pm10TextNode = document.createTextNode(Pm10Message);
             Pm10Element.appendChild(Pm10TextNode);
 
-            var minPm10Element = document.createElement("td");
-            var minPm10Message = `${dataSet[0].minValuePm10}`;
-            var minPm10TextNode = document.createTextNode(minPm10Message);
+            let minPm10Element = document.createElement("td");
+            const minPm10Message = `${dataSet[0].minValuePm10}`;
+            const minPm10TextNode = document.createTextNode(minPm10Message);
             minPm10Element.appendChild(minPm10TextNode);
 
-            var maxPm10Element = document.createElement("td");
-            var maxPm10Message = `${dataSet[0].maxValuePm10}`;
-            var maxPm10TextNode = document.createTextNode(maxPm10Message);
+            let maxPm10Element = document.createElement("td");
+            const maxPm10Message = `${dataSet[0].maxValuePm10}`;
+            const maxPm10TextNode = document.createTextNode(maxPm10Message);
             maxPm10Element.appendChild(maxPm10TextNode);
 
-            var averagePm10Element = document.createElement("td");
-            var averagePm10Message = `${dataSet[0].averageValuePm10}`;
-            var averagePm10TextNode = document.createTextNode(averagePm10Message);
+            let averagePm10Element = document.createElement("td");
+            const averagePm10Message = `${dataSet[0].averageValuePm10}`;
+            const averagePm10TextNode = document.createTextNode(averagePm10Message);
             averagePm10Element.appendChild(averagePm10TextNode);
 
             Pm10Row.appendChild(Pm10Element);
@@ -206,41 +207,44 @@
             Pm10Row.appendChild(averagePm10Element);
             tableBody.appendChild(Pm10Row);
 
-            var Pm25Row = document.createElement("tr");
-            var Pm25Element = document.createElement("td");
-            var Pm25Message = `PM2.5`;
-            var Pm25TextNode = document.createTextNode(Pm25Message);
+            let Pm25Row = document.createElement("tr");
+
+            let Pm25Element = document.createElement("td");
+            const Pm25Message = `PM2.5`;
+            const Pm25TextNode = document.createTextNode(Pm25Message);
             Pm25Element.appendChild(Pm25TextNode);
 
-            var minPm25Element = document.createElement("td");
-            var minPm25Message = `${dataSet[0].minValuePm25}`;
-            var minPm25TextNode = document.createTextNode(minPm25Message);
+            let minPm25Element = document.createElement("td");
+            const minPm25Message = `${dataSet[0].minValuePm25}`;
+            const minPm25TextNode = document.createTextNode(minPm25Message);
             minPm25Element.appendChild(minPm25TextNode);
 
-            var maxPm25Element = document.createElement("td");
-            var maxPm25Message = `${dataSet[0].maxValuePm25}`;
-            var maxPm25TextNode = document.createTextNode(maxPm25Message);
+            let maxPm25Element = document.createElement("td");
+            const maxPm25Message = `${dataSet[0].maxValuePm25}`;
+            const maxPm25TextNode = document.createTextNode(maxPm25Message);
             maxPm25Element.appendChild(maxPm25TextNode);
 
-            var averagePm25Element = document.createElement("td");
-            var averagePm25Message = `${dataSet[0].averageValuePm25}`;
-            var averagePm25TextNode = document.createTextNode(averagePm25Message);
+            let averagePm25Element = document.createElement("td");
+            const averagePm25Message = `${dataSet[0].averageValuePm25}`;
+            const averagePm25TextNode = document.createTextNode(averagePm25Message);
             averagePm25Element.appendChild(averagePm25TextNode);
 
             Pm25Row.appendChild(Pm25Element);
             Pm25Row.appendChild(minPm25Element);
             Pm25Row.appendChild(maxPm25Element);
             Pm25Row.appendChild(averagePm25Element);
+
             tableBody.appendChild(Pm25Row);
         }
 
         // Build table for complete data set
         function buildAirQualityTable(dataSet) {
 
-            var table = document.querySelector(".AirQualityInfo")
+            let table = document.querySelector(".AirQualityInfo")
+
             if (dataSet.length > 0) {
                 for (let i = 0; i < dataSet.length; i++) {
-                    var row = table.querySelector("tr.rowData").cloneNode(true);
+                    const row = table.querySelector("tr.rowData").cloneNode(true);
 
                     let tdList = row.querySelectorAll('td');
                     tdList[0].innerText = dataSet[i].year;
@@ -264,18 +268,18 @@
                 }
             }
             else { // If there is no data, hide the data elements and show alert
-                var alertContainer = document.querySelector("#AirAlert");
+                let alertContainer = document.querySelector("#AirAlert");
 
-                var alertElement = document.createElement("div");
+                let alertElement = document.createElement("div");
                 alertElement.className = "alert alert-warning";
                 alertElement.setAttribute("role", "alert");
 
-                var message = "There is no emission data in this country.";
-                var textNode = document.createTextNode(message);
+                const message = "There is no emission data in this country.";
+                const textNode = document.createTextNode(message);
                 alertElement.appendChild(textNode);
                 alertContainer.appendChild(alertElement);
 
-                var airData = document.getElementById("AirData");
+                let airData = document.getElementById("AirData");
                 airData.classList.add("hideElement");
             }
         }
