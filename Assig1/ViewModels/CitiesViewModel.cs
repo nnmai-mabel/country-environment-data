@@ -18,7 +18,7 @@ namespace Assig1.ViewModels
         public int? RegionId { get; set; }
 
         [Display(Name = "Country")]
-        public Country TheCountry { get; set; }
+        public Country? TheCountry { get; set; }
 
         [Display(Name = "City ID")]
         public int? CityId { get; set; }
