@@ -635,14 +635,14 @@
                 valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
                 maxValueElementsAverage = valueElementsRangeAverage[1];
 
-                console.log("Max totalElements average: " + maxValueElementsAverage);
+                //console.log("Max totalElements average: " + maxValueElementsAverage);
             }
             // Total
             else {
                 valueElementsRangeTotal = d3.extent(dataSet, (d, e) => d.valueElementTotal);
                 maxValueElementsTotal = valueElementsRangeTotal[1];
 
-                console.log("Max totalElements average: " + maxValueElementsTotal);
+                //console.log("Max totalElements average: " + maxValueElementsTotal);
             }
 
             // 4 Calculate the bar dimensions
@@ -765,7 +765,7 @@
                 })
                 .on("mouseout", function (d, e) {
                     tooltip.html(``).style("visibility", "hidden");
-                    d3.select(this).attr("fill", `rgb(0, 121, ${i * 10 + 100})`);
+                    d3.select(this).attr("fill", `rgb(0, 121, ${e * 10 + 100})`);
                 })
                 .transition()
                 .duration((d, e) => e * 500) // perform transition over 1 second

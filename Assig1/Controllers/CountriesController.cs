@@ -76,7 +76,7 @@ namespace Assig1.Controllers
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 envDataContext = envDataContext
-                    .Where(i => i.TheCountry.CountryName.Contains(vm.SearchText));
+                    .Where(i => i.TheCountry.CountryName.StartsWith(vm.SearchText));
             }
 
             // Return results when user search regions
