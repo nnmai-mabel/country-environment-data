@@ -224,18 +224,15 @@
 
         let temperatureExistAlert = document.querySelector("#NoTemperature");
         let dataDisplayOptions = document.querySelector("#dataDisplay");
-        //let svgSpace = document.querySelector("#svgSpace");
 
         let allData = document.querySelector("#AllData");
 
         // Hide data options if there are no emissions and no temperature alert
         if (!emissionsAlert.classList.contains("hideElement") && !temperatureExistAlert.classList.contains("hideElement")) {
             dataDisplayOptions.classList.add("hideElement");
-            //svgSpace.classList.add("hideElement");
         }
 
         function buildEmissionSummary(dataSet) {
-            //console.log(dataSet);
             if (dataSet.length > 0) {
                 let summary = document.querySelector("#EmissionSummary");
 
@@ -283,7 +280,6 @@
 
                 // Show data and options
                 dataDisplayOptions.classList.remove("hideElement");
-                //svgSpace.classList.remove("hideElement");
 
                 emissionsData.classList.remove("hideElement");
                 itemsOption.classList.remove("hideElement");
@@ -388,7 +384,6 @@
 
                 // Show tempareture data and option
                 dataDisplayOptions.classList.remove("hideElement");
-                //svgSpace.classList.remove("hideElement");
 
                 temperatureData.classList.remove("hideElement");
                 temperatureOption.classList.remove("hideElement");
