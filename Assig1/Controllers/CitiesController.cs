@@ -107,7 +107,7 @@ namespace Assig1.Controllers
             return View(vm);
         }
 
-        // GET: Cities/Details/5
+        // GET: /Cities?{regionId}?&countryId=xx&pageSource=yy
         public async Task<IActionResult> Details(CitiesViewModel vm)
         {
             #region CityCountryRegionQuery
@@ -237,6 +237,7 @@ namespace Assig1.Controllers
             return View(vm);
         }
 
+        // /Cities/AirQualityReportData?cityId=xx
         [Produces("application/json")]
         public IActionResult AirQualityReportData(CitiesViewModel vm)
         {
@@ -332,7 +333,7 @@ namespace Assig1.Controllers
                 return BadRequest();
             }
         }
-
+        // /Cities/AirSummaryData?countryId=xx&cityId=yy
         //Action for fetching average, min, max value data
         [Produces("application/json")]
         public IActionResult AirSummaryData(CitiesViewModel vm)

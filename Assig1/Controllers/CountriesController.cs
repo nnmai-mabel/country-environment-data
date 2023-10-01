@@ -99,7 +99,7 @@ namespace Assig1.Controllers
             return View(vm);
         }
 
-        // GET: Countries/Details/5
+        // GET: /Countries/Details?countryId=xx&{regionId}?
         public async Task<IActionResult> Details(CountriesViewModel vm)
         {
             #region CountryRegion
@@ -154,6 +154,7 @@ namespace Assig1.Controllers
             return View(vm);
         }
 
+        // /Countries/CountryEmissionsReportData?countryId=xx&year=yy&chartLegend=zz&chartAggregation=tt
         // Action for fetching country emissions data
         [Produces("application/json")]
         public IActionResult CountryEmissionsReportData(CountriesViewModel vm)
@@ -268,6 +269,7 @@ namespace Assig1.Controllers
             }
         }
 
+        // /Countries/TemperatureReportData?countryId=xx
         //Action for fetching temperature data
         [Produces("application/json")]
         public IActionResult TemperatureReportData(CountriesViewModel vm)
@@ -297,6 +299,7 @@ namespace Assig1.Controllers
             }
         }
 
+        // /Countries/TemperatureSummary?countryId=xx
         //Action for fetching temperature data
         [Produces("application/json")]
         public IActionResult TemperatureSummary(CountriesViewModel vm)
@@ -322,6 +325,7 @@ namespace Assig1.Controllers
             }
         }
 
+        // /Countries/ItemElementData?countryId=xx
         //Action for fetching item element data
         [Produces("application/json")]
         public IActionResult ItemElementData(CountriesViewModel vm)
@@ -413,6 +417,7 @@ namespace Assig1.Controllers
             }
         }
 
+        // /Countries/EmissionSummaryData?countryId=xx
         //Action for fetching total, average, min, max value data
         [Produces("application/json")]
         public IActionResult EmissionSummaryData(CountriesViewModel vm)
