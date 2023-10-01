@@ -60,14 +60,14 @@
     </div>
 
     <div>
-        <svg width="100%" height="600px" class="border border-primary rounded p-2" title="Hover on each bar to view more details" id="svgSpace"></svg>
+        <svg width="100%" height="600px" class="border border-primary rounded p-2" title="Hover on each bar to view more details"></svg>
     </div>
 
     @*This is the space for the tips alert to show up if user chooses item graph*@
     <div class="alert alert-info hideElement" role="alert" id="tips">
         ⚠︎ Hover on each bar to view detailed data.
     </div>
-    <div class="alert alert-danger role="alert" id="NoEmissions">
+    <div class="alert alert-danger" role="alert" id="NoEmissions">
         ⚠︎ There are no Emissions data available.
     </div>
     <div class="accordion mt-3" id="accordionExample">
@@ -232,7 +232,7 @@
 
         let temperatureExistAlert = document.querySelector("#NoTemperature");
         let dataDisplayOptions = document.querySelector("#dataDisplay");
-        let svgSpace = document.querySelector("#svgSpace");
+        //let svgSpace = document.querySelector("#svgSpace");
 
         let allData = document.querySelector("#AllData");
 
@@ -248,7 +248,7 @@
             //temperatureExistAlert.classList.add("hideAlert");
 
             dataDisplayOptions.classList.add("hideElement");
-            svgSpace.classList.add("hideElement");
+            //svgSpace.classList.add("hideElement");
             //allData.classList.add("hideElement");
         }
 
@@ -317,7 +317,7 @@
 
                 // Show data and options
                 dataDisplayOptions.classList.remove("hideElement");
-                svgSpace.classList.remove("hideElement");
+                //svgSpace.classList.remove("hideElement");
 
                 emissionsData.classList.remove("hideElement");
                 itemsOption.classList.remove("hideElement");
@@ -425,7 +425,7 @@
 
                 // Show tempareture data and option
                 dataDisplayOptions.classList.remove("hideElement");
-                svgSpace.classList.remove("hideElement");
+                //svgSpace.classList.remove("hideElement");
 
                 temperatureData.classList.remove("hideElement");
                 temperatureOption.classList.remove("hideElement");
