@@ -12,7 +12,7 @@
         {
             <div class="alert alert-success" role="alert">
                 There @(Model.CountryList.Count() == 1 ? "is" : "are") @Model.CountryList.Count()
-                @(Model.CountryList.Count() == 1 ? "country that matches" : "countries that match")  your search in @Model.CountryList[0].TheRegion.RegionName region.
+                @(Model.CountryList.Count() == 1 ? "country that matches" : "countries that match")  your search in <strong>@Model.CountryList[0].TheRegion.RegionName</strong> region.
             </div>
         }
     </div>
