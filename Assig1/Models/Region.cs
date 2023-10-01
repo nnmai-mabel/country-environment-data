@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Assig1.Models
 {
@@ -11,7 +12,10 @@ namespace Assig1.Models
         }
 
         public int RegionId { get; set; }
+
+        [Display(Name = "Region Name")]
         public string RegionName { get; set; } = null!;
+
         public string? ImageUrl { get; set; }
 
         public virtual ICollection<Country> Countries { get; set; }

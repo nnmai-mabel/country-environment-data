@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Assig1.Models
 {
@@ -13,8 +14,13 @@ namespace Assig1.Models
         }
 
         public int CountryId { get; set; }
+
+        [Display(Name = "ISO3")]
         public string? Iso3 { get; set; }
+
+        [Display(Name = "Country Name")]
         public string CountryName { get; set; } = null!;
+
         public int? RegionId { get; set; }
         public string? ImageUrl { get; set; }
 

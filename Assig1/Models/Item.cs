@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 /*
  * added comment
@@ -15,7 +16,10 @@ namespace Assig1.Models
         }
 
         public int ItemId { get; set; }
+
+        [Display(Name = "Item Name")]
         public string ItemName { get; set; } = null!;
+
         public int? ParentId { get; set; }
         public string? ImageUrl { get; set; }
 
