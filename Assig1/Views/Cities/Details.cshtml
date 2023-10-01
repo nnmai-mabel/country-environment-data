@@ -48,8 +48,8 @@
         <div class="col-2" id="chartLegend">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="">Select Data</option>
-                <option value="Pm10">Annual Mean PM10</option>
-                <option value="Pm2.5">Annual Mean PM2.5</option>
+                <option value="PM10">Annual Mean PM10</option>
+                <option value="PM2.5">Annual Mean PM2.5</option>
             </select>
         </div>
     </div>
@@ -111,9 +111,9 @@
                             <thead>
                                 <tr>
                                     <th>Year</th>
-                                    <th>Annual Mean Pm10</th>
+                                    <th>Annual Mean PM10</th>
                                     <th>Annual Mean</th>
-                                    <th>Annual Mean Pm25</th>
+                                    <th>Annual Mean PM2.5</th>
                                     <th>Annual Mean Ugm3</th>
                                     <th>Temporal Coverage 1</th>
                                     <th>Temporal Coverage 2</th>
@@ -333,7 +333,7 @@
             let annualMeanRange = "";
             let maxAnnualMean = "";
 
-            if (chart == "Pm10") {
+            if (chart == "PM10") {
                 annualMeanRange = d3.extent(dataSet, (d, a) => d.annualMean);
                 maxAnnualMean = annualMeanRange[1];
             }
@@ -375,7 +375,7 @@
                 .attr('transform', (d, e) => {
                     // 9 Implement yScale
                     // 10 Implement xScale
-                    if (chart == "Pm10") {
+                    if (chart == "PM10") {
                         return `translate(${xScale(d.year)}, ${yScale(d.annualMean)})`;
                     }
                     else {
@@ -383,7 +383,7 @@
                     }
                 }); // end transform
 
-            if (chart == "Pm10") {
+            if (chart == "PM10") {
                 // 7 Append new rectangles
                 // 11 animate
                 newBarGroups
