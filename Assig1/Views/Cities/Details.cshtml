@@ -45,7 +45,7 @@
 @*Allow user to choose data to display on the graph*@
 <div id="AirData">
     <div class="row mb-3 mt-3" id="dataDisplay">
-        <div class="col-2" id="chartLegend">
+        <div class="col-3" id="chartLegend">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="">Select Data</option>
                 <option value="PM10">Annual Mean PM10</option>
@@ -308,7 +308,7 @@
         let chart = "";
 
         // Update the graph everytime user changes an option
-        document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
+        document.querySelector('.row .col-3 #chartLegend').addEventListener('change', legendEvent => {
             chart = legendEvent.target.value;
 
             alert = document.querySelector("#tips");
