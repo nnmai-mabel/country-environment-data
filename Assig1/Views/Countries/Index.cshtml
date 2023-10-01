@@ -7,7 +7,7 @@
 @*Alert for showing region*@
 @if (Model.CountryList.Count() > 0)
 {
-    <div class="row justify-content-center" align="center" role="alert">
+    <div class="row justify-content-center text-center" role="alert">
         @if (Model.RegionId != null)
         {
             <div class="alert alert-success" role="alert">
@@ -18,8 +18,8 @@
     </div>
 }
 
-<div class="row justify-content-center" align="center" role="alert">
-    <h1 class="p-2 text-center mb-3" role="alert" id="headingAlert">Countries</h1>
+<div class="row justify-content-center text-center" role="alert">
+    <h1 class="p-2 text-center mb-3" id="headingAlert">Countries</h1>
 </div>
 
 @*Buttons and form elements*@
@@ -29,7 +29,7 @@
             <a asp-controller="Regions" asp-action="Index" class="btn btn-success">Visit All Regions</a>
         </div>
         <div class="col-4">
-            <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name" />
+            <input type="text" list="countryList" class="form-control" maxlength="100" id="countryName" asp-for="@Model.SearchText" placeholder="Search countries" title="Search a country name">
             <datalist id="countryList">
                 @foreach (var city in Model.CountryList)
                 {
@@ -56,7 +56,7 @@
     {
         <div class="col-3 m-3">
             <div class="card" style="width: 20rem;">
-                <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName" />
+                <img src="@item.TheCountry.ImageUrl" class="card-img-top" style="height: 12rem;" alt="@item.TheCountry.CountryName">
                 <div class="card-body justify-content-around text-center">
                     <h5 class="card-title justify-content-center mb-3 ">@item.TheCountry.CountryName</h5>
                     @if (item.TheCountry.Region != null)
