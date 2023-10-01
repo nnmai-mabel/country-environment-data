@@ -184,8 +184,6 @@
 
         fetch(`/Countries/ItemElementData?countryId=${@Model.CountryId}`)
             .then(response => {
-                //console.log("response status: " + response.status);
-                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTableItem(data))
@@ -193,8 +191,6 @@
 
         fetch(`/Countries/EmissionSummaryData?countryId=${@Model.CountryId}`)
             .then(response => {
-                //console.log("response status: " + response.status);
-                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildEmissionSummary(data))
@@ -203,8 +199,6 @@
         // Fetch temperature summary
         fetch(`/Countries/TemperatureSummary?countryId=${@Model.CountryId}`)
             .then(response => {
-                //console.log("response status: " + response.status);
-                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTemperatureSummary(data))
@@ -213,8 +207,6 @@
         // Fetch temperature data
         fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}`)
             .then(response => {
-                //console.log("response status: " + response.status);
-                //console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildTableTemperature(data))
@@ -236,36 +228,12 @@
 
         let allData = document.querySelector("#AllData");
 
-        console.log(emissionsAlert.classList.contains("hideElement"));
-        console.log(temperatureExistAlert.classList.contains("hideElement"));
+        // Hide data options if there are no emissions and no temperature alert
         if (!emissionsAlert.classList.contains("hideElement") && !temperatureExistAlert.classList.contains("hideElement")) {
-            console.log("In if");
-            //noDataAlert.classList.remove("hideElement");
-            //emissionsAlert.classList.remove("hideElement");
-            //temperatureExistAlert.classList.remove("hideElement");
-
-            //emissionsAlert.classList.add("hideAlert");
-            //temperatureExistAlert.classList.add("hideAlert");
-
             dataDisplayOptions.classList.add("hideElement");
             //svgSpace.classList.add("hideElement");
-            //allData.classList.add("hideElement");
         }
 
-        //if (!noDataAlert.classList.contains("hideAlert")) {
-        //    // Hide options and svg and other alerts
-        //    dataDisplayOptions.classList.add("hideElement");
-        //    svgSpace.classList.add("hideElement");
-
-        //    //emissionsAlert.classList.remove(...emissionsAlert.classList);
-        //    //emissionsAlert.innerText = "";
-        //    //emissionsAlert.classList.add("hideAlert");
-        //    //temperatureExistAlert.classList.add("hideAlert");
-        //}
-        //else {
-        //    //dataDisplayOptions.classList.remove("hideElement");
-        //    //svgSpace.classList.remove("hideElement");
-        //}
         function buildEmissionSummary(dataSet) {
             //console.log(dataSet);
             if (dataSet.length > 0) {
@@ -306,11 +274,9 @@
 
         function buildTableItem(dataSet) {
 
-            //console.log(dataSet)
-            //console.log(dataSet.length)
-
             // Build table if there are available data
             if (dataSet.length > 0) {
+
                 // Hide alert
                 noDataAlert.classList.add("hideElement");
                 emissionsAlert.classList.add("hideElement");
@@ -325,7 +291,6 @@
                 aggregationElement.classList.remove("hideElement");
                 yearElement.classList.remove("hideElement");
 
-                //console.log("In if");
                 var table = document.querySelector(".ItemElementInfo");
 
                 // Declare the previous year and item to clear the same year and item on page
@@ -386,9 +351,8 @@
                 }
             }
             else { // If there are no data available, show an alert and hide all the data display elements
-                //console.log("In else");
-                // Hide alert
-                //noDataAlert.classList.remove("hideElement");
+
+                // Show alert
                 emissionsAlert.classList.remove("hideElement");
 
                 // Hide data and options
@@ -410,7 +374,6 @@
         }
 
         function buildTemperatureSummary(dataSet) {
-            //console.log("In temperature summary");
             let noDataAlert = document.querySelector("#NoData");
 
             let temperatureAlert = document.querySelector("#NoTemperature");
@@ -453,30 +416,18 @@
             }
             else {
                 // Show alert
-                //noDataAlert.classList.remove("hideElement");
                 temperatureAlert.classList.remove("hideElement");
 
                 // Hide tempareture data and option
                 temperatureData.classList.add("hideElement");
                 temperatureOption.classList.add("hideElement");
-
-                // Show alert
-                //alert.classList.remove("hideElement");
-
-                //// Hide tempareture data and option
-                //temperatureData.classList.add("hideElement");
-                //temperatureOption.classList.add("hideElement");
             }
         }
 
         function buildTableTemperature(dataSet) {
-            //console.log("IN table temperature")
-            //console.log(dataSet)
-            //console.log(dataSet.length)
 
             // Build table if there are available data
             if (dataSet.length > 0) {
-                //console.log("In if of table temperature");
 
                 var table = document.querySelector(".TemperatureTableBody");
 
@@ -499,17 +450,14 @@
             }
         }
         // Build graph
-        // 1 Select SVG element
+        // Select SVG element
         const svg = d3.select('svg');
 
-        // 2 Determine the size of the SVG element
+        // Determine the size of the SVG element
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
-        //console.log("Width: " + w);
-        //console.log("Height: " + h);
-
-        // 12 Chart margins
+        // Chart margins
         const chartMargins = {
             left: 100,
             right: 25,
@@ -517,7 +465,7 @@
             bottom: 230
         };
 
-        // 12 Update width and height variable to account for the reduction in size caused by margins
+        // Update width and height variable to account for the reduction in size caused by margins
         w = w - (chartMargins.left + chartMargins.right);
         h = h - (chartMargins.top + chartMargins.bottom);
 
@@ -527,25 +475,21 @@
         let chartAggregation = "Total";
         let year = "";
 
-        //var yearElement = document.getElementById("yearElement");
         var chartAggregationElement = document.getElementById("chartAggregationElement");
 
         // Whenever user changes any option, update the graph immediately
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
             chartLegend = legendEvent.target.value;
-            //console.log("Legend: " + chartLegend);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
         document.querySelector('.row .col-2 #chartAggregation').addEventListener('change', aggregationEvent => {
             chartAggregation = aggregationEvent.target.value;
-            //console.log("Chart Aggregation: " + chartAggregation);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
         document.querySelector('.row .col-2 #year').addEventListener('change', (yearEvent) => {
             year = yearEvent.target.value;
-            //console.log("Year: " + year);
             updateChartSelection(year, chartLegend, chartAggregation);
         })
 
@@ -554,16 +498,10 @@
             chartLegend = chartLegend;
             chartAggregation = chartAggregation;
 
-            //console.log("UPDATED YEAR: " + year);
-            //console.log("UPDATED CHART LEGEND: " + chartLegend);
-            //console.log("UPDATED CHART AGGREGATION: " + chartAggregation);
-
             var tips = document.querySelector("#tips");
 
             if (chartLegend == "Temperature") {
                 tips.classList.add("hideElement");
-
-                //console.log("In temperature")
 
                 // Hide year element and chart aggregation if user chooses temperature legend
                 yearElement.classList.add("hideElement");
@@ -572,15 +510,12 @@
                 // Fetch temperature data
                 fetch(`/Countries/TemperatureReportData?countryId=${@Model.CountryId}&chartLegend=${chartLegend}`)
                     .then(response => {
-                        //console.log("response status: " + response.status);
-                        //console.log("response text: " + response.statusText);
                         return response.json();
                     })
                     .then(data => buildGraphTemperature(data))
                     .catch(err => console.log(err.message));
             }
             else {
-                //console.log("in other legends")
 
                 tips.classList.remove("hideElement");
 
@@ -591,13 +526,8 @@
                 // Fetch data when year is provided
                 if (year.length > 0)
                 {
-
-                    //tips.classList.remove("hideElement");
-
                     fetch(`/Countries/CountryEmissionsReportData?countryId=${@Model.CountryId}&year=${year}&chartLegend=${chartLegend}&chartAggregation=${chartAggregation}`)
                         .then(response => {
-                            //console.log("response status: " + response.status);
-                            //console.log("response text: " + response.statusText);
                             return response.json();
                         })
                         .then(data => {
@@ -629,20 +559,16 @@
             let valueElementsRangeTotal = "";
             let maxValueElementsTotal = "";
 
-            // 4 Calculate the maximum value to be displayed
+            // Calculate the maximum value to be displayed
             // Average
             if (chartAggregation == "Average") {
                 valueElementsRangeAverage = d3.extent(dataSet, (d, e) => d.valueElementAverage);
                 maxValueElementsAverage = valueElementsRangeAverage[1];
-
-                //console.log("Max totalElements average: " + maxValueElementsAverage);
             }
             // Total
             else {
                 valueElementsRangeTotal = d3.extent(dataSet, (d, e) => d.valueElementTotal);
                 maxValueElementsTotal = valueElementsRangeTotal[1];
-
-                //console.log("Max totalElements average: " + maxValueElementsTotal);
             }
 
             // 4 Calculate the bar dimensions
@@ -665,35 +591,31 @@
                     .range([h, 0]);
             }
 
-            // 10 Create XScale
+            // Create XScale
             // Elements
             let array = Array.from(dataSet, (d, e) => d.element);
-            console.log("array: " + array)
 
             let xScale = d3.scaleBand()
                 .domain(array)
                 .range([0, w])
                 .paddingInner(0.1)
 
-            // example of xScale test:
-            console.log("xscale: " + xScale(1))
-
-            // 12.4 Create chartGroup element
+            // Create chartGroup element
             const chartGroup = svg.append('g')
                 .classed('chartGroup', true)
                 .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
 
-            // 12.4 Append the barGroups to the chartGroup
+            // Append the barGroups to the chartGroup
             let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
 
-            // 6 Add new bar groups
+            // Add new bar groups
             let newBarGroups = barGroups.enter()
                 .append('g')
                 .attr('transform', (d, e) => {
-                    // 9 Implement yScale
-                    // 10 Implement xScale
+                    // Implement yScale
+                    // Implement xScale
                     // Average
                     if (chartAggregation == "Average") {
                         return `translate(${xScale(d.element)}, ${yScale(d.valueElementAverage)})`;
@@ -702,7 +624,6 @@
                     else {
                         return `translate(${xScale(d.element)}, ${yScale(d.valueElementTotal)})`;
                     }
-
                 }); // end transform
 
             // Add tooltip to show data when hover on bar
@@ -719,12 +640,12 @@
                 .style("color", "#fff")
                 .text("Hover to view more data");
 
-            // 7 Append new rectangles
-            // 11 animate
+            // Append new rectangles
+            // Animate
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
-                // 9 Implement yScale
+                // Implement yScale
                 .attr('height', 0)
                 .attr('y', (d, e) => {
                     // Average
@@ -736,7 +657,7 @@
                         return h - yScale(d.valueElementTotal);
                     }
                 })
-                //10 Implement xScale
+                // Implement xScale
                 .attr('width', xScale.bandwidth())
                 .style('fill', 'transparent')
                 .style("fill", (d, e) => { return `rgb(246, 190, ${e * 15 + 40})` })
@@ -783,7 +704,7 @@
                 // Place 'y' after height to get the bar graph built upward, not downward
                 .attr('y', 0);
 
-            // 14 Create Bar text
+            // Create Bar text
             newBarGroups
                 .append('text')
                 .attr("text-anchor", "middle")
@@ -802,14 +723,14 @@
                     }
                 });
 
-            // 11 Create the axis and add it to the svg
-            // 12.5 Append the y-Axis to the chartGroup
+            // Create the axis and add it to the svg
+            // Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
                 .classed('axis y', true)
                 .call(yAxis);
 
-            // 13 Append the x-Axis to the chartGroup
+            // Append the x-Axis to the chartGroup
             let xAxis = d3.axisBottom(xScale); // declare the axis generator
             chartGroup.append('g')
             .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
@@ -859,28 +780,23 @@
             let valueItemsRangeTotal = "";
             let maxValueItemsTotal = "";
 
-            // 4 Calculate the maximum value to be displayed
+            // Calculate the maximum value to be displayed
             // Average
             if (chartAggregation == "Average") {
                 valueItemsRangeAverage = d3.extent(dataSet, (d, i) => d.valueItemAverage);
                 maxValueItemsAverage = valueItemsRangeAverage[1];
-                //console.log("Max totalItems average in build graph item: " + maxValueItemsAverage);
             }
             // Total
             else {
                 valueItemsRangeTotal = d3.extent(dataSet, (d, i) => d.valueItemTotal);
                 maxValueItemsTotal = valueItemsRangeTotal[1];
-                //console.log("Max totalItems total in build graph item: " + maxValueItemsTotal);
             }
 
-            // 4 Calculate the bar dimensions
+            // Calculate the bar dimensions
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
-            //console.log("Bar margin: " + barMargin);
-            //console.log("Bar width: " + barWidth);
-
-            // 8 Create a YScale
+            // Create a YScale
             // Average
             let yScale = "";
             if (chartAggregation == "Average") {
@@ -895,29 +811,25 @@
                     .range([h, 0]);
             }
 
-            // 10 Create XScale
+            // Create XScale
             let itemArray = Array.from(dataSet, (d, i) => d.item);
-            //console.log("array: " + itemArray)
 
             let xScale = d3.scaleBand()
                 .domain(itemArray)
                 .range([0, w])
                 .paddingInner(0.1)
 
-            // example of xScale test:
-            //console.log("xscale: " + xScale(1))
-
-            // 12.4 Create chartGroup element
+            // Create chartGroup element
             const chartGroup = svg.append('g')
                 .classed('chartGroup', true)
                 .attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
 
-            //12.4 Append the barGroups to the chartGroup
+            // Append the barGroups to the chartGroup
             let barGroups = chartGroup
                 .selectAll('g')
                 .data(dataSet);
 
-            // 6 Add new bar groups
+            // Add new bar groups
             let newBarGroups = barGroups.enter()
                 .append('g')
                 .attr('transform', (d, i) => {
@@ -951,7 +863,7 @@
                 .style("color", "#fff")
                 .text("a simple tooltip");
 
-            // 14 Create Bar text
+            // Create Bar text
             newBarGroups
                 .append('text')
                 .attr("text-anchor", "middle")
@@ -970,8 +882,8 @@
                     }
                 });
 
-            // 7 Append new rectangles
-            // 11 animate
+            // Append new rectangles
+            // Animate
             newBarGroups
                 .append('rect')
                 .attr('x', 0) // optional line that can be left out since 0 is the default
@@ -1024,14 +936,14 @@
                 .attr('y', 0)
                 .style("fill", (d, i) => { return `rgb(0, 121, ${i * 5 + 100})` });
 
-            // 11 Create the axis and add it to the svg
-            // 12.5 Append the y-Axis to the chartGroup
+            // Create the axis and add it to the svg
+            // Append the y-Axis to the chartGroup
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
                 .classed('axis y', true)
                 .call(yAxis);
 
-            // 13 Append the x-Axis to the chartGroup
+            // Append the x-Axis to the chartGroup
             let xAxis = d3.axisBottom(xScale); // declare the axis generator
             chartGroup.append('g')
                 .attr('transform', `translate(0,${h})`) // pull the xAxis to the bottm
@@ -1068,11 +980,6 @@
         //https://chrissardegna.com/blog/lessons-in-d3-labeling/
         function buildGraphTemperature(dataSet) {
 
-            //var tips = document.querySelector("#tips");
-            //tips.classList.add("hideElement");
-
-            //console.log("Data set: " + dataSet);// only console log dataSet, don't add any other string since it will change the type and result in [object, Object]
-            //console.log(dataSet)
             // Clear graph and its title
             d3.selectAll('svg > *').remove();
 
@@ -1080,11 +987,8 @@
             let valueTemperatureRange = d3.extent(dataSet, (d, t) => d.value);
             let maxValueTemperature = valueTemperatureRange[1];
 
-            //console.log("Max totalItems in build graph item: " + maxValueTemperature);
-
             // Create array of data based on year
             let temperatureArray = Array.from(dataSet, (d, t) => d.year);
-            //console.log("array: " + temperatureArray);
 
             // Create XScale
             let xScale = d3.scaleBand()
@@ -1096,9 +1000,6 @@
             let yScale = d3.scaleLinear()
                 .domain([0, maxValueTemperature])
                 .range([h, 0]);
-
-            // example of xScale test:
-            //console.log("xscale: " + xScale(1));
 
             // Create chartGroup element
             let chartGroup = svg.append('g')
@@ -1119,7 +1020,7 @@
                 .attr('stroke-width', 2)
                 .attr('d', lineGenerator);
 
-            // 11 Create the y-axis and add it to the svg
+            // Create the y-axis and add it to the svg
             let yAxis = d3.axisLeft(yScale); // declare the axis generator
             chartGroup.append('g')
                 .classed('axis y', true)
@@ -1181,36 +1082,5 @@
                 .text(`${chartLegend} Value (Celsius degree)`);
 
         }
-
-        // Check if there is any data
-        //let emissionsExistAlert = document.querySelector("#NoEmissions");
-        //let temperatureExistAlert = document.querySelector("#NoTemperature");
-        //let noDataAlert = document.querySelector("#NoData");
-        //let dataDisplayOptions = document.querySelector("#dataDisplay");
-        //let svgSpace = document.querySelector("#svgSpace");
-        //console.log("Before if else no data");
-        //console.log(emissionsExistAlert.classList.contains("hideElement"));
-        //console.log(temperatureExistAlert.classList.contains("hideElement"));
-        //if (!emissionsAlert.classList.contains("hideElement")
-        //    && !temperatureExistAlert.classList.contains("hideElement")) {
-            //console.log("IN NO DATA IF");
-            // Show no data alert
-            //noDataAlert.classList.remove("hideElement");
-
-            // Hide options and svg and other alerts
-            //dataDisplayOptions.classList.add("hideElement");
-            //svgSpace.classList.add("hideElement");
-            //emissionsExistAlert.classList.add("hideElement");
-            //temperatureExistAlert.classList.add("hideElement");
-        //}
-        //else {
-        //    console.log("IN NO DATA else");
-        //    //dataDisplayOptions.classList.remove("hideElement");
-        //    //svgSpace.classList.remove("hideElement");
-        //    //dataDisplayOptions.classList.remove("hideElement");
-        //    //svgSpace.classList.remove("hideElement");
-        //}
-
-
     </script>
 }
