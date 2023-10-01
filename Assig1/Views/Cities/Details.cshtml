@@ -157,8 +157,6 @@
         // Fetch complete data set
         fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildAirQualityTable(data))
@@ -167,8 +165,6 @@
         // Fetch summary data
         fetch(`/Cities/AirSummaryData?countryId=${@Model.CountryId}&cityId=${@Model.CityId}`)
             .then(response => {
-                console.log("response status: " + response.status);
-                console.log("response text: " + response.statusText);
                 return response.json();
             })
             .then(data => buildAirSummary(data))
@@ -176,8 +172,6 @@
 
         // Build summary in a bootstrap card
         function buildAirSummary(dataSet) {
-            console.log("IN build air summary");
-            console.log(dataSet);
 
             var tableBody = document.querySelector("#AirSummaryInfo");
 
@@ -242,8 +236,6 @@
 
         // Build table for complete data set
         function buildAirQualityTable(dataSet) {
-            console.log("This is air quality table")
-            console.log(dataSet)
 
             var table = document.querySelector(".AirQualityInfo")
             if (dataSet.length > 0) {
@@ -272,7 +264,6 @@
                 }
             }
             else { // If there is no data, hide the data elements and show alert
-                console.log("In else");
                 var alertContainer = document.querySelector("#AirAlert");
 
                 var alertElement = document.createElement("div");
@@ -289,17 +280,14 @@
             }
         }
 
-        // 1 Select SVG element
+        // Select SVG element
         const svg = d3.select('svg');
 
-        // 2 Determine the size of the SVG element
+        // Determine the size of the SVG element
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
-        console.log("Width: " + w);
-        console.log("Height: " + h);
-
-        // 12 Chart margins
+        // Chart margins
         const chartMargins = {
             left: 100,
             right: 25,
@@ -307,7 +295,7 @@
             bottom: 150
         };
 
-        // 12 Update width and height variable to account for the reduction in size caused by margins
+        // Update width and height variable to account for the reduction in size caused by margins
         w = w - (chartMargins.left + chartMargins.right);
         h = h - (chartMargins.top + chartMargins.bottom);
 
@@ -318,7 +306,6 @@
         // Update the graph everytime user changes an option
         document.querySelector('.row .col-2 #chartLegend').addEventListener('change', legendEvent => {
             chart = legendEvent.target.value;
-            console.log("Legend: " + chart);
 
             alert = document.querySelector("#tips");
 
@@ -326,8 +313,6 @@
                 alert.classList.add("hideElement");
                 fetch(`/Cities/AirQualityReportData?cityId=${@Model.CityId}`)
                     .then(response => {
-                        console.log("response status: " + response.status);
-                        console.log("response text: " + response.statusText);
                         return response.json();
                     })
                     .then(data => buildAirQualityGraph(data))
@@ -340,12 +325,11 @@
         })
 
         function buildAirQualityGraph(dataSet) {
-            console.log(dataSet);
 
             // Clear graph
             d3.selectAll('svg > *').remove();
 
-            // 4 Calculate the maximum value to be displayed
+            // Calculate the maximum value to be displayed
             let annualMeanRange = "";
             let maxAnnualMean = "";
 
@@ -358,28 +342,22 @@
                 maxAnnualMean = annualMeanRange[1];
             }
 
-            console.log("Max annual mean range: " + annualMeanRange);
-
-            // 4 Calculate the bar dimensions
+            // Calculate the bar dimensions
             const barMargin = 10;
             const barWidth = w / dataSet.length;
 
-            // 8 Create a YScale
+            // Create a YScale
             let yScale = d3.scaleLinear()
                 .domain([0, maxAnnualMean])
                 .range([h, 0]);
 
-            // 10 Create XScale
+            // Create XScale
             let annualMeanArray = Array.from(dataSet, (d, a) => d.year);
-            console.log("array: " + annualMeanArray)
 
             let xScale = d3.scaleBand()
                 .domain(annualMeanArray)
                 .range([0, w])
-                .paddingInner(0.1)
-
-            // example of xScale test:
-            console.log("xscale: " + xScale(1))
+                .paddingInner(0.1);
 
             // 12.4 Create chartGroup element
             const chartGroup = svg.append('g')
