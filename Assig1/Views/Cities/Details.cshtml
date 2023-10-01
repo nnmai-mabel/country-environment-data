@@ -35,7 +35,7 @@
     }
 </div>
 
-<div class="row justify-content-center" id="AirAlert" align="center" role="alert">
+<div class="row justify-content-center text-center" id="AirAlert" role="alert">
     @*This is space for an alert*@
 </div>
 
@@ -45,7 +45,7 @@
 @*Allow user to choose data to display on the graph*@
 <div id="AirData">
     <div class="row mb-3 mt-3" id="dataDisplay">
-        <div class="col-3" id="chartLegend">
+        <div class="col-3">
             <select asp-for="@Model.ChartLegend" class="form-control" id="chartLegend">
                 <option value="">Select Data</option>
                 <option value="PM10">Annual Mean PM10</option>
