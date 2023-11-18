@@ -29,6 +29,21 @@ namespace Assig1.Controllers
         public async Task<IActionResult> Index(CountriesViewModel vm)
         {
 
+            // Implement countries search
+            var Regions = _context.Regions
+                .OrderBy(r => r.RegionName)
+                .Select(r => new
+                {
+                    RegionId = r.RegionId,
+                    RegionName = r.RegionName
+                })
+                .ToList();
+
+            // Pass result back to view model using select list
+            vm.RegionSelectList = new SelectList(Regions,
+                nameof(Region.RegionId),
+                nameof(Region.RegionName));
+
             #region CountriesListQuery
             var CountriesList = _context.Countries
                 .Select(c => c); // Select all countries
@@ -54,23 +69,11 @@ namespace Assig1.Controllers
                 .Select(c => new Country_CountryDetail
                 {
                     TheCountry = c.theCountry,
-                    TheRegion = c.theRegion
+                    TheRegion = c.theRegion,
+                    CityCount = c.theCountry.Cities.Count()
                 });
 
-            // Implement countries search
-            var Regions = _context.Regions
-                .OrderBy(r => r.RegionName)
-                .Select(r => new
-                {
-                    RegionId = r.RegionId,
-                    RegionName = r.RegionName
-                })
-                .ToList();
-
-            // Pass result back to view model using select list
-            vm.RegionSelectList = new SelectList(Regions,
-                nameof(Region.RegionId),
-                nameof(Region.RegionName));
+            
 
             // Return results when user searches country name
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
@@ -89,11 +92,11 @@ namespace Assig1.Controllers
 
             // Pass result back to view model
             vm.CountryList = await envDataContext
-                .Select(c => new Country_CountryDetail
-                {
-                    TheCountry = c.TheCountry,
-                    TheRegion = c.TheRegion
-                })
+                //.Select(c => new Country_CountryDetail
+                //{
+                //    TheCountry = c.TheCountry,
+                //    TheRegion = c.TheRegion
+                //})
                 .ToListAsync();
 
             return View(vm);

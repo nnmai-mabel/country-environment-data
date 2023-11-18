@@ -12,6 +12,8 @@ namespace Assig1.ViewModels
 
         [Display(Name = "Region")]
         public Region? TheRegion { get; set; }
+
+        public int CityCount { get; set; }
     }
 }
 
